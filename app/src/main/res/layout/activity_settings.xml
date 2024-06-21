@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/white"
+        android:orientation="vertical"
+        android:paddingHorizontal="16dp"
+        android:paddingTop="4dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <Button
+                android:id="@+id/button1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:backgroundTint="@color/white"
+                android:text="@string/Settings"
+                android:textColor="@color/dark"
+                android:textSize="22dp"
+                android:letterSpacing="0.01"
+                android:textAllCaps="false"
+                app:icon="@drawable/arrow"
+                app:iconGravity="textStart"
+                app:iconPadding="28dp"
+                app:iconSize="24dp"
+                app:iconTint="@color/black">
+
+            </Button>
+
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@android:color/transparent"
+            android:backgroundTint="@android:color/transparent"
+            android:backgroundTintMode="screen"
+            android:hapticFeedbackEnabled="false"
+            android:orientation="horizontal"
+            android:paddingTop="61dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/dark_theme"
+                android:textColor="@color/black"
+                android:textSize="16dp" />
+
+            <Switch
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:paddingTop="42dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/share_app"
+                android:textColor="@color/black"
+                android:textSize="16dp" />
+
+            <Button
+                android:layout_width="178dp"
+                android:layout_height="wrap_content"
+                android:background="@android:color/transparent"
+                android:backgroundTint="@android:color/transparent"
+                android:justificationMode="inter_word"
+                app:icon="@drawable/Settings"
+                app:iconGravity="end"
+                app:iconTint="@color/grey" />
+
+        </LinearLayout>
+
+
+
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
