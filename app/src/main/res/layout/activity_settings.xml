@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    tools:context=".SettingsActivity">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -18,16 +20,16 @@
             android:orientation="vertical">
 
             <Button
-                android:id="@+id/button1"
+                android:id="@+id/buttonSettingsBack"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
                 android:backgroundTint="@color/white"
-                android:text="@string/Settings"
-                android:textColor="@color/dark"
-                android:textSize="22dp"
                 android:letterSpacing="0.01"
+                android:text="@string/Settings"
                 android:textAllCaps="false"
+                android:textColor="@color/dark"
+                android:textSize="22sp"
                 app:icon="@drawable/arrow"
                 app:iconGravity="textStart"
                 app:iconPadding="28dp"
@@ -54,39 +56,47 @@
                 android:layout_height="wrap_content"
                 android:text="@string/dark_theme"
                 android:textColor="@color/black"
-                android:textSize="16dp" />
+                android:textSize="16sp" />
 
             <Switch
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                tools:ignore="UseSwitchCompatOrMaterialXml" />
 
         </LinearLayout>
 
-        <LinearLayout
+        <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:paddingTop="42dp">
+            android:layout_gravity="start"
+            android:layout_marginTop="42dp"
+            android:drawablePadding="100dp"
+            android:text="@string/share_app"
+            android:textColor="@color/black"
+            android:textSize="16sp"
+            app:drawableEndCompat="@drawable/share_it" />
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/share_app"
-                android:textColor="@color/black"
-                android:textSize="16dp" />
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="start"
+            android:layout_marginTop="42dp"
+            android:drawablePadding="100dp"
+            android:text="@string/write_to_support"
+            android:textColor="@color/black"
+            android:textSize="16sp"
+            app:drawableEndCompat="@drawable/call_the_support" />
 
-            <Button
-                android:layout_width="178dp"
-                android:layout_height="wrap_content"
-                android:background="@android:color/transparent"
-                android:backgroundTint="@android:color/transparent"
-                android:justificationMode="inter_word"
-                app:icon="@drawable/Settings"
-                app:iconGravity="end"
-                app:iconTint="@color/grey" />
-
-        </LinearLayout>
-
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="start"
+            android:layout_marginTop="42dp"
+            android:drawablePadding="100dp"
+            android:text="@string/terms_of_use"
+            android:textColor="@color/black"
+            android:textSize="16sp"
+            app:drawableEndCompat="@drawable/vector"/>
 
 
     </LinearLayout>
