@@ -1,18 +1,73 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity">
+    android:background="@color/ligth_blue"
+    android:orientation="vertical"
+    android:paddingHorizontal="@dimen/normal_padding_size"
+    android:paddingTop="4dp">
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Hello World!"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:layout_gravity="start"
+        android:paddingTop="10dp"
+        android:paddingBottom="12dp"
+        android:text="@string/App_name"
+        android:textColor="@color/white"
+        android:textSize="@dimen/primary_text_size"/>
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    <Button
+        android:id="@+id/buttonsearch1"
+        android:layout_width="match_parent"
+        android:layout_height="220dp"
+        android:layout_marginTop="@dimen/normal_padding_size"
+        android:backgroundTint="@color/white"
+        android:text="@string/Search"
+        android:textColor="@color/dark"
+        android:textSize="@dimen/primary_text_size"
+        android:foreground="?attr/selectableItemBackground"
+        app:cornerRadius="16dp"
+        app:icon="@drawable/search"
+        app:iconGravity="textStart"
+        app:iconPadding="10dp"
+        app:iconSize="24dp"
+        app:iconTint="@color/black" />
+
+    <Button
+        android:id="@+id/buttonmedia1"
+        android:layout_width="match_parent"
+        android:layout_height="220dp"
+        android:layout_marginTop="@dimen/normal_padding_size"
+        android:backgroundTint="@color/white"
+        android:text="@string/Mediateka"
+        android:textColor="@color/dark"
+        android:textSize="@dimen/primary_text_size"
+        android:foreground="?attr/selectableItemBackground"
+        app:cornerRadius="16dp"
+        app:icon="@drawable/media"
+        app:iconGravity="textStart"
+        app:iconPadding="10dp"
+        app:iconSize="24dp"
+        app:iconTint="@color/dark" />
+
+    <Button
+        android:id="@+id/buttonsettings1"
+        android:layout_width="match_parent"
+        android:layout_height="220dp"
+        android:layout_marginTop="@dimen/normal_padding_size"
+        android:backgroundTint="@color/white"
+        android:text="@string/Settings"
+        android:textColor="@color/dark"
+        android:textSize="22sp"
+        android:foreground="?attr/selectableItemBackground"
+        app:cornerRadius="16dp"
+        app:icon="@drawable/settings"
+        app:iconGravity="textStart"
+        app:iconPadding="10dp"
+        app:iconSize="24dp"
+        app:iconTint="@color/black" />
+
+</LinearLayout>
