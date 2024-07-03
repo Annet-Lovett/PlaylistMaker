@@ -1,45 +1,32 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/white"
+    android:orientation="vertical"
+    android:paddingHorizontal="16dp"
+    android:paddingTop="4dp"
     tools:context=".SettingsActivity">
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@color/white"
-        android:orientation="vertical"
-        android:paddingHorizontal="16dp"
-        android:paddingTop="4dp">
-
-        <LinearLayout
+        <com.google.android.material.appbar.MaterialToolbar
+            android:id="@+id/buttonSettingsBack"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
-
-            <Button
-                android:id="@+id/buttonSettingsBack"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:backgroundTint="@color/white"
-                android:letterSpacing="0.01"
-                android:text="@string/Settings"
-                android:textAllCaps="false"
-                android:textColor="@color/dark"
-                android:textSize="22sp"
-                app:icon="@drawable/arrow"
-                app:iconGravity="textStart"
-                app:iconPadding="28dp"
-                app:iconSize="24dp"
-                app:iconTint="@color/black">
-
-            </Button>
-
-
-        </LinearLayout>
+            android:layout_marginTop="16dp"
+            android:backgroundTint="@color/white"
+            android:letterSpacing="0.01"
+            android:orientation="vertical"
+            android:textAllCaps="false"
+            android:textColor="@color/dark"
+            android:textSize="22sp"
+            app:title="@string/Settings"
+            app:iconGravity="start"
+            app:iconPadding="28dp"
+            app:iconSize="28dp"
+            app:iconTint="@color/black"
+            app:navigationIcon="@drawable/arrow"/>
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -70,7 +57,6 @@
             android:layout_height="wrap_content"
             android:layout_gravity="start"
             android:layout_marginTop="42dp"
-            android:drawablePadding="100dp"
             android:text="@string/share_app"
             android:textColor="@color/black"
             android:textSize="16sp"
@@ -81,7 +67,6 @@
             android:layout_height="wrap_content"
             android:layout_gravity="start"
             android:layout_marginTop="42dp"
-            android:drawablePadding="100dp"
             android:text="@string/write_to_support"
             android:textColor="@color/black"
             android:textSize="16sp"
@@ -92,13 +77,9 @@
             android:layout_height="wrap_content"
             android:layout_gravity="start"
             android:layout_marginTop="42dp"
-            android:drawablePadding="100dp"
             android:text="@string/terms_of_use"
             android:textColor="@color/black"
             android:textSize="16sp"
             app:drawableEndCompat="@drawable/vector"/>
 
-
-    </LinearLayout>
-
-</androidx.constraintlayout.widget.ConstraintLayout>
+</LinearLayout>
