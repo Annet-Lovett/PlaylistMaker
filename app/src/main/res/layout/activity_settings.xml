@@ -4,80 +4,95 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white"
     android:orientation="vertical"
     tools:context=".SettingsActivity">
 
-        <com.google.android.material.appbar.MaterialToolbar
-            android:id="@+id/buttonSettingsBack"
-            android:layout_width="match_parent"
-            android:layout_height="56dp"
-            android:backgroundTint="@color/white"
-            android:textColor="@color/dark"
-            android:layout_marginBottom="24dp"
-            app:title="@string/Settings"
-            app:iconGravity="start"
-            app:iconTint="@color/black"
-            app:navigationIcon="@drawable/arrow"
-            app:contentInsetStart="16dp"
-            app:contentInsetStartWithNavigation="16dp"/>
+    <com.google.android.material.appbar.MaterialToolbar
+        android:id="@+id/buttonSettingsBack"
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:layout_marginBottom="24dp"
+        android:fontFamily="@font/ys_display_medium"
+        android:textColor="@color/dark"
+        android:textFontWeight="500"
+        app:contentInsetStart="16dp"
+        app:contentInsetStartWithNavigation="16dp"
+        app:iconGravity="start"
+        app:navigationIcon="@drawable/arrow"
+        app:title="@string/Settings" />
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="61dp"
-            android:background="@android:color/transparent"
-            android:backgroundTint="@android:color/transparent"
-            android:backgroundTintMode="screen"
-            android:hapticFeedbackEnabled="false"
+    <LinearLayout
             android:orientation="horizontal"
-            android:gravity="center_vertical"
-            android:paddingHorizontal="16dp">
+            style="@style/menuSettings">
 
             <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                style="@style/menuSettings"
                 android:text="@string/dark_theme"
-                android:textColor="@color/black"
-                android:textSize="16sp" />
+                android:paddingHorizontal="0dp"
+                android:layout_width="wrap_content"
+                />
 
-            <Switch
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                tools:ignore="UseSwitchCompatOrMaterialXml" />
+        <Switch
+            android:id="@+id/theme_switcher"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            tools:ignore="UseSwitchCompatOrMaterialXml" />
 
         </LinearLayout>
 
+    <LinearLayout
+        style="@style/menuSettings">
         <TextView
-            android:layout_width="match_parent"
-            android:layout_height="61dp"
-            android:layout_gravity="start"
+            style="@style/menuSettings"
             android:text="@string/share_app"
-            android:textColor="@color/black"
-            android:textSize="16sp"
-            android:paddingHorizontal="16dp"
-            android:gravity="center_vertical"
-            app:drawableEndCompat="@drawable/share_it" />
+            android:paddingHorizontal="0dp"
+            android:layout_width="wrap_content"/>
 
+        <Button
+            style="@style/menuSettings"
+            android:id="@+id/btnShareSettings"
+            android:backgroundTint="#00FFFFFF"
+            android:outlineSpotShadowColor="#00FFFFFF"
+            android:paddingHorizontal="0dp"
+            app:drawableEndCompat="@drawable/share_it"/>
+
+    </LinearLayout>>
+
+
+    <LinearLayout
+        style="@style/menuSettings">
         <TextView
-            android:layout_width="match_parent"
-            android:layout_height="61dp"
-            android:layout_gravity="start"
+            style="@style/menuSettings"
             android:text="@string/write_to_support"
-            android:textColor="@color/black"
-            android:textSize="16sp"
-            android:paddingHorizontal="16dp"
-            android:gravity="center_vertical"
-            app:drawableEndCompat="@drawable/call_the_support" />
+            android:paddingHorizontal="0dp"
+            android:layout_width="wrap_content"/>
 
+        <Button
+            style="@style/menuSettings"
+            android:id="@+id/btnWriteToSupportSettings"
+            android:backgroundTint="#00FFFFFF"
+            android:outlineSpotShadowColor="#00FFFFFF"
+            android:paddingHorizontal="0dp"
+            app:drawableEndCompat="@drawable/call_the_support"/>
+
+    </LinearLayout>>
+
+    <LinearLayout
+        style="@style/menuSettings">
         <TextView
-            android:layout_width="match_parent"
-            android:layout_height="61dp"
-            android:layout_gravity="start"
+            style="@style/menuSettings"
             android:text="@string/terms_of_use"
-            android:textColor="@color/black"
-            android:textSize="16sp"
-            android:paddingHorizontal="16dp"
-            android:gravity="center_vertical"
+            android:paddingHorizontal="0dp"
+            android:layout_width="wrap_content"/>
+
+        <Button
+            style="@style/menuSettings"
+            android:id="@+id/btnTermsOfUseSettings"
+            android:backgroundTint="#00FFFFFF"
+            android:outlineSpotShadowColor="#00FFFFFF"
+            android:paddingHorizontal="0dp"
             app:drawableEndCompat="@drawable/vector"/>
+
+    </LinearLayout>>
 
 </LinearLayout>
