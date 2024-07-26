@@ -21,78 +21,29 @@
         app:navigationIcon="@drawable/arrow"
         app:title="@string/Settings" />
 
-    <LinearLayout
-            android:orientation="horizontal"
-            style="@style/menuSettings">
-
-            <TextView
-                style="@style/menuSettings"
-                android:text="@string/dark_theme"
-                android:paddingHorizontal="0dp"
-                android:layout_width="wrap_content"
-                />
 
         <Switch
             android:id="@+id/theme_switcher"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            tools:ignore="UseSwitchCompatOrMaterialXml" />
-
-        </LinearLayout>
-
-    <LinearLayout
-        style="@style/menuSettings">
-        <TextView
+            android:text="@string/dark_theme"
             style="@style/menuSettings"
-            android:text="@string/share_app"
-            android:paddingHorizontal="0dp"
-            android:layout_width="wrap_content"/>
+            tools:ignore="UseSwitchCompatOrMaterialXml"/>
+
+    <Button
+        style="@style/menuSettings"
+        android:id="@+id/btnShareSettings"
+        android:text="@string/share_app"
+        app:drawableEndCompat="@drawable/share_it"/>
+
+    <Button
+        style="@style/menuSettings"
+        android:id="@+id/btnWriteToSupportSettings"
+        android:text="@string/write_to_support"
+        app:drawableEndCompat="@drawable/call_the_support"/>
 
         <Button
-            style="@style/menuSettings"
-            android:id="@+id/btnShareSettings"
-            android:backgroundTint="#00FFFFFF"
-            android:outlineSpotShadowColor="#00FFFFFF"
-            android:paddingHorizontal="0dp"
-            app:drawableEndCompat="@drawable/share_it"/>
-
-    </LinearLayout>>
-
-
-    <LinearLayout
-        style="@style/menuSettings">
-        <TextView
-            style="@style/menuSettings"
-            android:text="@string/write_to_support"
-            android:paddingHorizontal="0dp"
-            android:layout_width="wrap_content"/>
-
-        <Button
-            style="@style/menuSettings"
-            android:id="@+id/btnWriteToSupportSettings"
-            android:backgroundTint="#00FFFFFF"
-            android:outlineSpotShadowColor="#00FFFFFF"
-            android:paddingHorizontal="0dp"
-            app:drawableEndCompat="@drawable/call_the_support"/>
-
-    </LinearLayout>>
-
-    <LinearLayout
-        style="@style/menuSettings">
-        <TextView
             style="@style/menuSettings"
             android:text="@string/terms_of_use"
-            android:paddingHorizontal="0dp"
-            android:layout_width="wrap_content"/>
-
-        <Button
-            style="@style/menuSettings"
             android:id="@+id/btnTermsOfUseSettings"
-            android:backgroundTint="#00FFFFFF"
-            android:outlineSpotShadowColor="#00FFFFFF"
-            android:paddingHorizontal="0dp"
             app:drawableEndCompat="@drawable/vector"/>
-
-    </LinearLayout>>
 
 </LinearLayout>

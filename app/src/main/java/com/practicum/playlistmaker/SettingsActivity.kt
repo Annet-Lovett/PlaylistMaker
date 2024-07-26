@@ -38,7 +38,16 @@ class SettingsActivity : AppCompatActivity() {
         val shareBtn = findViewById<Button>(R.id.btnShareSettings)
 
         shareBtn.setOnClickListener {
-            val shareIntent = Intent(Intent.ACTION_SEND_MULTIPLE)
+
+            val sendIntent: Intent = Intent().apply {
+                action = Intent.ACTION_SEND
+                putExtra(Intent.EXTRA_TEXT, "https://practicum.yandex.ru/")
+                type = "text/plain"
+            }
+
+            val shareIntent = Intent.createChooser(sendIntent, null)
+            startActivity(shareIntent)
+
         }
 
         val writeBtn = findViewById<Button>(R.id.btnWriteToSupportSettings)
@@ -52,6 +61,16 @@ class SettingsActivity : AppCompatActivity() {
             shareIntent.putExtra(Intent.EXTRA_SUBJECT, subject)
             shareIntent.putExtra(Intent.EXTRA_TEXT, message)
             startActivity(shareIntent)
+        }
+
+        val btnTermsOfUse = findViewById<Button>(R.id.btnTermsOfUseSettings)
+
+        btnTermsOfUse.setOnClickListener{
+            val intent = Intent(Intent.ACTION_VIEW).apply {
+                data = Uri.parse("https://yandex.ru/legal/practicum_offer/")
+            }
+
+            startActivity(intent)
         }
 
 
