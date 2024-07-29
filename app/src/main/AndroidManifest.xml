@@ -12,14 +12,15 @@
         android:theme="@style/Base.Theme.PlaylistMaker"
         tools:targetApi="31">
         <activity
-            android:name=".SearchActivity"
-            android:exported="false" />
-        <activity
             android:name=".MediaActivity"
             android:exported="false" />
         <activity
             android:name=".SettingsActivity"
-            android:theme="@style/Base.White.Theme.PlaylistMaker"
+            android:theme="@style/Base.Settings.Theme.PlaylistMaker"
+            android:exported="false" />
+        <activity
+            android:name=".SearchActivity"
+            android:theme="@style/Base.Settings.Theme.PlaylistMaker"
             android:exported="false" />
         <activity
             android:name=".MainActivity"

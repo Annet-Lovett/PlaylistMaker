@@ -22,10 +22,9 @@
 
     <Button
         android:id="@+id/buttonsearch1"
-        android:text="@string/Search"
-        app:icon="@drawable/search"
         style="@style/buttonMainStyle"
-        />
+        android:text="@string/Search"
+        app:icon="@drawable/search" />
 
     <Button
         android:id="@+id/buttonmedia1"

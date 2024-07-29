@@ -13,7 +13,6 @@
         android:layout_height="56dp"
         android:layout_marginBottom="24dp"
         android:fontFamily="@font/ys_display_medium"
-        android:textColor="@color/dark"
         android:textFontWeight="500"
         app:contentInsetStart="16dp"
         app:contentInsetStartWithNavigation="16dp"
@@ -22,28 +21,29 @@
         app:title="@string/Settings" />
 
 
-        <Switch
-            android:id="@+id/theme_switcher"
-            android:text="@string/dark_theme"
-            style="@style/menuSettings"
-            tools:ignore="UseSwitchCompatOrMaterialXml"/>
+    <Switch
+        android:id="@+id/theme_switcher"
+        android:text="@string/dark_theme"
+        style="@style/menuSettings"
+        tools:ignore="UseSwitchCompatOrMaterialXml"/>
 
     <Button
-        style="@style/menuSettings"
+
         android:id="@+id/btnShareSettings"
         android:text="@string/share_app"
-        app:drawableEndCompat="@drawable/share_it"/>
+        app:drawableEndCompat="@drawable/share_it"
+        style="@style/menuSettings"/>
+
+    <Button
+        android:id="@+id/btnWriteToSupportSettings"
+        style="@style/menuSettings"
+        android:text="@string/write_to_support"
+        app:drawableEndCompat="@drawable/call_the_support" />
 
     <Button
         style="@style/menuSettings"
-        android:id="@+id/btnWriteToSupportSettings"
-        android:text="@string/write_to_support"
-        app:drawableEndCompat="@drawable/call_the_support"/>
-
-        <Button
-            style="@style/menuSettings"
-            android:text="@string/terms_of_use"
-            android:id="@+id/btnTermsOfUseSettings"
-            app:drawableEndCompat="@drawable/vector"/>
+        android:text="@string/terms_of_use"
+        android:id="@+id/btnTermsOfUseSettings"
+        app:drawableEndCompat="@drawable/vector"/>
 
 </LinearLayout>
