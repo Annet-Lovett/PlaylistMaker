@@ -31,6 +31,8 @@
             style="@style/inputSearch"
             android:background="@drawable/el_style"
             android:drawableStart="@drawable/search_light"
+            android:maxLines="1"
+            android:inputType="textAutoCorrect"
             android:hint="@string/Search" />
 
         <ImageButton

@@ -1,17 +1,22 @@
 package com.practicum.playlistmaker
 
 import android.annotation.SuppressLint
+import android.content.Context
 import android.content.Intent
+import android.content.SharedPreferences
 import android.net.Uri
 import android.os.Bundle
 import android.widget.Button
 import android.widget.Switch
+import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.appcompat.app.AppCompatDelegate.MODE_NIGHT_YES
 import com.google.android.material.appbar.MaterialToolbar
 
 class SettingsActivity : AppCompatActivity() {
+
+    private lateinit var switchTheme:Switch
 
     @SuppressLint("MissingInflatedId")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -26,11 +31,28 @@ class SettingsActivity : AppCompatActivity() {
             finish()
         }
 
+        switchTheme=findViewById(R.id.theme_switcher)
+        switchTheme.isChecked=getSetThemeState()
+
+        switchTheme.setOnCheckedChangeListener{_, isCheked ->
+            if (isCheked){
+                setDarkTheme()
+            }
+            else {
+                setLightTheme()
+            }
+            saveThemeState(isCheked)
+        }
+
+        if (switchTheme.isChecked){
+            setDarkTheme()
+        }
+        else {
+            setLightTheme()
+        }
+
         val darkThemeBtn = findViewById<Switch>(R.id.theme_switcher)
 
-        darkThemeBtn.setOnClickListener {
-            AppCompatDelegate.setDefaultNightMode(MODE_NIGHT_YES);
-        }
 
         val shareBtn = findViewById<Button>(R.id.btnShareSettings)
 
@@ -68,5 +90,30 @@ class SettingsActivity : AppCompatActivity() {
 
             startActivity(intent)
         }
+    }
+
+    private fun setLightTheme(){
+        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
+    }
+
+    private fun setDarkTheme(){
+        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
+    }
+
+    private fun getSetThemeState(): Boolean {
+        val sharedPreferences = getSharedPreferences("ThemePrefs", Context.MODE_PRIVATE)
+        return sharedPreferences.getBoolean("isDarkTheme", false)
+    }
+
+    private fun saveThemeState(isDarkTheme:Boolean){
+        val sharedPreferences = getSharedPreferences("ThemePrefs", Context.MODE_PRIVATE)
+        val editor:SharedPreferences.Editor = sharedPreferences.edit()
+        editor.putBoolean("isDarkTheme",isDarkTheme)
+        editor.apply()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        val textColor:Int = if (switchTheme.isChecked)R.color.white else R.color.black
     }
 }
