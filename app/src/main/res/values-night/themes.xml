@@ -9,19 +9,17 @@
     </style>
 
     <style name="Base.Settings.Theme.PlaylistMaker" parent="Base.Theme.PlaylistMaker">
-        <!-- Customize your light theme here. -->
         <item name="android:background">@color/dark</item>
         <item name="android:textColor">@color/white</item>
         <item name="iconTint">@color/white</item>
         <item name="navigationIconTint">@color/white</item>
         <item name="android:drawableTint">@color/white</item>
-        <item name="android:thumbTint">@color/ligth_blue</item>
+        <item name="android:thumbTint">@color/light_blue</item>
         <item name="android:trackTint">@color/extra_light_blue</item>
     </style>
 
-    <style name="Base.Swither_dark.Theme.PlaylistMaker" parent="Base.Theme.PlaylistMaker">
-        <!-- Customize your light theme here. -->
-        <item name="iconTint">@color/ligth_blue</item>
+    <style name="Base.Switcher_dark.Theme.PlaylistMaker" parent="Base.Theme.PlaylistMaker">
+        <item name="iconTint">@color/light_blue</item>
     </style>
 
 </resources>

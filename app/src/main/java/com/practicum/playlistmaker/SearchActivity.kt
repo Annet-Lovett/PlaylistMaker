@@ -11,14 +11,19 @@ import android.widget.ImageButton
 import com.google.android.material.appbar.MaterialToolbar
 
 class SearchActivity : AppCompatActivity() {
+    private lateinit var searchInput: EditText
+    private lateinit var buttonClear: ImageButton
+    private lateinit var buttonBack: MaterialToolbar
+    private var searchText: String? = null
+    
     @SuppressLint("MissingInflatedId")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_search)
 
-        val buttonBack = findViewById<MaterialToolbar>(R.id.buttonSettingsBack)
-        val buttonClear = findViewById<ImageButton>(R.id.buttonClear)
-        val searchInput = findViewById<EditText>(R.id.searchInput)
+        searchInput = findViewById(R.id.searchInput)
+        buttonClear = findViewById(R.id.buttonClear)
+        buttonBack = findViewById(R.id.buttonSettingsBack)
 
         buttonBack.setNavigationOnClickListener {
             val displayIntent = Intent(this, MainActivity::class.java)
@@ -27,25 +32,36 @@ class SearchActivity : AppCompatActivity() {
         }
 
         searchInput.addTextChangedListener(object : TextWatcher {
-            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
-//                TODO("Not yet implemented")
-            }
-
-            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-//                TODO("Not yet implemented")
-            }
-
             override fun afterTextChanged(s: Editable?) {
-                buttonClear.visibility = if (s.isNullOrEmpty()) {
-                    ImageButton.GONE
-                } else {
-                    ImageButton.VISIBLE
-                }
+                searchText = s?.toString()
+                buttonClear.visibility = if (s.isNullOrEmpty()) ImageButton.GONE else ImageButton.VISIBLE
             }
+
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
         })
 
         buttonClear.setOnClickListener {
-            searchInput.text.clear()
+            searchInput.text.clear()  // Очищаем текст в EditText
         }
+
+        // Восстанавливаем сохранённое состояние, если оно существует
+        savedInstanceState?.let {
+            searchText = it.getString("SEARCH_TEXT")
+            searchInput.setText(searchText)
+        }
+    }
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        // Сохраняем значение переменной с текстом поискового запроса
+        outState.putString("SEARCH_TEXT", searchText)
+    }
+
+    override fun onRestoreInstanceState(savedInstanceState: Bundle) {
+        super.onRestoreInstanceState(savedInstanceState)
+        // Восстанавливаем значение переменной с текстом поискового запроса
+        searchText = savedInstanceState.getString("SEARCH_TEXT")
+        searchInput.setText(searchText)
     }
 }
