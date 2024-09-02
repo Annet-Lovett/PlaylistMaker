@@ -1,10 +1,11 @@
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
     <string name="App_name" translatable="false">Playlist maker</string>
     <string name="Search">Поиск</string>
     <string name="Mediateka">Медиатека</string>
-    <string name="Settings">Настройки</string>>
+    <string name="Settings">Настройки</string>
     <string name="dark_theme">Темная тема</string>
     <string name="share_app">Поделиться приложением</string>
     <string name="write_to_support">Написать в поддержку</string>
     <string name="terms_of_use">Пользовательское соглашение</string>
+    <string name="title_activity_search2">Search_Activity2</string>
 </resources>
