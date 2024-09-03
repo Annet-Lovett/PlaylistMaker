@@ -71,8 +71,8 @@ class SettingsActivity : AppCompatActivity() {
         val writeBtn = findViewById<Button>(R.id.btnWriteToSupportSettings)
 
         writeBtn.setOnClickListener {
-            val message = "Спасибо разработчикам и разработчицам за крутое приложение!"
-            val subject = "Сообщение разработчикам и разработчицам приложения Playlist Maker"
+            val message = getString(R.string.massage_to_support)
+            val subject = getString(R.string.subject_support)
             val shareIntent = Intent(Intent.ACTION_SENDTO)
             shareIntent.data = Uri.parse("mailto:")
             shareIntent.putExtra(Intent.EXTRA_EMAIL, arrayOf("annamarkova143@gmail.com"))
@@ -85,7 +85,7 @@ class SettingsActivity : AppCompatActivity() {
 
         btnTermsOfUse.setOnClickListener{
             val intent = Intent(Intent.ACTION_VIEW).apply {
-                data = Uri.parse("https://yandex.ru/legal/practicum_offer/")
+                data = Uri.parse(getString(R.string.link_to_offer))
             }
 
             startActivity(intent)

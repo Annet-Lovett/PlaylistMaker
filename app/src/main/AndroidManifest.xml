@@ -13,14 +13,6 @@
         android:theme="@style/Base.Theme.PlaylistMaker"
         tools:targetApi="31">
         <activity
-            android:name=".SearchActivity2"
-            android:exported="false" />
-        <activity
-            android:name=".Search_Activity2"
-            android:exported="false"
-            android:label="@string/title_activity_search2"
-            android:theme="@style/Base.Theme.PlaylistMaker" />
-        <activity
             android:name=".MediaActivity"
             android:exported="false" />
         <activity

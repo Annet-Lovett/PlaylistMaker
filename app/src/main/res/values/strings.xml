@@ -8,4 +8,7 @@
     <string name="write_to_support">Написать в поддержку</string>
     <string name="terms_of_use">Пользовательское соглашение</string>
     <string name="title_activity_search2">Search_Activity2</string>
+    <string name="massage_to_support">"Спасибо разработчикам и разработчицам за крутое приложение!"</string>
+    <string name="subject_support">"Сообщение разработчикам и разработчицам приложения Playlist Maker"</string>
+    <string name="link_to_offer">"https://yandex.ru/legal/practicum_offer/"</string>
 </resources>
