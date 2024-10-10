@@ -12,6 +12,7 @@ import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.appcompat.app.AppCompatDelegate.MODE_NIGHT_YES
+import androidx.core.content.edit
 import com.google.android.material.appbar.MaterialToolbar
 
 class SettingsActivity : AppCompatActivity() {
@@ -107,9 +108,9 @@ class SettingsActivity : AppCompatActivity() {
 
     private fun saveThemeState(isDarkTheme:Boolean){
         val sharedPreferences = getSharedPreferences("ThemePrefs", Context.MODE_PRIVATE)
-        val editor:SharedPreferences.Editor = sharedPreferences.edit()
-        editor.putBoolean("isDarkTheme",isDarkTheme)
-        editor.apply()
+        sharedPreferences.edit() {
+            putBoolean("isDarkTheme", isDarkTheme)
+        }
     }
 
     override fun onResume() {

@@ -8,6 +8,8 @@ import android.text.Editable
 import android.text.TextWatcher
 import android.widget.EditText
 import android.widget.ImageButton
+import androidx.core.view.isVisible
+import androidx.core.widget.addTextChangedListener
 import com.google.android.material.appbar.MaterialToolbar
 
 class SearchActivity : AppCompatActivity() {
@@ -31,20 +33,10 @@ class SearchActivity : AppCompatActivity() {
             finish()
         }
 
-        searchInput.addTextChangedListener(object : TextWatcher {
-            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
-//                TODO("Not yet implemented")
-            }
+        searchInput.addTextChangedListener(
 
-            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-            }
-
-            override fun afterTextChanged(s: Editable?) {
-                buttonClear.visibility = if (s.isNullOrEmpty()) {
-                    ImageButton.GONE
-                } else {
-                    ImageButton.VISIBLE
-                }
+            onTextChanged = {s: CharSequence?, _, _, _ -> {
+                buttonClear.isVisible = !s.isNullOrEmpty()
                 inputValue = s.toString()
             }
         })
