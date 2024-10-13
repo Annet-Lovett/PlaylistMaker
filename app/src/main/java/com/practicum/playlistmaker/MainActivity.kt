@@ -23,13 +23,13 @@ class MainActivity : AppCompatActivity() {
         }
 
         mediaButton.setOnClickListener {
-            val displayIntent = Intent(this, MediaActivity::class.java)
-            startActivity(displayIntent)
+            val mediaIntent = Intent(this, MediaActivity::class.java)
+            startActivity(mediaIntent)
         }
 
         settingsButton.setOnClickListener {
-            val displayIntent = Intent(this, SettingsActivity::class.java)
-            startActivity(displayIntent)
+            val settingsIntent = Intent(this, SettingsActivity::class.java)
+            startActivity(settingsIntent)
         }
     }
 

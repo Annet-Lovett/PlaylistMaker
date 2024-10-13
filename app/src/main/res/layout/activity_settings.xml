@@ -21,7 +21,6 @@
         app:navigationIconTint="?attr/iconTintSettings"
         app:title="@string/Settings" />
 
-
     <Switch
         android:id="@+id/theme_switcher"
         android:text="@string/dark_theme"
@@ -29,7 +28,6 @@
         tools:ignore="UseSwitchCompatOrMaterialXml"/>
 
     <Button
-
         android:id="@+id/btnShareSettings"
         android:text="@string/share_app"
         app:drawableEndCompat="@drawable/share_it"
