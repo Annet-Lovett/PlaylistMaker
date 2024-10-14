@@ -87,6 +87,7 @@ class SettingsActivity : AppCompatActivity() {
         }
     }
 
+
     private fun setLightTheme() {
         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
     }
@@ -97,14 +98,20 @@ class SettingsActivity : AppCompatActivity() {
 
     private fun getSavedThemeState(): Boolean {
         val sharedPreferences = getSharedPreferences("ThemePrefs", Context.MODE_PRIVATE)
-        return  sharedPreferences.getBoolean("IsDarkTheme",false)
+        return  sharedPreferences.getBoolean(DARK_THEME_STATE_ATTR,false)
     }
+
+
 
     private fun saveThemeState(isDarkTheme:Boolean){
         val sharedPreferences = getSharedPreferences("ThemePrefs", Context.MODE_PRIVATE)
         sharedPreferences.edit() {
-            putBoolean("isDarkTheme", isDarkTheme)
+            putBoolean(DARK_THEME_STATE_ATTR, isDarkTheme)
         }
+    }
+
+    companion object {
+        val DARK_THEME_STATE_ATTR = "isDarkTheme"
     }
 
 }

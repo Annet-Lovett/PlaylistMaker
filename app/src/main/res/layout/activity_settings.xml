@@ -18,7 +18,6 @@
         app:contentInsetStartWithNavigation="16dp"
         app:iconGravity="start"
         app:navigationIcon="@drawable/arrow"
-        app:navigationIconTint="?attr/iconTintSettings"
         app:title="@string/Settings" />
 
     <Switch

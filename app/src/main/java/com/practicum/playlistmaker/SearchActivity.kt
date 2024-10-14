@@ -35,10 +35,9 @@ class SearchActivity : AppCompatActivity() {
 
         searchInput.addTextChangedListener(
 
-            onTextChanged = {s: CharSequence?, _, _, _ -> {
-                buttonClear.isVisible = !s.isNullOrEmpty()
-                inputValue = s.toString()
-            }
+            onTextChanged = {s: CharSequence?, _, _, _ ->
+                    buttonClear.isVisible = !s.isNullOrEmpty()
+                    inputValue = s.toString()
         })
 
         buttonClear.setOnClickListener {
