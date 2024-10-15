@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="horizontal">
+
+    <LinearLayout
+        android:id="@+id/fullTrack"
+        android:layout_width="335dp"
+        android:layout_height="61dp"
+        tools:ignore="MissingConstraints">
+
+        <ImageView
+            android:id="@+id/trackImage"
+            android:layout_width="45dp"
+            android:layout_height="45dp"
+            android:layout_marginVertical="8dp"
+            tools:src="@tools:sample/avatars" />
+
+        <LinearLayout
+            android:layout_width="250dp"
+            android:layout_height="32dp"
+            android:layout_marginVertical="14dp"
+            android:layout_marginLeft="8dp"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/nameOfTheTrack"
+                android:layout_width="match_parent"
+                android:layout_height="19dp"
+                android:text="@string/name_of_the_track"
+                android:fontFamily="@font/ys_display_regular"
+                android:textSize="16sp"
+                android:textFontWeight="400"
+                android:textColor="@color/black"/>
+
+            <LinearLayout
+                android:layout_width="131dp"
+                android:layout_height="13dp">
+
+                <TextView
+                    android:id="@+id/nameOfTheArtist"
+                    android:layout_width="54dp"
+                    android:layout_height="match_parent"
+                    android:text="@string/name_of_the_artist"
+                    android:fontFamily="@font/ys_display_regular"
+                    android:textSize="11sp"
+                    android:textFontWeight="400"
+                    android:textColor="@color/grey"/>
+
+                <ImageView
+                    android:layout_width="11dp"
+                    android:layout_height="13dp"
+                    android:padding="3dp"
+                    android:src="@color/grey"/>
+                
+                <TextView
+                    android:id="@+id/durationOfTheTrack"
+                    android:layout_width="64dp"
+                    android:layout_height="match_parent"
+                    android:text="@string/duration"
+                    android:fontFamily="@font/ys_display_regular"
+                    android:textSize="11sp"
+                    android:textFontWeight="400"
+                    android:textColor="@color/grey"/>
+
+            </LinearLayout>
+
+
+        </LinearLayout>
+        
+        <ImageView
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:paddingVertical="5dp"
+            android:paddingHorizontal="8dp"
+            android:layout_marginVertical="18dp"
+            android:layout_marginLeft="8dp"
+            android:src="@drawable/vector"
+            />
+
+    </LinearLayout>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
