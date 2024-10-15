@@ -4,9 +4,14 @@
     <string name="Search">Search</string>
     <string name="Mediateka">Media library</string>
     <string name="Settings">Settings</string>
+
     <string name="light_theme">Light theme</string>
     <string name="dark_theme">Dark theme</string>
     <string name="share_app">Share the App</string>
     <string name="write_to_support">Write to support</string>
     <string name="terms_of_use">Terms of use</string>
+
+    <string name="name_of_the_track">Name of the track</string>
+    <string name="name_of_the_artist">Name of the artist</string>
+    <string name="duration">Duration</string>
 </resources>

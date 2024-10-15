@@ -11,4 +11,8 @@
     <string name="message_to_support" translatable="false">"Спасибо разработчикам и разработчицам за крутое приложение!"</string>
     <string name="subject_support" translatable="false">"Сообщение разработчикам и разработчицам приложения Playlist Maker"</string>
     <string name="link_to_offer" translatable="false">"https://yandex.ru/legal/practicum_offer/"</string>
+
+    <string name="name_of_the_track">Название трека</string>
+    <string name="name_of_the_artist">Имя исполнителя</string>
+    <string name="duration">Длительность</string>
 </resources>
