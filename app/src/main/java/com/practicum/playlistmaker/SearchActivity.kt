@@ -4,8 +4,6 @@ import android.annotation.SuppressLint
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.text.Editable
-import android.text.TextWatcher
 import android.widget.EditText
 import android.widget.ImageButton
 import androidx.core.view.isVisible
@@ -27,6 +25,7 @@ class SearchActivity : AppCompatActivity() {
         val buttonBack = findViewById<MaterialToolbar>(R.id.buttonSettingsBack)
         val buttonClear = findViewById<ImageButton>(R.id.buttonClear)
         val searchInput = findViewById<EditText>(R.id.searchInput)
+        val recyclerTrack = findViewById<RecyclerView>(R.id.recyclerTrack)
 
         buttonBack.setNavigationOnClickListener {
             val displayIntent = Intent(this, MainActivity::class.java)
@@ -38,6 +37,7 @@ class SearchActivity : AppCompatActivity() {
 
             onTextChanged = {s: CharSequence?, _, _, _ ->
                     buttonClear.isVisible = !s.isNullOrEmpty()
+                    recyclerTrack.isVisible = !s.isNullOrEmpty()
                     inputValue = s.toString()
         })
 
