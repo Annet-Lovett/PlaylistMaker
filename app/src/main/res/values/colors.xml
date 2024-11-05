@@ -1,9 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="ligth_blue">#3772E7</color>
+    <color name="light_blue">#3772E7</color>
+    <color name="extra_light_blue">#9FBBF3</color>
     <color name="dark">#1A1B22</color>
     <color name="black">#000000</color>
     <color name="white">#FFFFFF</color>
     <color name="grey">#AEAFB4</color>
     <color name="lightGrey">#E6E8EB</color>
+    <color name="transp">#00000000</color>
 </resources>
