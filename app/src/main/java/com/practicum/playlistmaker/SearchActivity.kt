@@ -10,6 +10,7 @@ import androidx.core.view.isVisible
 import androidx.core.widget.addTextChangedListener
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.appbar.MaterialToolbar
+import retrofit2.Retrofit
 
 class SearchActivity : AppCompatActivity() {
 

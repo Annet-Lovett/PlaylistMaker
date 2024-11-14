@@ -45,7 +45,7 @@
         <item name="android:textColor">@color/dark</item>
         <item name="android:fontFamily">@font/ys_display_regular</item>
         <item name="android:drawableTint">@color/dark</item>
-        <item name="cornerRadius">16dp</item>
+        <item name="cornerRadius">8dp</item>
         <item name="background">@color/lightGrey</item>
         <item name="backgroundTint">@color/lightGrey</item>
         <item name="paddingStart">12dp</item>
@@ -64,7 +64,7 @@
     </style>
 
     <style name="artistDuration">
-        <item name="android:layout_width">54dp</item>
+        <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">match_parent</item>
         <item name="android:fontFamily">@font/ys_display_regular</item>
         <item name="android:textColor">@color/grey</item>

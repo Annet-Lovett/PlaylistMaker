@@ -7,7 +7,7 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 
-class TrackHolder(item: View): RecyclerView.ViewHolder(item) {
+class TrackHolder(item: View) : RecyclerView.ViewHolder(item) {
 
     private val fullTrack = item.findViewById<LinearLayout>(R.id.fullTrack)
     private val trackImage = item.findViewById<ImageView>(R.id.trackImage)
@@ -15,7 +15,7 @@ class TrackHolder(item: View): RecyclerView.ViewHolder(item) {
     private val nameOfTheArtist = item.findViewById<TextView>(R.id.nameOfTheArtist)
     private val durationOfTheTrack = item.findViewById<TextView>(R.id.durationOfTheTrack)
 
-    fun bind (track: Track) {
+    fun bind(track: Track) {
         val imgUrl = track.artworkUrl100
         val trackName = track.trackName
         val duration = track.trackTime
@@ -23,7 +23,10 @@ class TrackHolder(item: View): RecyclerView.ViewHolder(item) {
 
         Glide.with(itemView)
             .load(imgUrl)
+            .fallback(R.drawable.trackplaceholder)
+            .error(R.drawable.trackplaceholder)
             .into(trackImage)
+
 
         nameOfTheTrack.text = trackName
         nameOfTheArtist.text = artist
