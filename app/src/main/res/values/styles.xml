@@ -44,7 +44,7 @@
         <item name="android:textFontWeight">400</item>
         <item name="android:textColor">@color/dark</item>
         <item name="android:fontFamily">@font/ys_display_regular</item>
-        <item name="android:drawableTint">@color/dark</item>
+        <item name="android:drawableTint">@color/grey</item>
         <item name="cornerRadius">8dp</item>
         <item name="background">@color/lightGrey</item>
         <item name="backgroundTint">@color/lightGrey</item>

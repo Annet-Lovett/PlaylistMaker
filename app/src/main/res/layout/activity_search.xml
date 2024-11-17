@@ -31,8 +31,6 @@
             style="@style/inputSearch"
             android:background="@drawable/el_style"
             android:drawableStart="@drawable/search_light"
-            android:drawableTint="@color/grey"
-            app:drawableSize="1dp"
             android:hint="@string/Search"
             android:inputType="textAutoCorrect"
             android:maxLines="1" />
