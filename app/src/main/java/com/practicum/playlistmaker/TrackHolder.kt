@@ -1,11 +1,13 @@
 package com.practicum.playlistmaker
 
+import android.util.TypedValue
 import android.view.View
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 
 class TrackHolder(item: View) : RecyclerView.ViewHolder(item) {
 
@@ -21,11 +23,19 @@ class TrackHolder(item: View) : RecyclerView.ViewHolder(item) {
         val duration = track.trackTime
         val artist = track.artistName
 
+        fun dpToPx(dp: Float, context: View): Int {
+            return TypedValue.applyDimension(
+                TypedValue.COMPLEX_UNIT_DIP,
+                dp,
+                context.resources.displayMetrics).toInt()
+        }
         Glide.with(itemView)
             .load(imgUrl)
+            .transform(RoundedCorners(dpToPx(2f, itemView)))
             .fallback(R.drawable.trackplaceholder)
             .error(R.drawable.trackplaceholder)
             .into(trackImage)
+
 
 
         nameOfTheTrack.text = trackName
