@@ -10,6 +10,7 @@ import android.widget.EditText
 import android.widget.ImageButton
 import android.widget.LinearLayout
 import android.widget.Toast
+import androidx.core.view.isGone
 import androidx.core.view.isVisible
 import androidx.core.widget.addTextChangedListener
 import androidx.recyclerview.widget.RecyclerView
@@ -76,12 +77,13 @@ class SearchActivity : AppCompatActivity() {
 
         refreshButton.setOnClickListener {
             serverpromlems.visibility = View.GONE
-            listOfTracks.clear()
-            searchInput.text.clear()
+            enreachAndViewTracks()
+
         }
 
         buttonClear.setOnClickListener {
             searchInput.text.clear()
+            recyclerTrack.visibility = View.GONE
         }
 
         buttonBack.setNavigationOnClickListener {
@@ -123,13 +125,15 @@ class SearchActivity : AppCompatActivity() {
                     if (response.code() == 200) {
                         listOfTracks.clear()
                         if (response.body()?.results?.isNotEmpty() == true) {
-                            listOfTracks.addAll(response.body()?.results!!)
+                            recyclerTrack.visibility = View.VISIBLE
+                            listOfTracks.addAll(response.body()?.results!!.toList())
                             trackAdapter.notifyDataSetChanged()
                         }
                         if (listOfTracks.isEmpty()) {
                             showMessage(NOTHING_FOUND, "")
                         }
                     } else {
+                        recyclerTrack.visibility = View.GONE
                         showMessage(SERVER_PROBLEMS, response.code().toString())
 
 
@@ -137,6 +141,7 @@ class SearchActivity : AppCompatActivity() {
                 }
 
                 override fun onFailure(call: Call<TrackResponse>, t: Throwable) {
+                    recyclerTrack.visibility = View.GONE
                     showMessage(SERVER_PROBLEMS, t.message.toString())
                 }
 
