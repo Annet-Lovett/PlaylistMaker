@@ -1,14 +1,13 @@
 package com.practicum.playlistmaker
 
-import android.content.Context
+
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.widget.Button
 import android.widget.Switch
 import androidx.appcompat.app.AppCompatActivity
-import androidx.appcompat.app.AppCompatDelegate
-import androidx.core.content.edit
+
 import com.google.android.material.appbar.MaterialToolbar
 
 class SettingsActivity : AppCompatActivity() {
@@ -22,32 +21,17 @@ class SettingsActivity : AppCompatActivity() {
         val backButton = findViewById<MaterialToolbar>(R.id.buttonSettingsBack)
 
         backButton.setNavigationOnClickListener {
-            val mainIntent = Intent(this, MainActivity::class.java)
-            startActivity(mainIntent)
             finish()
         }
 
         switchTheme=findViewById(R.id.theme_switcher)
 
-        switchTheme.isChecked=getSavedThemeState()
+        switchTheme.isChecked = false
 
-        switchTheme.setOnCheckedChangeListener {_, isCheked ->
-            if(isCheked){
-                setDarkTheme()
-            }
-            else {
-                setLightTheme()
-            }
-            saveThemeState(isCheked)
+        switchTheme.setOnCheckedChangeListener { switcher, checked ->
+            (applicationContext as App).switchTheme(checked)
         }
 
-        if (switchTheme.isChecked){
-            setDarkTheme()
-        }
-
-        else {
-            setLightTheme()
-        }
 
         val shareBtn = findViewById<Button>(R.id.btnShareSettings)
 
@@ -88,30 +72,5 @@ class SettingsActivity : AppCompatActivity() {
     }
 
 
-    private fun setLightTheme() {
-        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
-    }
-
-    private fun setDarkTheme() {
-        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
-    }
-
-    private fun getSavedThemeState(): Boolean {
-        val sharedPreferences = getSharedPreferences("ThemePrefs", Context.MODE_PRIVATE)
-        return  sharedPreferences.getBoolean(DARK_THEME_STATE_ATTR,false)
-    }
-
-
-
-    private fun saveThemeState(isDarkTheme:Boolean){
-        val sharedPreferences = getSharedPreferences("ThemePrefs", Context.MODE_PRIVATE)
-        sharedPreferences.edit() {
-            putBoolean(DARK_THEME_STATE_ATTR, isDarkTheme)
-        }
-    }
-
-    companion object {
-        val DARK_THEME_STATE_ATTR = "isDarkTheme"
-    }
 
 }
