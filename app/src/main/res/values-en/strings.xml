@@ -14,4 +14,8 @@
     <string name="name_of_the_track">Name of the track</string>
     <string name="name_of_the_artist">Name of the artist</string>
     <string name="duration">Duration</string>
+    <string name="nothing_found">Nothing found</string>
+    <string name="connect_trouble">Connection troubles</string>
+    <string name="no_internet_description">Upload failed. Check internet connection</string>
+    <string name="refresh">Refresh</string>
 </resources>
