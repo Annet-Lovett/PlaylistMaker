@@ -8,15 +8,15 @@
     android:paddingHorizontal="@dimen/normal_padding_size"
     tools:context=".SearchActivity">
 
-<!--    <com.facebook.shimmer.ShimmerFrameLayout-->
-<!--        android:id="@+id/shimmer_view"-->
-<!--        android:layout_width="match_parent"-->
-<!--        android:layout_height="match_parent"-->
-<!--        android:layout_gravity="center"-->
-<!--        android:orientation="vertical"-->
-<!--        app:layout_constraintBottom_toBottomOf="parent"-->
-<!--        app:layout_constraintStart_toStartOf="parent"-->
-<!--        tools:duration="800"/>-->
+    <!--    <com.facebook.shimmer.ShimmerFrameLayout-->
+    <!--        android:id="@+id/shimmer_view"-->
+    <!--        android:layout_width="match_parent"-->
+    <!--        android:layout_height="match_parent"-->
+    <!--        android:layout_gravity="center"-->
+    <!--        android:orientation="vertical"-->
+    <!--        app:layout_constraintBottom_toBottomOf="parent"-->
+    <!--        app:layout_constraintStart_toStartOf="parent"-->
+    <!--        tools:duration="800"/>-->
 
     <com.google.android.material.appbar.MaterialToolbar
         android:id="@+id/buttonSettingsBack"
@@ -42,10 +42,10 @@
             android:background="@drawable/el_style"
             android:drawableStart="@drawable/search_light"
             android:hint="@string/Search"
+            android:imeOptions="actionDone"
             android:inputType="textAutoCorrect"
             android:maxLines="1"
-            android:imeOptions="actionDone"
-            android:singleLine="true"/>
+            android:singleLine="true" />
 
         <ImageButton
             android:id="@+id/buttonClear"
@@ -65,35 +65,34 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="24dp"
         android:orientation="vertical"
-        tools:listitem="@layout/track_item"
+        android:visibility="gone"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-        tools:itemCount="5"
-        android:visibility="gone"/>
+        tools:itemCount="10"
+        tools:listitem="@layout/track_item" />
 
     <LinearLayout
         android:id="@+id/nothingFound"
         android:layout_width="match_parent"
         android:layout_height="156dp"
-        android:orientation="vertical"
         android:layout_marginTop="102dp"
-        android:visibility="gone"
-        >
+        android:orientation="vertical"
+        android:visibility="gone">
 
         <ImageView
             android:id="@+id/nothingFoundImg"
             android:layout_width="match_parent"
             android:layout_height="120dp"
-            android:theme="@style/nothingFoundImg"/>
+            android:theme="@style/nothingFoundImg" />
 
         <TextView
             android:id="@+id/nothingFoundText"
+            style="@style/menuSettings"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            style="@style/menuSettings"
             android:layout_marginTop="16dp"
-            android:textSize="19sp"
             android:gravity="center"
-            android:text="@string/nothing_found"/>
+            android:text="@string/nothing_found"
+            android:textSize="19sp" />
 
     </LinearLayout>
 
@@ -101,45 +100,80 @@
         android:id="@+id/serverProblems"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
         android:layout_marginTop="102dp"
+        android:orientation="vertical"
         android:visibility="gone">
 
         <ImageView
+            style="@style/noInternet"
             android:layout_width="match_parent"
-            android:layout_height="120dp"
-            style="@style/noInternet"/>
+            android:layout_height="120dp" />
 
         <TextView
+            style="@style/menuSettings"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            style="@style/menuSettings"
             android:layout_marginTop="16dp"
-            android:textSize="19sp"
             android:gravity="center"
-            android:text="@string/connect_trouble"/>
+            android:text="@string/connect_trouble"
+            android:textSize="19sp" />
 
         <TextView
+            style="@style/menuSettings"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            style="@style/menuSettings"
             android:layout_marginTop="16dp"
-            android:textSize="19sp"
             android:gravity="center"
-            android:text="@string/no_internet_description"/>
-        
+            android:text="@string/no_internet_description"
+            android:textSize="19sp" />
+
         <Button
             android:id="@+id/refreshButtonSearch"
             style="@style/buttonRefresh"
-            android:text="@string/refresh"
             android:layout_marginTop="24dp"
             android:outlineSpotShadowColor="@color/transp"
-            />
+            android:text="@string/refresh" />
 
-        
+
     </LinearLayout>
 
+    <LinearLayout
+        android:id="@+id/searchingHistoryContainer"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_gravity="center"
+        android:visibility="gone">
 
+        <TextView
+            style="@style/menuSettings"
+            android:id="@+id/yourSearchingHistory"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:minHeight="52dp"
+            android:text="@string/you_search"
+            android:layout_gravity="center"
+            android:layout_marginTop="24dp"
+            />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/historyRecycler"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            tools:itemCount="10"
+            android:layout_marginTop="8dp"/>
+
+        <Button
+            android:id="@+id/clearHistoryButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            style="@style/buttonRefresh"
+            android:text="@string/clear_history"
+            android:minWidth="148dp"
+            android:layout_gravity="center"
+            android:layout_marginTop="24dp"/>
+
+    </LinearLayout>
 
 
 </LinearLayout>

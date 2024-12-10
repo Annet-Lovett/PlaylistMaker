@@ -29,9 +29,16 @@ class SearchActivity : AppCompatActivity() {
     lateinit var nothingFound: LinearLayout
     lateinit var serverpromlems: LinearLayout
     lateinit var refreshButton: Button
+    lateinit var trackHistoryRecycler: RecyclerView
+    lateinit var clearHistoryButton: Button
+    lateinit var searchHistoryContainer: LinearLayout
 
     private val listOfTracks = ArrayList<Track>()
-    private val trackAdapter = TrackListAdapter()
+    private val trackAdapter = TrackListAdapter{recordTrack(it)}
+
+    private var trackHistoryList = ArrayList<Track>()
+    private val trackHistoryAdapter = TrackListAdapter{recordTrack(it)}
+
 
     private val retrofit = Retrofit.Builder()
         .baseUrl(baseTrackUrl)
@@ -52,10 +59,16 @@ class SearchActivity : AppCompatActivity() {
         nothingFound = findViewById(R.id.nothingFound)
         serverpromlems = findViewById(R.id.serverProblems)
         refreshButton = findViewById(R.id.refreshButtonSearch)
+        trackHistoryRecycler = findViewById(R.id.historyRecycler)
+        clearHistoryButton = findViewById(R.id.clearHistoryButton)
+        searchHistoryContainer = findViewById(R.id.searchingHistoryContainer)
+
 
         recyclerTrack.adapter = trackAdapter
-
         trackAdapter.listOfTheTracks = listOfTracks
+
+        trackHistoryRecycler.adapter = trackHistoryAdapter
+        trackHistoryAdapter.listOfTheTracks = trackHistoryList
 
         searchInput.addTextChangedListener(
             onTextChanged = {s: CharSequence?, _, _, _ ->
@@ -69,6 +82,15 @@ class SearchActivity : AppCompatActivity() {
                 enreachAndViewTracks()
             }
             false
+        }
+        
+        searchInput.setOnFocusChangeListener { view, hasFocus ->
+            if (hasFocus && searchInput.text.isEmpty())
+            { if (trackHistoryList.isNotEmpty())
+                { searchHistoryContainer.visibility = View.VISIBLE}
+            }
+
+            else {searchHistoryContainer.visibility = View.GONE}
         }
 
         refreshButton.setOnClickListener {
@@ -84,6 +106,11 @@ class SearchActivity : AppCompatActivity() {
 
         buttonBack.setNavigationOnClickListener {
             finish()
+        }
+
+        clearHistoryButton.setOnClickListener{
+            trackHistoryList.clear()
+            searchHistoryContainer.visibility = View.GONE
         }
 
     }
@@ -139,6 +166,25 @@ class SearchActivity : AppCompatActivity() {
         }
     }
 
+    private fun recordTrack(track: Track) {
+
+        trackHistoryList.forEach {
+            if (it.trackId == track.trackId  && trackHistoryList.size <= 10) {
+                trackHistoryList.remove(it)
+                trackHistoryList.add(0, track)
+            }
+
+            else if (it.trackId != track.trackId  && trackHistoryList.size < 10) {
+                trackHistoryList.add(0, track)
+            }
+
+            else {
+                trackHistoryList.removeAt(9)
+                trackHistoryList.add(0, track)
+            }
+
+        }
+    }
 
 
     override fun onSaveInstanceState(outState: Bundle) {
@@ -152,6 +198,8 @@ class SearchActivity : AppCompatActivity() {
         const val BASE_URL = "https://itunes.apple.com"
         const val NOTHING_FOUND = "nothing_found"
         const val SERVER_PROBLEMS = "server_problems"
+    //const val KEY_FOR_HISTORY_LIST = "key_for_history_list"
+    // const val KEY_FOR_HISTORY_LIST_PREFERENCES = "key_for_history_list_preferences"
     }
 
     override fun onRestoreInstanceState(savedInstanceState: Bundle) {
