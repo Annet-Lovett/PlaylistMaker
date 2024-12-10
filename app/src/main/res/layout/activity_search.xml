@@ -8,6 +8,16 @@
     android:paddingHorizontal="@dimen/normal_padding_size"
     tools:context=".SearchActivity">
 
+<!--    <com.facebook.shimmer.ShimmerFrameLayout-->
+<!--        android:id="@+id/shimmer_view"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="match_parent"-->
+<!--        android:layout_gravity="center"-->
+<!--        android:orientation="vertical"-->
+<!--        app:layout_constraintBottom_toBottomOf="parent"-->
+<!--        app:layout_constraintStart_toStartOf="parent"-->
+<!--        tools:duration="800"/>-->
+
     <com.google.android.material.appbar.MaterialToolbar
         android:id="@+id/buttonSettingsBack"
         android:layout_width="match_parent"
@@ -33,7 +43,9 @@
             android:drawableStart="@drawable/search_light"
             android:hint="@string/Search"
             android:inputType="textAutoCorrect"
-            android:maxLines="1" />
+            android:maxLines="1"
+            android:imeOptions="actionDone"
+            android:singleLine="true"/>
 
         <ImageButton
             android:id="@+id/buttonClear"
@@ -57,6 +69,77 @@
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         tools:itemCount="5"
         android:visibility="gone"/>
+
+    <LinearLayout
+        android:id="@+id/nothingFound"
+        android:layout_width="match_parent"
+        android:layout_height="156dp"
+        android:orientation="vertical"
+        android:layout_marginTop="102dp"
+        android:visibility="gone"
+        >
+
+        <ImageView
+            android:id="@+id/nothingFoundImg"
+            android:layout_width="match_parent"
+            android:layout_height="120dp"
+            android:theme="@style/nothingFoundImg"/>
+
+        <TextView
+            android:id="@+id/nothingFoundText"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            style="@style/menuSettings"
+            android:layout_marginTop="16dp"
+            android:textSize="19sp"
+            android:gravity="center"
+            android:text="@string/nothing_found"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/serverProblems"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_marginTop="102dp"
+        android:visibility="gone">
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="120dp"
+            style="@style/noInternet"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            style="@style/menuSettings"
+            android:layout_marginTop="16dp"
+            android:textSize="19sp"
+            android:gravity="center"
+            android:text="@string/connect_trouble"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            style="@style/menuSettings"
+            android:layout_marginTop="16dp"
+            android:textSize="19sp"
+            android:gravity="center"
+            android:text="@string/no_internet_description"/>
+        
+        <Button
+            android:id="@+id/refreshButtonSearch"
+            style="@style/buttonRefresh"
+            android:text="@string/refresh"
+            android:layout_marginTop="24dp"
+            android:outlineSpotShadowColor="@color/transp"
+            />
+
+        
+    </LinearLayout>
+
+
 
 
 </LinearLayout>

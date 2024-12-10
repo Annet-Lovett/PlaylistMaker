@@ -22,9 +22,10 @@
 
     <Switch
         android:id="@+id/theme_switcher"
-        android:text="@string/dark_theme"
         style="@style/menuSettings"
-        tools:ignore="UseSwitchCompatOrMaterialXml"/>
+        android:outlineSpotShadowColor="@color/transp"
+        android:text="@string/dark_theme"
+        tools:ignore="UseSwitchCompatOrMaterialXml" />
 
     <Button
         android:id="@+id/btnShareSettings"

@@ -22,4 +22,29 @@
         <item name="iconTint">@color/light_blue</item>
     </style>
 
+    <style name="nothingFoundImg">
+        <item name="android:src">@drawable/dark_mode</item>
+    </style>
+
+    <style name="noInternet">
+        <item name="android:src">@drawable/dark_mode_server</item>
+    </style>
+
+    <style name="buttonRefresh">
+        <item name="android:layout_width">91dp</item>
+        <item name="android:layout_height">36dp</item>
+        <item name="android:textFontWeight">500</item>
+        <item name="android:backgroundTint">@color/white</item>
+        <item name="android:textSize">13sp</item>
+        <item name="android:textColor">@color/dark</item>
+        <item name="textAllCaps">false</item>
+        <item name="cornerRadius">54dp</item>
+        <item name="android:fontFamily">@font/ys_display_medium</item>
+        <item name="android:layout_gravity">center</item>
+        <item name="android:letterSpacing">0</item>
+        <item name="android:insetTop">0dp</item>
+        <item name="android:insetBottom">0dp</item>
+        <item name="android:outlineSpotShadowColor">@color/transp</item>
+    </style>
+
 </resources>
