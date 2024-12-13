@@ -1,4 +1,5 @@
 package com.practicum.playlistmaker
+import android.content.SharedPreferences
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
@@ -7,6 +8,7 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageButton
 import android.widget.LinearLayout
+import androidx.core.content.edit
 import androidx.core.view.isVisible
 import androidx.core.widget.addTextChangedListener
 import androidx.recyclerview.widget.RecyclerView
@@ -24,21 +26,24 @@ class SearchActivity : AppCompatActivity() {
     private val baseTrackUrl = BASE_URL
     private var inputValue: String = VALUE_DEF
 
-    lateinit var buttonBack: MaterialToolbar
-    lateinit var buttonClear: ImageButton
-    lateinit var searchInput: EditText
+    private lateinit var buttonBack: MaterialToolbar
+    private lateinit var buttonClear: ImageButton
+    private lateinit var searchInput: EditText
     lateinit var recyclerTrack: RecyclerView
-    lateinit var nothingFound: LinearLayout
-    lateinit var serverpromlems: LinearLayout
-    lateinit var refreshButton: Button
-    lateinit var trackHistoryRecycler: RecyclerView
-    lateinit var clearHistoryButton: Button
-    lateinit var searchHistoryContainer: LinearLayout
+    private lateinit var nothingFound: LinearLayout
+    private lateinit var serverpromlems: LinearLayout
+    private lateinit var refreshButton: Button
+    private lateinit var trackHistoryRecycler: RecyclerView
+    private lateinit var clearHistoryButton: Button
+    private lateinit var searchHistoryContainer: LinearLayout
+    private lateinit var sharedPreferences: SharedPreferences
+    private val  trackHistoryList by lazy {
+        getSearchHistory()
+    }
 
     private val listOfTracks = ArrayList<Track>()
     private val trackAdapter = TrackListAdapter()
 
-    private var trackHistoryList = ArrayList<Track>()
     private val trackHistoryAdapter = TrackListAdapter()
 
 
@@ -65,20 +70,18 @@ class SearchActivity : AppCompatActivity() {
         clearHistoryButton = findViewById(R.id.clearHistoryButton)
         searchHistoryContainer = findViewById(R.id.searchingHistoryContainer)
 
-        val thisSharedPref = getSharedPreferences(KEY_FOR_HISTORY_LIST, MODE_PRIVATE)
+        sharedPreferences = getSharedPreferences(KEY_FOR_HISTORY_LIST, MODE_PRIVATE)
 
         recyclerTrack.adapter = trackAdapter
-        trackAdapter.listOfTheTracks = listOfTracks
+        trackAdapter.subList(listOfTracks)
 
         trackAdapter.onItemClick =  { track ->
             recordTrack(track)
-            trackAdapter.notifyDataSetChanged()
         }
 
-        trackHistoryList = (thisSharedPref.getString(KEY_FOR_HISTORY_LIST_TRACK, null)
-            ?.let { createTrackFromJson(it) } ?:  emptyList<Track>()) as ArrayList<Track>
+
         trackHistoryRecycler.adapter = trackHistoryAdapter
-        trackHistoryAdapter.listOfTheTracks = trackHistoryList
+        trackHistoryAdapter.subList(trackHistoryList)
 
         searchInput.addTextChangedListener(
             onTextChanged = {s: CharSequence?, _, _, _ ->
@@ -117,9 +120,18 @@ class SearchActivity : AppCompatActivity() {
 
         clearHistoryButton.setOnClickListener{
             trackHistoryList.clear()
+            saveHistory()
             searchHistoryContainer.visibility = View.GONE
         }
 
+    }
+
+    private fun getSearchHistory(): MutableList<Track>{
+        val prefsHistory = sharedPreferences.getString(KEY_FOR_HISTORY_LIST_TRACK, null)
+
+        return if (!prefsHistory.isNullOrBlank()) {
+            Gson().fromJson(prefsHistory, object : TypeToken<List<Track>>() {}.type) ?: mutableListOf()
+        } else mutableListOf()
     }
 
     private fun enreachAndViewTracks() {
@@ -170,68 +182,20 @@ class SearchActivity : AppCompatActivity() {
 
     private fun recordTrack(track: Track) {
 
-        val sharedPreferences = getSharedPreferences(KEY_FOR_HISTORY_LIST, MODE_PRIVATE)
-
-        trackHistoryList.removeIf{ it.trackId == track.trackId}
-
-        if (trackHistoryList.size >= 10) {
-            trackHistoryList.removeLast()
-            trackHistoryList.add(0, track)
-
-            sharedPreferences
-                .edit()
-                .putString(KEY_FOR_HISTORY_LIST_TRACK, Gson().fromJson(createJsonFromTrack(trackHistoryList), object : TypeToken<ArrayList<Track>>(){}.type))
-                .apply()
+        trackHistoryList.apply {
+            removeIf{ it.trackId == track.trackId}
+            add(0, track)
+            if (size > 10) removeLast()
         }
 
-        else {
-            trackHistoryList.add(0, track)
-            sharedPreferences
-                .edit()
-                .putString(KEY_FOR_HISTORY_LIST_TRACK, Gson().fromJson(createJsonFromTrack(trackHistoryList), object : TypeToken<ArrayList<Track>>(){}.type))
-                .apply()
+        saveHistory()
+
+    }
+
+    private fun saveHistory() {
+        sharedPreferences.edit {
+            putString(KEY_FOR_HISTORY_LIST_TRACK, Gson().toJson(trackHistoryList))
         }
-
-//        if(trackHistoryList.size>=1){
-//
-//            val sharedPreferences = getSharedPreferences(KEY_FOR_HISTORY_LIST, MODE_PRIVATE)
-//            sharedPreferences.edit().putString(KEY_FOR_HISTORY_LIST_TRACK, createJsonFromTrack(track))
-//                .apply()
-//
-//            val newAddTrack = sharedPreferences.getString(KEY_FOR_HISTORY_LIST_TRACK, null)
-//
-//            if(newAddTrack!= null) {
-//
-//                trackHistoryList.forEach {
-//                    if (it.trackId == track.trackId  && trackHistoryList.size <= 10) {
-//                        trackHistoryList.remove(it)
-//                        trackHistoryList.add(0, createTrackFromJson(newAddTrack))
-//                    }
-//
-//                    else if (it.trackId != track.trackId  && trackHistoryList.size < 10) {
-//                        trackHistoryList.add(0, createTrackFromJson(newAddTrack))
-//                    }
-//
-//                    else {
-//                        trackHistoryList.removeAt(9)
-//                        trackHistoryList.add(0, createTrackFromJson(newAddTrack))
-//                    }
-//
-//                }
-//            }
-//        }
-//
-//        else {
-//            trackHistoryList.add(track)
-//        }
-    }
-
-    private fun createJsonFromTrack(trackList: ArrayList<Track>): String {
-        return Gson().toJson(trackList)
-    }
-
-    private fun createTrackFromJson(json: String): ArrayList<Track> {
-        return Gson().fromJson(json, object : TypeToken<ArrayList<Track>>(){}.type)
     }
 
 

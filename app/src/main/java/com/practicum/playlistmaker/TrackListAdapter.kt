@@ -5,9 +5,14 @@ import androidx.recyclerview.widget.RecyclerView
 
 class TrackListAdapter(): RecyclerView.Adapter<TrackHolder>() {
 
-    var listOfTheTracks = ArrayList<Track>()
+    private var listOfTheTracks: List<Track> = emptyList()
 
     var onItemClick:((track: Track) -> Unit)? = null
+
+    fun subList(list: List<Track>) {
+        listOfTheTracks = list
+        notifyDataSetChanged()
+    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TrackHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.track_item, parent, false)
