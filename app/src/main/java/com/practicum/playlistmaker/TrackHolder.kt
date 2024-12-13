@@ -11,7 +11,7 @@ import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import java.text.SimpleDateFormat
 import java.util.Locale
 
-class TrackHolder(item: View, private val onItemClick: ((track: Track) -> Unit)?) : RecyclerView.ViewHolder(item) {
+class TrackHolder(item: View, onItemClick: ((track: Track) -> Unit)?) : RecyclerView.ViewHolder(item) {
 
     private val fullTrack = item.findViewById<LinearLayout>(R.id.fullTrack)
     private val trackImage = item.findViewById<ImageView>(R.id.trackImage)
@@ -26,10 +26,6 @@ class TrackHolder(item: View, private val onItemClick: ((track: Track) -> Unit)?
         val artist = track.artistName
         val trackId = track.trackId
 
-        fullTrack.setOnClickListener{
-            onItemClick?.let { it1 -> it1(track) }
-        }
-
         fun dpToPx(dp: Float, context: View): Int {
             return TypedValue.applyDimension(
                 TypedValue.COMPLEX_UNIT_DIP,
@@ -42,6 +38,8 @@ class TrackHolder(item: View, private val onItemClick: ((track: Track) -> Unit)?
             .transform(RoundedCorners(dpToPx(2f, itemView)))
             .fallback(R.drawable.trackplaceholder)
             .error(R.drawable.trackplaceholder)
+            .fitCenter()
+            .centerCrop()
             .into(trackImage)
 
 

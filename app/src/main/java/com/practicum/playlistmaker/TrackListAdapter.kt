@@ -19,7 +19,11 @@ class TrackListAdapter(): RecyclerView.Adapter<TrackHolder>() {
     }
 
     override fun onBindViewHolder(holder: TrackHolder, position: Int) {
+        val track = listOfTheTracks[position]
         holder.bind(listOfTheTracks[position])
+        holder.itemView.setOnClickListener{
+            onItemClick?.let { it1 -> it1(track) }
+        }
     }
 
 }

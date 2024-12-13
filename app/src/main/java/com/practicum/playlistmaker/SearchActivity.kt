@@ -12,6 +12,7 @@ import androidx.core.widget.addTextChangedListener
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.appbar.MaterialToolbar
 import com.google.gson.Gson
+import com.google.gson.reflect.TypeToken
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -64,17 +65,20 @@ class SearchActivity : AppCompatActivity() {
         clearHistoryButton = findViewById(R.id.clearHistoryButton)
         searchHistoryContainer = findViewById(R.id.searchingHistoryContainer)
 
+        val thisSharedPref = getSharedPreferences(KEY_FOR_HISTORY_LIST, MODE_PRIVATE)
 
         recyclerTrack.adapter = trackAdapter
         trackAdapter.listOfTheTracks = listOfTracks
-
-        trackHistoryRecycler.adapter = trackHistoryAdapter
-        trackHistoryAdapter.listOfTheTracks = trackHistoryList
 
         trackAdapter.onItemClick =  { track ->
             recordTrack(track)
             trackAdapter.notifyDataSetChanged()
         }
+
+        trackHistoryList = (thisSharedPref.getString(KEY_FOR_HISTORY_LIST_TRACK, null)
+            ?.let { createTrackFromJson(it) } ?:  emptyList<Track>()) as ArrayList<Track>
+        trackHistoryRecycler.adapter = trackHistoryAdapter
+        trackHistoryAdapter.listOfTheTracks = trackHistoryList
 
         searchInput.addTextChangedListener(
             onTextChanged = {s: CharSequence?, _, _, _ ->
@@ -91,10 +95,8 @@ class SearchActivity : AppCompatActivity() {
         }
 
         searchInput.setOnFocusChangeListener { view, hasFocus ->
-            if (hasFocus && searchInput.text.isEmpty())
-            { if (trackHistoryList.isNotEmpty())
+            if (hasFocus && searchInput.text.isEmpty() && trackHistoryList.isNotEmpty())
                 { searchHistoryContainer.visibility = View.VISIBLE}
-            }
 
             else {searchHistoryContainer.visibility = View.GONE}
         }
@@ -168,47 +170,68 @@ class SearchActivity : AppCompatActivity() {
 
     private fun recordTrack(track: Track) {
 
+        val sharedPreferences = getSharedPreferences(KEY_FOR_HISTORY_LIST, MODE_PRIVATE)
 
-        if(trackHistoryList.size>=1){
+        trackHistoryList.removeIf{ it.trackId == track.trackId}
 
-            val sharedPreferences = getSharedPreferences(KEY_FOR_HISTORY_LIST, MODE_PRIVATE)
-            sharedPreferences.edit().putString(KEY_FOR_HISTORY_LIST_TRACK, createJsonFromTrack(track))
+        if (trackHistoryList.size >= 10) {
+            trackHistoryList.removeLast()
+            trackHistoryList.add(0, track)
+
+            sharedPreferences
+                .edit()
+                .putString(KEY_FOR_HISTORY_LIST_TRACK, Gson().fromJson(createJsonFromTrack(trackHistoryList), object : TypeToken<ArrayList<Track>>(){}.type))
                 .apply()
-
-            val newAddTrack = sharedPreferences.getString(KEY_FOR_HISTORY_LIST_TRACK, null)
-
-            if(newAddTrack!= null) {
-
-                trackHistoryList.forEach {
-                    if (it.trackId == track.trackId  && trackHistoryList.size <= 10) {
-                        trackHistoryList.remove(it)
-                        trackHistoryList.add(0, createTrackFromJson(newAddTrack))
-                    }
-
-                    else if (it.trackId != track.trackId  && trackHistoryList.size < 10) {
-                        trackHistoryList.add(0, createTrackFromJson(newAddTrack))
-                    }
-
-                    else {
-                        trackHistoryList.removeAt(9)
-                        trackHistoryList.add(0, createTrackFromJson(newAddTrack))
-                    }
-
-                }
-            }
         }
 
         else {
-            trackHistoryList.add(track)
+            trackHistoryList.add(0, track)
+            sharedPreferences
+                .edit()
+                .putString(KEY_FOR_HISTORY_LIST_TRACK, Gson().fromJson(createJsonFromTrack(trackHistoryList), object : TypeToken<ArrayList<Track>>(){}.type))
+                .apply()
         }
+
+//        if(trackHistoryList.size>=1){
+//
+//            val sharedPreferences = getSharedPreferences(KEY_FOR_HISTORY_LIST, MODE_PRIVATE)
+//            sharedPreferences.edit().putString(KEY_FOR_HISTORY_LIST_TRACK, createJsonFromTrack(track))
+//                .apply()
+//
+//            val newAddTrack = sharedPreferences.getString(KEY_FOR_HISTORY_LIST_TRACK, null)
+//
+//            if(newAddTrack!= null) {
+//
+//                trackHistoryList.forEach {
+//                    if (it.trackId == track.trackId  && trackHistoryList.size <= 10) {
+//                        trackHistoryList.remove(it)
+//                        trackHistoryList.add(0, createTrackFromJson(newAddTrack))
+//                    }
+//
+//                    else if (it.trackId != track.trackId  && trackHistoryList.size < 10) {
+//                        trackHistoryList.add(0, createTrackFromJson(newAddTrack))
+//                    }
+//
+//                    else {
+//                        trackHistoryList.removeAt(9)
+//                        trackHistoryList.add(0, createTrackFromJson(newAddTrack))
+//                    }
+//
+//                }
+//            }
+//        }
+//
+//        else {
+//            trackHistoryList.add(track)
+//        }
     }
 
-    private fun createJsonFromTrack(track: Track): String {
-        return Gson().toJson(track)
+    private fun createJsonFromTrack(trackList: ArrayList<Track>): String {
+        return Gson().toJson(trackList)
     }
 
-    private fun createTrackFromJson(json: String): Track {
-        return Gson().fromJson(json, Track::class.java)
+    private fun createTrackFromJson(json: String): ArrayList<Track> {
+        return Gson().fromJson(json, object : TypeToken<ArrayList<Track>>(){}.type)
     }
 
 
