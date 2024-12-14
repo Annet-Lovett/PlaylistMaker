@@ -27,7 +27,7 @@ class TrackListAdapter(): RecyclerView.Adapter<TrackHolder>() {
         val track = listOfTheTracks[position]
         holder.bind(listOfTheTracks[position])
         holder.itemView.setOnClickListener{
-            onItemClick?.let { it1 -> it1(track) }
+            onItemClick?.let { it(track) }
         }
     }
 

@@ -98,10 +98,9 @@ class SearchActivity : AppCompatActivity() {
         }
 
         searchInput.setOnFocusChangeListener { view, hasFocus ->
-            if (hasFocus && searchInput.text.isEmpty() && trackHistoryList.isNotEmpty())
-                { searchHistoryContainer.visibility = View.VISIBLE}
+            searchHistoryContainer.isVisible = hasFocus && searchInput.text.isEmpty() && trackHistoryList.isNotEmpty()
 
-            else {searchHistoryContainer.visibility = View.GONE}
+
         }
 
         refreshButton.setOnClickListener {
@@ -120,8 +119,8 @@ class SearchActivity : AppCompatActivity() {
 
         clearHistoryButton.setOnClickListener{
             trackHistoryList.clear()
-            saveHistory()
             searchHistoryContainer.visibility = View.GONE
+            saveHistory()
         }
 
     }
