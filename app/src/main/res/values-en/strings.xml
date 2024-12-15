@@ -18,4 +18,6 @@
     <string name="connect_trouble">Connection troubles</string>
     <string name="no_internet_description">Upload failed. Check internet connection</string>
     <string name="refresh">Refresh</string>
+    <string name="you_search">Your search</string>
+    <string name="clear_history">Clear history</string>
 </resources>

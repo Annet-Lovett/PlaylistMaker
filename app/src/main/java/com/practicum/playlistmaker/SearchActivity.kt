@@ -1,4 +1,5 @@
 package com.practicum.playlistmaker
+import android.content.SharedPreferences
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
@@ -7,10 +8,13 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageButton
 import android.widget.LinearLayout
+import androidx.core.content.edit
 import androidx.core.view.isVisible
 import androidx.core.widget.addTextChangedListener
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.appbar.MaterialToolbar
+import com.google.gson.Gson
+import com.google.gson.reflect.TypeToken
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -22,16 +26,26 @@ class SearchActivity : AppCompatActivity() {
     private val baseTrackUrl = BASE_URL
     private var inputValue: String = VALUE_DEF
 
-    lateinit var buttonBack: MaterialToolbar
-    lateinit var buttonClear: ImageButton
-    lateinit var searchInput: EditText
+    private lateinit var buttonBack: MaterialToolbar
+    private lateinit var buttonClear: ImageButton
+    private lateinit var searchInput: EditText
     lateinit var recyclerTrack: RecyclerView
-    lateinit var nothingFound: LinearLayout
-    lateinit var serverpromlems: LinearLayout
-    lateinit var refreshButton: Button
+    private lateinit var nothingFound: LinearLayout
+    private lateinit var serverpromlems: LinearLayout
+    private lateinit var refreshButton: Button
+    private lateinit var trackHistoryRecycler: RecyclerView
+    private lateinit var clearHistoryButton: Button
+    private lateinit var searchHistoryContainer: LinearLayout
+    private lateinit var sharedPreferences: SharedPreferences
+    private val  trackHistoryList by lazy {
+        getSearchHistory()
+    }
 
     private val listOfTracks = ArrayList<Track>()
     private val trackAdapter = TrackListAdapter()
+
+    private val trackHistoryAdapter = TrackListAdapter()
+
 
     private val retrofit = Retrofit.Builder()
         .baseUrl(baseTrackUrl)
@@ -41,8 +55,8 @@ class SearchActivity : AppCompatActivity() {
     private val trackService = retrofit.create(PlaylistApi::class.java)
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
 
+        super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_search)
 
         buttonBack = findViewById(R.id.buttonSettingsBack)
@@ -52,10 +66,22 @@ class SearchActivity : AppCompatActivity() {
         nothingFound = findViewById(R.id.nothingFound)
         serverpromlems = findViewById(R.id.serverProblems)
         refreshButton = findViewById(R.id.refreshButtonSearch)
+        trackHistoryRecycler = findViewById(R.id.historyRecycler)
+        clearHistoryButton = findViewById(R.id.clearHistoryButton)
+        searchHistoryContainer = findViewById(R.id.searchingHistoryContainer)
+
+        sharedPreferences = getSharedPreferences(KEY_FOR_SETTINGS, MODE_PRIVATE)
 
         recyclerTrack.adapter = trackAdapter
+        trackAdapter.subList(listOfTracks)
 
-        trackAdapter.listOfTheTracks = listOfTracks
+        trackAdapter.onItemClick =  { track ->
+            recordTrack(track)
+        }
+
+
+        trackHistoryRecycler.adapter = trackHistoryAdapter
+        trackHistoryAdapter.subList(trackHistoryList)
 
         searchInput.addTextChangedListener(
             onTextChanged = {s: CharSequence?, _, _, _ ->
@@ -71,10 +97,15 @@ class SearchActivity : AppCompatActivity() {
             false
         }
 
+        searchInput.setOnFocusChangeListener { view, hasFocus ->
+            searchHistoryContainer.isVisible = hasFocus && searchInput.text.isEmpty() && trackHistoryList.isNotEmpty()
+
+
+        }
+
         refreshButton.setOnClickListener {
             serverpromlems.visibility = View.GONE
             enreachAndViewTracks()
-
         }
 
         buttonClear.setOnClickListener {
@@ -86,6 +117,20 @@ class SearchActivity : AppCompatActivity() {
             finish()
         }
 
+        clearHistoryButton.setOnClickListener{
+            trackHistoryList.clear()
+            searchHistoryContainer.visibility = View.GONE
+            saveHistory()
+        }
+
+    }
+
+    private fun getSearchHistory(): MutableList<Track>{
+        val prefsHistory = sharedPreferences.getString(KEY_FOR_HISTORY_LIST_TRACK, null)
+
+        return if (!prefsHistory.isNullOrBlank()) {
+            Gson().fromJson(prefsHistory, object : TypeToken<List<Track>>() {}.type) ?: mutableListOf()
+        } else mutableListOf()
     }
 
     private fun enreachAndViewTracks() {
@@ -110,8 +155,6 @@ class SearchActivity : AppCompatActivity() {
                     } else {
                         recyclerTrack.visibility = View.GONE
                         showMessage(SERVER_PROBLEMS)
-
-
                     }
                 }
 
@@ -119,7 +162,6 @@ class SearchActivity : AppCompatActivity() {
                     recyclerTrack.visibility = View.GONE
                     showMessage(SERVER_PROBLEMS)
                 }
-
             })
         }
     }
@@ -128,17 +170,32 @@ class SearchActivity : AppCompatActivity() {
         if (text == NOTHING_FOUND) {
             nothingFound.visibility = View.VISIBLE
             listOfTracks.clear()
-            trackAdapter.notifyDataSetChanged()
 
         }
 
         if (text == SERVER_PROBLEMS) {
             serverpromlems.visibility = View.VISIBLE
             listOfTracks.clear()
-            trackAdapter.notifyDataSetChanged()
         }
     }
 
+    private fun recordTrack(track: Track) {
+
+        trackHistoryList.apply {
+            removeIf{ it.trackId == track.trackId}
+            add(0, track)
+            if (size > 10) removeLast()
+        }
+
+        saveHistory()
+
+    }
+
+    private fun saveHistory() {
+        sharedPreferences.edit {
+            putString(KEY_FOR_HISTORY_LIST_TRACK, Gson().toJson(trackHistoryList))
+        }
+    }
 
 
     override fun onSaveInstanceState(outState: Bundle) {
@@ -152,6 +209,8 @@ class SearchActivity : AppCompatActivity() {
         const val BASE_URL = "https://itunes.apple.com"
         const val NOTHING_FOUND = "nothing_found"
         const val SERVER_PROBLEMS = "server_problems"
+        const val KEY_FOR_SETTINGS = "key_for_settings"
+        const val KEY_FOR_HISTORY_LIST_TRACK = "key_for_history_list_preferences"
     }
 
     override fun onRestoreInstanceState(savedInstanceState: Bundle) {
