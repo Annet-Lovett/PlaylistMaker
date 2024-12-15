@@ -2,17 +2,18 @@ package com.practicum.playlistmaker
 
 
 import android.content.Intent
+import android.content.SharedPreferences
 import android.net.Uri
 import android.os.Bundle
 import android.widget.Button
 import android.widget.Switch
 import androidx.appcompat.app.AppCompatActivity
-
 import com.google.android.material.appbar.MaterialToolbar
 
 class SettingsActivity : AppCompatActivity() {
 
     private lateinit var switchTheme: Switch
+    private lateinit var sharedPreferences: SharedPreferences
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -24,12 +25,18 @@ class SettingsActivity : AppCompatActivity() {
             finish()
         }
 
+        sharedPreferences = getSharedPreferences(KEY_FOR_SETTINGS, MODE_PRIVATE)
+
         switchTheme=findViewById(R.id.theme_switcher)
 
-        switchTheme.isChecked = false
+        switchTheme.isChecked = sharedPreferences.getBoolean(KEY_FOR_THE_CURRENT_THEME_STATE, false)
 
-        switchTheme.setOnCheckedChangeListener { switcher, checked ->
-            (applicationContext as App).switchTheme(checked)
+        switchTheme.setOnCheckedChangeListener { _, checked ->
+            sharedPreferences.edit()
+                .putBoolean(KEY_FOR_THE_CURRENT_THEME_STATE, checked)
+                .apply()
+            (applicationContext as App).switchTheme(sharedPreferences.getBoolean(
+                KEY_FOR_THE_CURRENT_THEME_STATE, false))
         }
 
 
@@ -69,6 +76,11 @@ class SettingsActivity : AppCompatActivity() {
 
             startActivity(intent)
         }
+    }
+
+    companion object {
+        const val KEY_FOR_SETTINGS = "key_for_settings"
+        const val KEY_FOR_THE_CURRENT_THEME_STATE = "KEY_FOR_THE_CURRENT_THEME_STATE"
     }
 
 

@@ -153,8 +153,7 @@
             android:minHeight="52dp"
             android:text="@string/you_search"
             android:layout_gravity="center"
-            android:layout_marginTop="24dp"
-            />
+            android:layout_marginTop="24dp"/>
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/historyRecycler"
@@ -162,6 +161,7 @@
             android:layout_height="wrap_content"
             tools:itemCount="10"
             android:layout_marginTop="8dp"
+            android:layout_weight="1"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"/>
 
         <Button
@@ -170,6 +170,7 @@
             android:layout_height="wrap_content"
             style="@style/buttonRefresh"
             android:text="@string/clear_history"
+            android:layout_marginBottom="24dp"
             android:minWidth="148dp"
             android:layout_gravity="center"
             android:layout_marginTop="24dp"/>

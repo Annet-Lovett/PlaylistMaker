@@ -70,7 +70,7 @@ class SearchActivity : AppCompatActivity() {
         clearHistoryButton = findViewById(R.id.clearHistoryButton)
         searchHistoryContainer = findViewById(R.id.searchingHistoryContainer)
 
-        sharedPreferences = getSharedPreferences(KEY_FOR_HISTORY_LIST, MODE_PRIVATE)
+        sharedPreferences = getSharedPreferences(KEY_FOR_SETTINGS, MODE_PRIVATE)
 
         recyclerTrack.adapter = trackAdapter
         trackAdapter.subList(listOfTracks)
@@ -209,7 +209,7 @@ class SearchActivity : AppCompatActivity() {
         const val BASE_URL = "https://itunes.apple.com"
         const val NOTHING_FOUND = "nothing_found"
         const val SERVER_PROBLEMS = "server_problems"
-        const val KEY_FOR_HISTORY_LIST = "key_for_history_list"
+        const val KEY_FOR_SETTINGS = "key_for_settings"
         const val KEY_FOR_HISTORY_LIST_TRACK = "key_for_history_list_preferences"
     }
 
