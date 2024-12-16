@@ -1,11 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
+
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/scroll"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:theme="@style/Base.Settings.Theme.PlaylistMaker">
+
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:theme="@style/Base.Settings.Theme.PlaylistMaker"
     android:id="@+id/main"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     tools:context=".PlayerActivity"
     style="@style/playlistActivity">
 
@@ -150,9 +157,12 @@
 
   <TextView
       android:id="@+id/playerAlbumName"
-      android:layout_width="wrap_content"
+      android:layout_width="0dp"
       android:layout_height="32dp"
       android:layout_marginEnd="16dp"
+      android:layout_marginStart="24dp"
+      android:ellipsize="end"
+      android:maxLines="1"
       android:text="@string/duration"
       android:theme="@style/playlistBright"
       app:layout_constraintBaseline_toBaselineOf="@+id/playerAlbumText"
@@ -230,3 +240,5 @@
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
+
+</ScrollView>

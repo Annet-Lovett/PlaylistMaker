@@ -4,14 +4,10 @@ import android.content.SharedPreferences
 import android.os.Bundle
 import android.util.TypedValue
 import android.view.View
-import android.view.View.GONE
 import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
-import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.google.gson.Gson
@@ -63,11 +59,11 @@ class PlayerActivity : AppCompatActivity() {
         if (newTrack != null) {
             Glide.with(trackImage)
                 .load(newTrack.artworkUrl100.replaceAfterLast("/", "512x512bb.jpg" ))
-                .transform(RoundedCorners(dpToPx(2f, trackImage)))
-                .fallback(R.drawable.trackplaceholder)
-                .error(R.drawable.trackplaceholder)
                 .fitCenter()
                 .centerCrop()
+                .transform(RoundedCorners(dpToPx(8f, trackImage)))
+                .fallback(R.drawable.trackplaceholder)
+                .error(R.drawable.trackplaceholder)
                 .into(trackImage)
 
             nameOfTheTrack.text = newTrack.trackName
@@ -78,6 +74,7 @@ class PlayerActivity : AppCompatActivity() {
             yearOfTheTrack.text = newTrack.releaseDate.substring(0, 4)
             genreOfTheTrack.text = newTrack.primaryGenreName
             countryOfTheTrack.text = newTrack.country
+
 
             if (newTrack.collectionName != null) {
                 nameOfTheAlbum.text = newTrack.collectionName
@@ -101,7 +98,7 @@ class PlayerActivity : AppCompatActivity() {
         return Gson().fromJson(json, Track::class.java)
     }
 
-    fun dpToPx(dp: Float, context: View): Int {
+    private fun dpToPx(dp: Float, context: View): Int {
         return TypedValue.applyDimension(
             TypedValue.COMPLEX_UNIT_DIP,
             dp,
