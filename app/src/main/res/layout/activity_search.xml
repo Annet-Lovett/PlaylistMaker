@@ -45,7 +45,9 @@
             android:imeOptions="actionDone"
             android:inputType="textAutoCorrect"
             android:maxLines="1"
-            android:singleLine="true" />
+            android:singleLine="true"
+            android:textCursorDrawable="@drawable/cursor"
+            />
 
         <ImageButton
             android:id="@+id/buttonClear"

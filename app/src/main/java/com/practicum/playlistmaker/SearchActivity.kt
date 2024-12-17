@@ -1,4 +1,5 @@
 package com.practicum.playlistmaker
+import android.content.Intent
 import android.content.SharedPreferences
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -37,6 +38,7 @@ class SearchActivity : AppCompatActivity() {
     private lateinit var clearHistoryButton: Button
     private lateinit var searchHistoryContainer: LinearLayout
     private lateinit var sharedPreferences: SharedPreferences
+
     private val  trackHistoryList by lazy {
         getSearchHistory()
     }
@@ -75,13 +77,32 @@ class SearchActivity : AppCompatActivity() {
         recyclerTrack.adapter = trackAdapter
         trackAdapter.subList(listOfTracks)
 
-        trackAdapter.onItemClick =  { track ->
+        trackAdapter.onItemClick =  {
+            track ->
             recordTrack(track)
-        }
 
+            val playerActivityIntent = Intent(this, PlayerActivity::class.java)
+            startActivity(playerActivityIntent)
+
+            sharedPreferences.edit()
+                .putString(KEY_FOR_CURRENT_TRACK, createJsonFromFactsList(track))
+                .apply()
+        }
 
         trackHistoryRecycler.adapter = trackHistoryAdapter
         trackHistoryAdapter.subList(trackHistoryList)
+
+        trackHistoryAdapter.onItemClick = {
+
+            track -> sharedPreferences.edit()
+            .putString(KEY_FOR_CURRENT_TRACK, createJsonFromFactsList(track))
+            .apply()
+
+            val playerActivityIntent = Intent(this, PlayerActivity::class.java)
+            startActivity(playerActivityIntent)
+
+
+        }
 
         searchInput.addTextChangedListener(
             onTextChanged = {s: CharSequence?, _, _, _ ->
@@ -99,8 +120,6 @@ class SearchActivity : AppCompatActivity() {
 
         searchInput.setOnFocusChangeListener { view, hasFocus ->
             searchHistoryContainer.isVisible = hasFocus && searchInput.text.isEmpty() && trackHistoryList.isNotEmpty()
-
-
         }
 
         refreshButton.setOnClickListener {
@@ -122,7 +141,6 @@ class SearchActivity : AppCompatActivity() {
             searchHistoryContainer.visibility = View.GONE
             saveHistory()
         }
-
     }
 
     private fun getSearchHistory(): MutableList<Track>{
@@ -197,6 +215,10 @@ class SearchActivity : AppCompatActivity() {
         }
     }
 
+    private fun createJsonFromFactsList(track: Track): String {
+        return Gson().toJson(track)
+    }
+
 
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
@@ -211,6 +233,7 @@ class SearchActivity : AppCompatActivity() {
         const val SERVER_PROBLEMS = "server_problems"
         const val KEY_FOR_SETTINGS = "key_for_settings"
         const val KEY_FOR_HISTORY_LIST_TRACK = "key_for_history_list_preferences"
+        const val KEY_FOR_CURRENT_TRACK = "key_for_current_track"
     }
 
     override fun onRestoreInstanceState(savedInstanceState: Bundle) {
@@ -219,3 +242,4 @@ class SearchActivity : AppCompatActivity() {
     }
 
 }
+

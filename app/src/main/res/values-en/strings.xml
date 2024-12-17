@@ -20,4 +20,8 @@
     <string name="refresh">Refresh</string>
     <string name="you_search">Your search</string>
     <string name="clear_history">Clear history</string>
+    <string name="Album">Album</string>
+    <string name="year">Year</string>
+    <string name="genre">Genre</string>
+    <string name="country">Country</string>
 </resources>

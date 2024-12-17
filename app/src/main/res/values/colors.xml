@@ -8,4 +8,6 @@
     <color name="grey">#AEAFB4</color>
     <color name="lightGrey">#E6E8EB</color>
     <color name="transp">#00000000</color>
+    <color name="trans_dark">#401A1B22</color>
+    <color name="trans_white">#40FFFFFF</color>
 </resources>
