@@ -1,0 +1,263 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/scroll"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:theme="@style/Base.Settings.Theme.PlaylistMaker">
+
+<androidx.constraintlayout.widget.ConstraintLayout
+    android:theme="@style/Base.Settings.Theme.PlaylistMaker"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    tools:context=".PlayerActivity"
+    style="@style/playlistActivity">
+
+  <androidx.constraintlayout.widget.Guideline
+      android:id="@+id/leftBorder16"
+      android:orientation="vertical"
+      app:layout_constraintGuide_begin="16dp"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"/>
+
+  <androidx.constraintlayout.widget.Guideline
+      android:id="@+id/rightBorder16"
+      android:orientation="vertical"
+      app:layout_constraintGuide_end="16dp"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"/>
+
+  <androidx.constraintlayout.widget.Guideline
+      android:id="@+id/leftBorder24"
+      android:orientation="vertical"
+      app:layout_constraintGuide_begin="24dp"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"/>
+
+  <androidx.constraintlayout.widget.Guideline
+      android:id="@+id/rightBorder24"
+      android:orientation="vertical"
+      app:layout_constraintGuide_end="24dp"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"/>
+
+  <com.google.android.material.appbar.MaterialToolbar
+      android:id="@+id/playerBackButton"
+      android:layout_width="match_parent"
+      android:layout_height="56dp"
+      android:theme="@style/menuSettings"
+      app:contentInsetStartWithNavigation="16dp"
+      app:iconGravity="start"
+      app:layout_constraintStart_toStartOf="parent"
+      app:layout_constraintTop_toTopOf="parent"
+      app:navigationIcon="@drawable/arrow" />
+
+  <ImageView
+      android:id="@+id/playerTrackImg"
+      android:layout_width="0dp"
+      android:layout_height="0dp"
+      app:layout_constraintDimensionRatio="1:1"
+      android:layout_marginTop="26dp"
+      android:scaleType="centerCrop"
+      android:background="@color/transp"
+      android:src="@drawable/trackplaceholder"
+      app:layout_constraintEnd_toEndOf="@id/rightBorder24"
+      app:layout_constraintStart_toStartOf="@id/leftBorder24"
+      app:layout_constraintTop_toBottomOf="@+id/playerBackButton" />
+
+  <TextView
+      android:id="@+id/playerNameOfTheTrack"
+      android:layout_width="0dp"
+      android:layout_height="wrap_content"
+      android:layout_marginTop="24dp"
+      android:background="@color/transp"
+      android:text="@string/name_of_the_track"
+      android:textFontWeight="400"
+      android:textSize="22sp"
+      app:layout_constraintTop_toBottomOf="@+id/playerTrackImg"
+      app:layout_constraintEnd_toEndOf="@id/rightBorder24"
+      app:layout_constraintStart_toStartOf="@id/leftBorder24"/>
+
+  <TextView
+      android:id="@+id/playerNameOfTheArtist"
+      android:layout_width="0dp"
+      android:layout_height="wrap_content"
+      android:layout_marginTop="12dp"
+      android:background="@color/transp"
+      android:text="@string/name_of_the_track"
+      android:textFontWeight="400"
+      android:textSize="14sp"
+      app:layout_constraintEnd_toEndOf="@id/rightBorder24"
+      app:layout_constraintStart_toStartOf="@id/leftBorder24"
+      app:layout_constraintTop_toBottomOf="@+id/playerNameOfTheTrack" />
+
+  <Button
+      android:id="@+id/playerButtonPlus"
+      style="@style/buttonLikeAdd"
+      android:layout_width="51dp"
+      android:layout_height="51dp"
+      android:layout_marginTop="54dp"
+      app:icon="@drawable/playlist_button_plus"
+      app:layout_constraintEnd_toStartOf="@id/playerButtonPlay"
+      app:layout_constraintHorizontal_chainStyle="spread_inside"
+      app:layout_constraintStart_toStartOf="@id/leftBorder24"
+      app:layout_constraintTop_toBottomOf="@+id/playerNameOfTheArtist" />
+
+  <Button
+      style="@style/playlistPlayButton"
+      android:id="@+id/playerButtonPlay"
+      android:layout_width="100dp"
+      android:layout_height="100dp"
+      android:background="@color/transp"
+      app:iconGravity="textEnd"
+      app:iconPadding="0dp"
+      app:iconSize="83.3dp"
+      app:iconTint="@color/white"
+      app:iconTintMode="multiply"
+      app:layout_constraintBaseline_toBaselineOf="@+id/playerButtonPlus"
+      app:layout_constraintEnd_toStartOf="@id/playerButtonLike"
+      app:layout_constraintStart_toEndOf="@+id/playerButtonPlus" />
+
+  <Button
+      android:id="@+id/playerButtonLike"
+      style="@style/buttonLikeAdd"
+
+      android:layout_width="51dp"
+      android:layout_height="51dp"
+      app:icon="@drawable/playlist_like_button"
+      app:layout_constraintBaseline_toBaselineOf="@+id/playerButtonPlus"
+      app:layout_constraintEnd_toEndOf="@id/rightBorder24"
+      app:layout_constraintStart_toEndOf="@+id/playerButtonPlay" />
+
+  <TextView
+      android:id="@+id/playerDurationOfTheTrackNearThePlay"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:gravity="center"
+      android:background="@color/transp"
+      android:minWidth="100dp"
+      android:text="@string/duration"
+      android:textFontWeight="500"
+      android:textSize="14sp"
+      app:layout_constraintEnd_toEndOf="parent"
+      app:layout_constraintStart_toStartOf="parent"
+      app:layout_constraintTop_toBottomOf="@id/playerButtonPlay" />
+
+  <TextView
+      android:id="@+id/playerDurationOfTheTrackText"
+      android:layout_width="wrap_content"
+      android:layout_height="32dp"
+      android:layout_marginTop="36dp"
+      android:text="@string/duration"
+      android:theme="@style/playlistNotBright"
+      app:layout_constraintEnd_toStartOf="@id/playerDurationOfTheTrackNumbers"
+      app:layout_constraintHorizontal_chainStyle="spread_inside"
+      app:layout_constraintStart_toStartOf="@id/leftBorder16"
+      app:layout_constraintTop_toBottomOf="@+id/playerDurationOfTheTrackNearThePlay" />
+
+  <TextView
+      android:id="@+id/playerDurationOfTheTrackNumbers"
+      android:layout_width="wrap_content"
+      android:layout_height="32dp"
+      android:text="@string/duration"
+      android:theme="@style/playlistBright"
+      app:layout_constraintBaseline_toBaselineOf="@+id/playerDurationOfTheTrackText"
+      app:layout_constraintEnd_toEndOf="@id/rightBorder16"
+      app:layout_constraintStart_toEndOf="@id/playerDurationOfTheTrackText"
+      app:layout_constraintTop_toBottomOf="@+id/playerDurationOfTheTrackNearThePlay" />
+
+  <TextView
+      android:id="@+id/playerAlbumText"
+      android:layout_width="wrap_content"
+      android:layout_height="32dp"
+      android:text="@string/Album"
+      android:theme="@style/playlistNotBright"
+      app:layout_constraintEnd_toStartOf="@id/playerAlbumName"
+      app:layout_constraintHorizontal_chainStyle="spread_inside"
+      app:layout_constraintStart_toStartOf="@id/leftBorder16"
+      app:layout_constraintTop_toBottomOf="@+id/playerDurationOfTheTrackText" />
+
+  <TextView
+      android:id="@+id/playerAlbumName"
+      android:theme="@style/playlistBright"
+      android:layout_width="0dp"
+      android:layout_height="32dp"
+      android:layout_marginStart="24dp"
+      android:ellipsize="end"
+      android:maxLines="1"
+      android:textAlignment="textEnd"
+      android:text="@string/duration"
+      app:layout_constraintBaseline_toBaselineOf="@+id/playerAlbumText"
+      app:layout_constraintEnd_toEndOf="@id/rightBorder16"
+      app:layout_constraintStart_toEndOf="@id/playerAlbumText" />
+
+  <TextView
+      android:id="@+id/playerYearText"
+      android:layout_width="wrap_content"
+      android:layout_height="32dp"
+      android:text="@string/year"
+      android:theme="@style/playlistNotBright"
+      app:layout_constraintEnd_toStartOf="@id/playerYearNumber"
+      app:layout_constraintHorizontal_chainStyle="spread_inside"
+      app:layout_constraintStart_toStartOf="@id/leftBorder16"
+      app:layout_constraintTop_toBottomOf="@+id/playerAlbumText" />
+
+  <TextView
+      android:id="@+id/playerYearNumber"
+      android:layout_width="wrap_content"
+      android:layout_height="32dp"
+      android:text="@string/duration"
+      android:theme="@style/playlistBright"
+      app:layout_constraintBaseline_toBaselineOf="@+id/playerYearText"
+      app:layout_constraintEnd_toEndOf="@id/rightBorder16"
+      app:layout_constraintStart_toEndOf="@id/playerYearText" />
+
+  <TextView
+      android:id="@+id/playerGenreText"
+      android:layout_width="wrap_content"
+      android:layout_height="32dp"
+      android:text="@string/genre"
+      android:theme="@style/playlistNotBright"
+      app:layout_constraintEnd_toStartOf="@id/playerGenreName"
+      app:layout_constraintHorizontal_chainStyle="spread_inside"
+      app:layout_constraintStart_toStartOf="@id/leftBorder16"
+      app:layout_constraintTop_toBottomOf="@+id/playerYearText" />
+
+  <TextView
+      android:id="@+id/playerGenreName"
+      android:layout_width="wrap_content"
+      android:layout_height="32dp"
+      android:text="@string/duration"
+      android:theme="@style/playlistBright"
+      app:layout_constraintBaseline_toBaselineOf="@+id/playerGenreText"
+      app:layout_constraintEnd_toEndOf="@id/rightBorder16"
+      app:layout_constraintStart_toEndOf="@id/playerGenreText" />
+
+  <TextView
+      android:id="@+id/playerCountryText"
+      android:layout_width="wrap_content"
+      android:layout_height="32dp"
+      android:text="@string/country"
+      android:theme="@style/playlistNotBright"
+      app:layout_constraintEnd_toStartOf="@id/playerCountryName"
+      app:layout_constraintHorizontal_chainStyle="spread_inside"
+      app:layout_constraintStart_toStartOf="@id/leftBorder16"
+      app:layout_constraintTop_toBottomOf="@+id/playerGenreText" />
+
+  <TextView
+      android:id="@+id/playerCountryName"
+      android:layout_width="wrap_content"
+      android:layout_height="32dp"
+      android:text="@string/duration"
+      android:theme="@style/playlistBright"
+      app:layout_constraintBaseline_toBaselineOf="@+id/playerCountryText"
+      app:layout_constraintEnd_toEndOf="@id/rightBorder16"
+      app:layout_constraintStart_toEndOf="@id/playerCountryText" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
+
+</ScrollView>

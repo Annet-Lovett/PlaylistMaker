@@ -35,11 +35,11 @@ class TrackHolder(item: View, onItemClick: ((track: Track) -> Unit)?) : Recycler
 
         Glide.with(itemView)
             .load(imgUrl)
+            .fitCenter()
+            .centerCrop()
             .transform(RoundedCorners(dpToPx(2f, itemView)))
             .fallback(R.drawable.trackplaceholder)
             .error(R.drawable.trackplaceholder)
-            .fitCenter()
-            .centerCrop()
             .into(trackImage)
 
 
