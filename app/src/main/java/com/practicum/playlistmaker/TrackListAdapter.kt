@@ -1,8 +1,6 @@
 package com.practicum.playlistmaker
-import android.content.Intent
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.core.content.ContextCompat.startActivity
 import androidx.recyclerview.widget.RecyclerView
 
 class TrackListAdapter(): RecyclerView.Adapter<TrackHolder>() {

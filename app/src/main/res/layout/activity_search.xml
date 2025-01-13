@@ -8,16 +8,6 @@
     android:paddingHorizontal="@dimen/normal_padding_size"
     tools:context=".SearchActivity">
 
-    <!--    <com.facebook.shimmer.ShimmerFrameLayout-->
-    <!--        android:id="@+id/shimmer_view"-->
-    <!--        android:layout_width="match_parent"-->
-    <!--        android:layout_height="match_parent"-->
-    <!--        android:layout_gravity="center"-->
-    <!--        android:orientation="vertical"-->
-    <!--        app:layout_constraintBottom_toBottomOf="parent"-->
-    <!--        app:layout_constraintStart_toStartOf="parent"-->
-    <!--        tools:duration="800"/>-->
-
     <com.google.android.material.appbar.MaterialToolbar
         android:id="@+id/buttonSettingsBack"
         android:layout_width="match_parent"
@@ -33,6 +23,7 @@
         app:title="@string/Search" />
 
     <RelativeLayout
+        android:id="@+id/searchBox"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
@@ -60,6 +51,14 @@
             android:src="@drawable/ic_clear"
             android:visibility="gone" />
     </RelativeLayout>
+
+    <ProgressBar android:id="@+id/searchProgressBar"
+        android:layout_width="44dp"
+        android:layout_height="44dp"
+        android:layout_gravity="center"
+        android:indeterminateTint="@color/light_blue"
+        android:visibility="gone"
+        android:layout_marginTop="148dp"/>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerTrack"

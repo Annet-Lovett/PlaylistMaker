@@ -59,12 +59,13 @@
       android:id="@+id/playerTrackImg"
       android:layout_width="0dp"
       android:layout_height="0dp"
-      app:layout_constraintDimensionRatio="1:1"
-      android:layout_marginTop="26dp"
-      android:scaleType="centerCrop"
+      android:layout_marginTop="12dp"
       android:background="@color/transp"
+      android:scaleType="centerCrop"
       android:src="@drawable/trackplaceholder"
+      app:layout_constraintDimensionRatio="1:1"
       app:layout_constraintEnd_toEndOf="@id/rightBorder24"
+      app:layout_constraintHorizontal_bias="0.0"
       app:layout_constraintStart_toStartOf="@id/leftBorder24"
       app:layout_constraintTop_toBottomOf="@+id/playerBackButton" />
 
@@ -94,7 +95,7 @@
       app:layout_constraintStart_toStartOf="@id/leftBorder24"
       app:layout_constraintTop_toBottomOf="@+id/playerNameOfTheTrack" />
 
-  <Button
+  <com.google.android.material.button.MaterialButton
       android:id="@+id/playerButtonPlus"
       style="@style/buttonLikeAdd"
       android:layout_width="51dp"
@@ -106,25 +107,20 @@
       app:layout_constraintStart_toStartOf="@id/leftBorder24"
       app:layout_constraintTop_toBottomOf="@+id/playerNameOfTheArtist" />
 
-  <Button
+  <com.google.android.material.button.MaterialButton
       style="@style/playlistPlayButton"
       android:id="@+id/playerButtonPlay"
-      android:layout_width="100dp"
-      android:layout_height="100dp"
-      android:background="@color/transp"
-      app:iconGravity="textEnd"
-      app:iconPadding="0dp"
-      app:iconSize="83.3dp"
-      app:iconTint="@color/white"
-      app:iconTintMode="multiply"
+      android:layout_width="84dp"
+      android:layout_height="84dp"
+      android:background="@drawable/button_play"
+      android:theme="@style/Base.Theme.PlaylistMaker"
       app:layout_constraintBaseline_toBaselineOf="@+id/playerButtonPlus"
       app:layout_constraintEnd_toStartOf="@id/playerButtonLike"
       app:layout_constraintStart_toEndOf="@+id/playerButtonPlus" />
 
-  <Button
+  <com.google.android.material.button.MaterialButton
       android:id="@+id/playerButtonLike"
       style="@style/buttonLikeAdd"
-
       android:layout_width="51dp"
       android:layout_height="51dp"
       app:icon="@drawable/playlist_like_button"

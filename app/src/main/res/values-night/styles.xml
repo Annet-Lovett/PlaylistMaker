@@ -87,7 +87,7 @@
     </style>
 
     <style name="playlistPlayButton">
-        <item name="icon">@drawable/play_dark_button</item>
+        <item name="backgroundTint">@color/white</item>
     </style>
 
     <style name="playlistActivity">
