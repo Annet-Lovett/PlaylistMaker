@@ -1,5 +1,6 @@
 package com.practicum.playlistmaker
 
+
 import android.content.SharedPreferences
 import android.media.MediaPlayer
 import android.os.Bundle
@@ -36,15 +37,15 @@ class PlayerActivity : AppCompatActivity() {
     private lateinit var countryOfTheTrack: TextView
     private lateinit var likeButton: Button
     private lateinit var addButton: Button
+    private lateinit var playRunnable: Runnable
     private var playerState by Delegates.notNull<Int>()
     private var url: String = ""
     private var mediaPlayer = MediaPlayer()
 
+
     private lateinit var playButton: Button
 
-    private lateinit var autoupdateDurationCallback: AutoupdateDurationCallback
     private val handler = Handler(Looper.getMainLooper())
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -95,6 +96,10 @@ class PlayerActivity : AppCompatActivity() {
             yearOfTheTrack.text = newTrack.releaseDate.substring(0, 4)
             genreOfTheTrack.text = newTrack.primaryGenreName
             countryOfTheTrack.text = newTrack.country
+            currentDuration.text = SimpleDateFormat(
+                DURATION_FORMAT,
+                Locale.getDefault()
+            ).format(newTrack.trackTimeMillis.toLong())
 
 
             if (newTrack.collectionName != null) {
@@ -108,13 +113,25 @@ class PlayerActivity : AppCompatActivity() {
 
         }
 
-        autoupdateDurationCallback =
-            AutoupdateDurationCallback(newTrack?.trackTimeMillis!!.toLong(), currentDuration)
-
         preparePlayer(mediaPlayer, playButton)
+
+
+        playRunnable = Runnable {
+            if (newTrack != null && playerState == STATE_PLAYING) {
+                autoupdateDurationCallback(mediaPlayer, currentDuration)
+                handler.postDelayed(this.playRunnable, REFRESHING_DURATION_TIME)
+            }
+        }
+
 
         playButton.setOnClickListener {
             playbackControl(playerState, playButton)
+        }
+
+
+        mediaPlayer.setOnCompletionListener {
+            handler.removeCallbacks(playRunnable)
+            currentDuration.text = START_TIME
         }
 
         buttonBack.setOnClickListener {
@@ -131,13 +148,14 @@ class PlayerActivity : AppCompatActivity() {
     override fun onDestroy() {
         super.onDestroy()
         mediaPlayer.release()
+        handler.removeCallbacks(playRunnable)
     }
 
     private fun playbackControl(playerState: Int, play: Button) {
         when (playerState) {
             STATE_PLAYING -> {
                 pausePlayer(play)
-                handler.removeCallbacks(autoupdateDurationCallback)
+                handler.removeCallbacks(playRunnable)
             }
 
             STATE_PREPARED, STATE_PAUSED -> {
@@ -148,8 +166,8 @@ class PlayerActivity : AppCompatActivity() {
     }
 
     private fun runAutoupdateDurationView() {
-        handler.removeCallbacks(autoupdateDurationCallback)
-        handler.postDelayed(autoupdateDurationCallback, 300)
+        handler.removeCallbacks(playRunnable)
+        handler.postDelayed(playRunnable, 300)
     }
 
     private fun preparePlayer(mediaPlayer: MediaPlayer, play: Button) {
@@ -176,6 +194,12 @@ class PlayerActivity : AppCompatActivity() {
         playerState = STATE_PAUSED
     }
 
+    private fun autoupdateDurationCallback(player: MediaPlayer, durationView: TextView) {
+
+        durationView.text = SimpleDateFormat("mm:ss", Locale.getDefault()).format(player.currentPosition)
+
+    }
+
 
     private fun createFactFromJson(json: String): Track {
         return Gson().fromJson(json, Track::class.java)
@@ -197,5 +221,8 @@ class PlayerActivity : AppCompatActivity() {
         const val STATE_PLAYING = 2
         const val STATE_PAUSED = 3
         const val DURATION_FORMAT = "mm:ss"
+        const val REFRESHING_DURATION_TIME = 300L
+        const val START_TIME = "00:00"
+
     }
 }
