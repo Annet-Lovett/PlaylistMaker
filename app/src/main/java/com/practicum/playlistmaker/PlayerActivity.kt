@@ -3,6 +3,8 @@ package com.practicum.playlistmaker
 import android.content.SharedPreferences
 import android.media.MediaPlayer
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.util.TypedValue
 import android.view.View
 import android.widget.Button
@@ -39,6 +41,9 @@ class PlayerActivity : AppCompatActivity() {
     private var mediaPlayer = MediaPlayer()
 
     private lateinit var playButton: Button
+
+    private lateinit var autoupdateDurationCallback: AutoupdateDurationCallback
+    private val handler = Handler(Looper.getMainLooper())
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -82,12 +87,8 @@ class PlayerActivity : AppCompatActivity() {
 
             nameOfTheTrack.text = newTrack.trackName
             nameOfTheArtist.text = newTrack.artistName
-            currentDuration.text = SimpleDateFormat(
-                "mm:ss",
-                Locale.getDefault()
-            ).format(newTrack.trackTimeMillis.toLong())
             durationOfTheTrack.text = SimpleDateFormat(
-                "mm:ss",
+                DURATION_FORMAT,
                 Locale.getDefault()
             ).format(newTrack.trackTimeMillis.toLong())
 
@@ -106,6 +107,9 @@ class PlayerActivity : AppCompatActivity() {
             }
 
         }
+
+        autoupdateDurationCallback =
+            AutoupdateDurationCallback(newTrack?.trackTimeMillis!!.toLong(), currentDuration)
 
         preparePlayer(mediaPlayer, playButton)
 
@@ -133,12 +137,19 @@ class PlayerActivity : AppCompatActivity() {
         when (playerState) {
             STATE_PLAYING -> {
                 pausePlayer(play)
+                handler.removeCallbacks(autoupdateDurationCallback)
             }
 
             STATE_PREPARED, STATE_PAUSED -> {
                 startPlayer(play)
+                runAutoupdateDurationView()
             }
         }
+    }
+
+    private fun runAutoupdateDurationView() {
+        handler.removeCallbacks(autoupdateDurationCallback)
+        handler.postDelayed(autoupdateDurationCallback, 300)
     }
 
     private fun preparePlayer(mediaPlayer: MediaPlayer, play: Button) {
@@ -185,5 +196,6 @@ class PlayerActivity : AppCompatActivity() {
         const val STATE_PREPARED = 1
         const val STATE_PLAYING = 2
         const val STATE_PAUSED = 3
+        const val DURATION_FORMAT = "mm:ss"
     }
 }
