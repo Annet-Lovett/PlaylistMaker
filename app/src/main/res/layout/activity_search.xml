@@ -5,27 +5,27 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:paddingHorizontal="@dimen/normal_padding_size"
     tools:context=".SearchActivity">
 
     <com.google.android.material.appbar.MaterialToolbar
         android:id="@+id/buttonSettingsBack"
         android:layout_width="match_parent"
         android:layout_height="56dp"
-        android:layout_marginBottom="24dp"
+        android:layout_marginBottom="8dp"
         android:fontFamily="@font/ys_display_medium"
         android:textColor="@color/dark"
         android:textFontWeight="500"
-        app:contentInsetStart="16dp"
-        app:contentInsetStartWithNavigation="16dp"
+        app:contentInsetStartWithNavigation="24dp"
         app:iconGravity="start"
         app:navigationIcon="@drawable/arrow"
-        app:title="@string/Search" />
+        app:title="@string/Search"/>
 
     <RelativeLayout
         android:id="@+id/searchBox"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:paddingHorizontal="16dp">
+
 
         <EditText
             android:id="@+id/searchInput"
@@ -62,6 +62,7 @@
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerTrack"
+        android:paddingHorizontal="16dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="24dp"
@@ -77,7 +78,8 @@
         android:layout_height="156dp"
         android:layout_marginTop="102dp"
         android:orientation="vertical"
-        android:visibility="gone">
+        android:visibility="gone"
+        android:paddingHorizontal="16dp">
 
         <ImageView
             android:id="@+id/nothingFoundImg"
@@ -103,7 +105,8 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="102dp"
         android:orientation="vertical"
-        android:visibility="gone">
+        android:visibility="gone"
+        android:paddingHorizontal="16dp">
 
         <ImageView
             style="@style/noInternet"
@@ -144,7 +147,8 @@
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:layout_gravity="center"
-        android:visibility="gone">
+        android:visibility="gone"
+        android:paddingHorizontal="16dp">
 
         <TextView
             style="@style/menuSettings"

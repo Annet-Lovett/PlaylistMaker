@@ -42,6 +42,8 @@ class PlayerActivity : AppCompatActivity() {
     private var url: String = ""
     private var mediaPlayer = MediaPlayer()
 
+    private val dateFormat by lazy { SimpleDateFormat(DURATION_FORMAT, Locale.getDefault()).format(mediaPlayer.currentPosition) }
+
 
     private lateinit var playButton: Button
 
@@ -96,10 +98,7 @@ class PlayerActivity : AppCompatActivity() {
             yearOfTheTrack.text = newTrack.releaseDate.substring(0, 4)
             genreOfTheTrack.text = newTrack.primaryGenreName
             countryOfTheTrack.text = newTrack.country
-            currentDuration.text = SimpleDateFormat(
-                DURATION_FORMAT,
-                Locale.getDefault()
-            ).format(newTrack.trackTimeMillis.toLong())
+            currentDuration.text = START_TIME
 
 
             if (newTrack.collectionName != null) {
@@ -195,9 +194,8 @@ class PlayerActivity : AppCompatActivity() {
     }
 
     private fun autoupdateDurationCallback(player: MediaPlayer, durationView: TextView) {
-
-        durationView.text = SimpleDateFormat("mm:ss", Locale.getDefault()).format(player.currentPosition)
-
+        mediaPlayer = player
+        durationView.text = dateFormat
     }
 
 

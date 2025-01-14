@@ -180,6 +180,15 @@ class SearchActivity : AppCompatActivity() {
         if (inputValue.isNotEmpty()) {
             searchProgressBar.visibility = View.VISIBLE
 
+            if(searchProgressBar.visibility == View.VISIBLE) {
+
+                searchHistoryContainer.visibility = View.GONE
+                clearHistoryButton.visibility = View.GONE
+                serverpromlems.visibility = View.GONE
+                nothingFound.visibility = View.GONE
+
+            }
+
             trackService.search(inputValue).enqueue(object :
                 Callback<TrackResponse> {
                 override fun onResponse(
@@ -259,6 +268,11 @@ class SearchActivity : AppCompatActivity() {
         const val KEY_FOR_CURRENT_TRACK = "key_for_current_track"
         private const val SEARCH_DEBOUNCE_DELAY = 2000L
         private const val CLICK_DEBOUNCE_DELAY = 1000L
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        handler.removeCallbacks(searchRunnable)
     }
 
     override fun onRestoreInstanceState(savedInstanceState: Bundle) {
