@@ -42,7 +42,7 @@ class PlayerActivity : AppCompatActivity() {
     private var url: String = ""
     private var mediaPlayer = MediaPlayer()
 
-    private val dateFormat by lazy { SimpleDateFormat(DURATION_FORMAT, Locale.getDefault()).format(mediaPlayer.currentPosition) }
+    private val dateFormat by lazy { SimpleDateFormat(DURATION_FORMAT, Locale.getDefault())}
 
 
     private lateinit var playButton: Button
@@ -131,6 +131,7 @@ class PlayerActivity : AppCompatActivity() {
         mediaPlayer.setOnCompletionListener {
             handler.removeCallbacks(playRunnable)
             currentDuration.text = START_TIME
+            playButton.setBackgroundResource(R.drawable.button_play)
         }
 
         buttonBack.setOnClickListener {
@@ -195,7 +196,7 @@ class PlayerActivity : AppCompatActivity() {
 
     private fun autoupdateDurationCallback(player: MediaPlayer, durationView: TextView) {
         mediaPlayer = player
-        durationView.text = dateFormat
+        durationView.text = dateFormat.format(mediaPlayer.currentPosition)
     }
 
 
