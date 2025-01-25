@@ -137,14 +137,11 @@
     </style>
 
     <style name="playlistPlayButton">
-        <item name="icon">@drawable/button_play</item>
+        <item name="backgroundTint">@color/black</item>
     </style>
 
     <style name="playlistActivity">
         <item name="background">@color/white</item>
     </style>
-
-
-
 
 </resources>

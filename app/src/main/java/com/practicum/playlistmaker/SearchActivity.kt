@@ -1,14 +1,18 @@
 package com.practicum.playlistmaker
+
 import android.content.Intent
 import android.content.SharedPreferences
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.view.View
 import android.view.inputmethod.EditorInfo
 import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageButton
 import android.widget.LinearLayout
+import android.widget.ProgressBar
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.edit
 import androidx.core.view.isVisible
 import androidx.core.widget.addTextChangedListener
@@ -38,8 +42,11 @@ class SearchActivity : AppCompatActivity() {
     private lateinit var clearHistoryButton: Button
     private lateinit var searchHistoryContainer: LinearLayout
     private lateinit var sharedPreferences: SharedPreferences
+    private lateinit var searchProgressBar: ProgressBar
 
-    private val  trackHistoryList by lazy {
+    private var isClickAllowed = true
+
+    private val trackHistoryList by lazy {
         getSearchHistory()
     }
 
@@ -56,6 +63,8 @@ class SearchActivity : AppCompatActivity() {
 
     private val trackService = retrofit.create(PlaylistApi::class.java)
 
+    private val handler = Handler(Looper.getMainLooper())
+
     override fun onCreate(savedInstanceState: Bundle?) {
 
         super.onCreate(savedInstanceState)
@@ -71,44 +80,31 @@ class SearchActivity : AppCompatActivity() {
         trackHistoryRecycler = findViewById(R.id.historyRecycler)
         clearHistoryButton = findViewById(R.id.clearHistoryButton)
         searchHistoryContainer = findViewById(R.id.searchingHistoryContainer)
+        searchProgressBar = findViewById(R.id.searchProgressBar)
 
         sharedPreferences = getSharedPreferences(KEY_FOR_SETTINGS, MODE_PRIVATE)
 
         recyclerTrack.adapter = trackAdapter
         trackAdapter.subList(listOfTracks)
 
-        trackAdapter.onItemClick =  {
-            track ->
+        trackAdapter.onItemClick = { track ->
             recordTrack(track)
-
-            val playerActivityIntent = Intent(this, PlayerActivity::class.java)
-            startActivity(playerActivityIntent)
-
-            sharedPreferences.edit()
-                .putString(KEY_FOR_CURRENT_TRACK, createJsonFromFactsList(track))
-                .apply()
+            startPlayerActivity(track)
         }
 
         trackHistoryRecycler.adapter = trackHistoryAdapter
         trackHistoryAdapter.subList(trackHistoryList)
 
-        trackHistoryAdapter.onItemClick = {
-
-            track -> sharedPreferences.edit()
-            .putString(KEY_FOR_CURRENT_TRACK, createJsonFromFactsList(track))
-            .apply()
-
-            val playerActivityIntent = Intent(this, PlayerActivity::class.java)
-            startActivity(playerActivityIntent)
-
-
+        trackHistoryAdapter.onItemClick = { track ->
+            startPlayerActivity(track)
         }
 
         searchInput.addTextChangedListener(
-            onTextChanged = {s: CharSequence?, _, _, _ ->
-                    buttonClear.isVisible = !s.isNullOrEmpty()
-                    inputValue = s.toString()
-        })
+            onTextChanged = { s: CharSequence?, _, _, _ ->
+                searchDebounce()
+                buttonClear.isVisible = !s.isNullOrEmpty()
+                inputValue = s.toString()
+            })
 
         searchInput.setOnEditorActionListener { _, actionId, _ ->
             if (actionId == EditorInfo.IME_ACTION_DONE) {
@@ -119,7 +115,8 @@ class SearchActivity : AppCompatActivity() {
         }
 
         searchInput.setOnFocusChangeListener { view, hasFocus ->
-            searchHistoryContainer.isVisible = hasFocus && searchInput.text.isEmpty() && trackHistoryList.isNotEmpty()
+            searchHistoryContainer.isVisible =
+                hasFocus && searchInput.text.isEmpty() && trackHistoryList.isNotEmpty()
         }
 
         refreshButton.setOnClickListener {
@@ -136,30 +133,69 @@ class SearchActivity : AppCompatActivity() {
             finish()
         }
 
-        clearHistoryButton.setOnClickListener{
+        clearHistoryButton.setOnClickListener {
             trackHistoryList.clear()
             searchHistoryContainer.visibility = View.GONE
             saveHistory()
         }
     }
 
-    private fun getSearchHistory(): MutableList<Track>{
+    private fun startPlayerActivity(track: Track) {
+        if (clickDebounce()) {
+            sharedPreferences.edit()
+                .putString(KEY_FOR_CURRENT_TRACK, Gson().toJson(track))
+                .apply()
+            val playerActivityIntent = Intent(this, PlayerActivity::class.java)
+            startActivity(playerActivityIntent)
+        }
+    }
+
+    private fun clickDebounce(): Boolean {
+        val current = isClickAllowed
+        if (isClickAllowed) {
+            isClickAllowed = false
+            handler.postDelayed({ isClickAllowed = true }, CLICK_DEBOUNCE_DELAY)
+        }
+        return current
+    }
+
+    private val searchRunnable = Runnable { enreachAndViewTracks() }
+
+    private fun searchDebounce() {
+        handler.removeCallbacks(searchRunnable)
+        handler.postDelayed(searchRunnable, SEARCH_DEBOUNCE_DELAY)
+    }
+
+    private fun getSearchHistory(): MutableList<Track> {
         val prefsHistory = sharedPreferences.getString(KEY_FOR_HISTORY_LIST_TRACK, null)
 
         return if (!prefsHistory.isNullOrBlank()) {
-            Gson().fromJson(prefsHistory, object : TypeToken<List<Track>>() {}.type) ?: mutableListOf()
+            Gson().fromJson(prefsHistory, object : TypeToken<List<Track>>() {}.type)
+                ?: mutableListOf()
         } else mutableListOf()
     }
 
     private fun enreachAndViewTracks() {
 
         if (inputValue.isNotEmpty()) {
+            searchProgressBar.visibility = View.VISIBLE
+
+            if(searchProgressBar.visibility == View.VISIBLE) {
+
+                searchHistoryContainer.visibility = View.GONE
+                clearHistoryButton.visibility = View.GONE
+                serverpromlems.visibility = View.GONE
+                nothingFound.visibility = View.GONE
+
+            }
+
             trackService.search(inputValue).enqueue(object :
                 Callback<TrackResponse> {
                 override fun onResponse(
                     call: Call<TrackResponse>,
-                    response: Response<TrackResponse>
+                    response: Response<TrackResponse>,
                 ) {
+                    searchProgressBar.visibility = View.GONE
                     if (response.code() == 200) {
                         listOfTracks.clear()
                         if (response.body()?.results?.isNotEmpty() == true) {
@@ -177,6 +213,7 @@ class SearchActivity : AppCompatActivity() {
                 }
 
                 override fun onFailure(call: Call<TrackResponse>, t: Throwable) {
+                    searchProgressBar.visibility = View.GONE
                     recyclerTrack.visibility = View.GONE
                     showMessage(SERVER_PROBLEMS)
                 }
@@ -200,7 +237,7 @@ class SearchActivity : AppCompatActivity() {
     private fun recordTrack(track: Track) {
 
         trackHistoryList.apply {
-            removeIf{ it.trackId == track.trackId}
+            removeIf { it.trackId == track.trackId }
             add(0, track)
             if (size > 10) removeLast()
         }
@@ -214,11 +251,6 @@ class SearchActivity : AppCompatActivity() {
             putString(KEY_FOR_HISTORY_LIST_TRACK, Gson().toJson(trackHistoryList))
         }
     }
-
-    private fun createJsonFromFactsList(track: Track): String {
-        return Gson().toJson(track)
-    }
-
 
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
@@ -234,6 +266,13 @@ class SearchActivity : AppCompatActivity() {
         const val KEY_FOR_SETTINGS = "key_for_settings"
         const val KEY_FOR_HISTORY_LIST_TRACK = "key_for_history_list_preferences"
         const val KEY_FOR_CURRENT_TRACK = "key_for_current_track"
+        private const val SEARCH_DEBOUNCE_DELAY = 2000L
+        private const val CLICK_DEBOUNCE_DELAY = 1000L
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        handler.removeCallbacks(searchRunnable)
     }
 
     override fun onRestoreInstanceState(savedInstanceState: Bundle) {
