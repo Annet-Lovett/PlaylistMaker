@@ -1,4 +1,4 @@
-package com.practicum.playlistmaker
+package com.practicum.playlistmaker.ui.settings
 
 
 import android.content.Intent
@@ -9,6 +9,8 @@ import android.widget.Button
 import android.widget.Switch
 import androidx.appcompat.app.AppCompatActivity
 import com.google.android.material.appbar.MaterialToolbar
+import com.practicum.playlistmaker.data.dto.App
+import com.practicum.playlistmaker.R
 
 class SettingsActivity : AppCompatActivity() {
 

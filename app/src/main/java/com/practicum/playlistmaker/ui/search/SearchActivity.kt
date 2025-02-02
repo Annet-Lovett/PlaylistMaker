@@ -1,4 +1,4 @@
-package com.practicum.playlistmaker
+package com.practicum.playlistmaker.ui.search
 
 import android.content.Intent
 import android.content.SharedPreferences
@@ -20,15 +20,14 @@ import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.appbar.MaterialToolbar
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
-import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
+import com.practicum.playlistmaker.Creator
+import com.practicum.playlistmaker.R
+import com.practicum.playlistmaker.domain.models.Track
+import com.practicum.playlistmaker.domain.api.TrackInteractor
+import com.practicum.playlistmaker.ui.player.PlayerActivity
 
 class SearchActivity : AppCompatActivity() {
 
-    private val baseTrackUrl = BASE_URL
     private var inputValue: String = VALUE_DEF
 
     private lateinit var buttonBack: MaterialToolbar
@@ -51,17 +50,9 @@ class SearchActivity : AppCompatActivity() {
     }
 
     private val listOfTracks = ArrayList<Track>()
-    private val trackAdapter = TrackListAdapter()
+    private val trackAdapter = SearchTrackListAdapter()
 
-    private val trackHistoryAdapter = TrackListAdapter()
-
-
-    private val retrofit = Retrofit.Builder()
-        .baseUrl(baseTrackUrl)
-        .addConverterFactory(GsonConverterFactory.create())
-        .build()
-
-    private val trackService = retrofit.create(PlaylistApi::class.java)
+    private val trackHistoryAdapter = SearchTrackListAdapter()
 
     private val handler = Handler(Looper.getMainLooper())
 
@@ -175,49 +166,45 @@ class SearchActivity : AppCompatActivity() {
         } else mutableListOf()
     }
 
+
     private fun enreachAndViewTracks() {
 
         if (inputValue.isNotEmpty()) {
+
             searchProgressBar.visibility = View.VISIBLE
+            searchHistoryContainer.visibility = View.GONE
+            clearHistoryButton.visibility = View.GONE
+            serverpromlems.visibility = View.GONE
+            nothingFound.visibility = View.GONE
+            recyclerTrack.visibility = View.GONE
 
-            if(searchProgressBar.visibility == View.VISIBLE) {
+            val trackInteractor = Creator.provideTrackInteractor()
 
-                searchHistoryContainer.visibility = View.GONE
-                clearHistoryButton.visibility = View.GONE
-                serverpromlems.visibility = View.GONE
-                nothingFound.visibility = View.GONE
-
-            }
-
-            trackService.search(inputValue).enqueue(object :
-                Callback<TrackResponse> {
-                override fun onResponse(
-                    call: Call<TrackResponse>,
-                    response: Response<TrackResponse>,
-                ) {
-                    searchProgressBar.visibility = View.GONE
-                    if (response.code() == 200) {
+            trackInteractor.searchTrack(inputValue, object: TrackInteractor.TrackConsumer {
+                override fun consume(foundTracks: List<Track>?) {
+                    handler.post {
                         listOfTracks.clear()
-                        if (response.body()?.results?.isNotEmpty() == true) {
+                        if (!foundTracks.isNullOrEmpty()) {
+                            searchProgressBar.visibility = View.GONE
                             recyclerTrack.visibility = View.VISIBLE
-                            listOfTracks.addAll(response.body()?.results!!.toList())
+                            listOfTracks.addAll(foundTracks)
                             trackAdapter.notifyDataSetChanged()
                         }
-                        if (listOfTracks.isEmpty()) {
+                        if (foundTracks != null && foundTracks.isEmpty() ) {
+                            searchProgressBar.visibility = View.GONE
+                            recyclerTrack.visibility = View.GONE
                             showMessage(NOTHING_FOUND)
                         }
-                    } else {
-                        recyclerTrack.visibility = View.GONE
-                        showMessage(SERVER_PROBLEMS)
+
+                        if (foundTracks == null) {
+                            searchProgressBar.visibility = View.GONE
+                            recyclerTrack.visibility = View.GONE
+                            showMessage(SERVER_PROBLEMS)
+                        }
                     }
                 }
-
-                override fun onFailure(call: Call<TrackResponse>, t: Throwable) {
-                    searchProgressBar.visibility = View.GONE
-                    recyclerTrack.visibility = View.GONE
-                    showMessage(SERVER_PROBLEMS)
-                }
             })
+
         }
     }
 
@@ -225,7 +212,6 @@ class SearchActivity : AppCompatActivity() {
         if (text == NOTHING_FOUND) {
             nothingFound.visibility = View.VISIBLE
             listOfTracks.clear()
-
         }
 
         if (text == SERVER_PROBLEMS) {
@@ -260,7 +246,6 @@ class SearchActivity : AppCompatActivity() {
     companion object {
         const val INPUT_AMOUNT = "INPUT_AMOUNT"
         const val VALUE_DEF = ""
-        const val BASE_URL = "https://itunes.apple.com"
         const val NOTHING_FOUND = "nothing_found"
         const val SERVER_PROBLEMS = "server_problems"
         const val KEY_FOR_SETTINGS = "key_for_settings"
