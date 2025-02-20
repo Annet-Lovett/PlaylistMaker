@@ -13,7 +13,14 @@ sealed interface SearchScreenState {
 
     object Empty: SearchScreenState
 
-    object History: SearchScreenState
+//    class History: HistoryState
 
     data class Content(val trackList: List<Track>): SearchScreenState
+}
+
+sealed interface HistoryState: SearchScreenState {
+
+    object Empty: HistoryState
+
+    data class Data(val trackHistoryList: List<Track>): HistoryState
 }

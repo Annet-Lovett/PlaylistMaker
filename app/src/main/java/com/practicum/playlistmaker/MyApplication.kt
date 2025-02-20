@@ -13,15 +13,11 @@ import com.practicum.playlistmaker.sharing.domain.api.TrackRepository
 
 class MyApplication : Application() {
 
-
-    private lateinit var sharedPreferences: SharedPreferences
-
     override fun onCreate() {
         super.onCreate()
         sharedPreferences = getSharedPreferences(KEY_FOR_SETTINGS, MODE_PRIVATE)
         switchTheme(sharedPreferences.getBoolean(KEY_FOR_THE_CURRENT_THEME_STATE, false))
     }
-
 
     fun switchTheme(darkThemeEnabled: Boolean) {
         AppCompatDelegate.setDefaultNightMode(
@@ -35,6 +31,7 @@ class MyApplication : Application() {
     }
 
     companion object {
+        lateinit var sharedPreferences: SharedPreferences
         const val KEY_FOR_SETTINGS = "key_for_settings"
         const val KEY_FOR_THE_CURRENT_THEME_STATE = "KEY_FOR_THE_CURRENT_THEME_STATE"
     }

@@ -23,6 +23,7 @@ import com.practicum.playlistmaker.creator.Creator
 import com.practicum.playlistmaker.databinding.ActivitySearchBinding
 import com.practicum.playlistmaker.domain.models.Track
 import com.practicum.playlistmaker.player.ui.PlayerActivity
+import com.practicum.playlistmaker.search.data.HistoryState
 import com.practicum.playlistmaker.search.data.ScreenState
 import com.practicum.playlistmaker.search.data.SearchScreenState
 import com.practicum.playlistmaker.search.domain.SearchViewModel
@@ -47,9 +48,9 @@ class SearchActivity : ComponentActivity() {
 
     private var isClickAllowed = true
 
-    private val trackHistoryList by lazy {
-        getSearchHistory()
-    }
+//    private val trackHistoryList by lazy {
+//        getSearchHistory()
+//    }
     private val viewModel by lazy { ViewModelProvider(this)[SearchViewModel::class] }
 
 
@@ -92,12 +93,12 @@ class SearchActivity : ComponentActivity() {
 //        trackAdapter.subList(listOfTracks)
 
         trackAdapter.onItemClick = { track ->
-            recordTrack(track)
+            viewModel.saveTrack(track)
             startPlayerActivity(track)
         }
 
         trackHistoryRecycler.adapter = trackHistoryAdapter
-        trackHistoryAdapter.subList(trackHistoryList)
+//        trackHistoryAdapter.subList(trackHistoryList)
 
         trackHistoryAdapter.onItemClick = { track ->
             startPlayerActivity(track)
@@ -124,9 +125,10 @@ class SearchActivity : ComponentActivity() {
         }
 
         clearHistoryButton.setOnClickListener {
-            trackHistoryList.clear()
-            searchHistoryContainer.isVisible = false
-            saveHistory()
+//            trackHistoryList.clear()
+//            searchHistoryContainer.isVisible = false
+//            saveHistory()
+            viewModel.clearHistory()
         }
 
         viewModel.getScreenStateLiveData().observe(this) {
@@ -160,30 +162,41 @@ class SearchActivity : ComponentActivity() {
             }
 
             is SearchScreenState.Empty -> {
-                searchProgressBar.isVisible = true
+                searchProgressBar.isVisible = false
                 searchHistoryContainer.isVisible = false
                 clearHistoryButton.isVisible = false
                 serverpromlems.isVisible = false
-                nothingFound.isVisible = false
+                nothingFound.isVisible = true
                 recyclerTrack.isVisible = false
             }
 
             is SearchScreenState.Error -> {
-                searchProgressBar.isVisible = true
+                searchProgressBar.isVisible = false
                 searchHistoryContainer.isVisible = false
                 clearHistoryButton.isVisible = false
-                serverpromlems.isVisible = false
+                serverpromlems.isVisible = true
                 nothingFound.isVisible = false
                 recyclerTrack.isVisible = false
             }
 
-            is SearchScreenState.History -> {
+            is HistoryState -> {
                 searchProgressBar.isVisible = false
                 searchHistoryContainer.isVisible = true
-                clearHistoryButton.isVisible = true
                 serverpromlems.isVisible = false
                 nothingFound.isVisible = false
                 recyclerTrack.isVisible = false
+
+                when(screenState.searchState) {
+                    is HistoryState.Empty -> {
+                        clearHistoryButton.isVisible = false
+                        trackHistoryAdapter.subList(listOf())
+                    }
+                    is HistoryState.Data -> {
+                        clearHistoryButton.isVisible = true
+                        trackHistoryAdapter.subList(screenState.searchState.trackHistoryList)
+
+                    }
+                }
             }
 
         }
@@ -217,7 +230,7 @@ class SearchActivity : ComponentActivity() {
 
         binding.searchInput.setOnFocusChangeListener { view, hasFocus ->
             searchHistoryContainer.isVisible =
-                hasFocus && binding.searchInput.text.isEmpty() && trackHistoryList.isNotEmpty()
+                hasFocus && binding.searchInput.text.isEmpty()// && trackHistoryList.isNotEmpty()
         }
     }
 
@@ -316,23 +329,23 @@ class SearchActivity : ComponentActivity() {
 //        }
 //    }
 
-    private fun recordTrack(track: Track) {
+//    private fun recordTrack(track: Track) {
+//
+//        trackHistoryList.apply {
+//            removeIf { it.trackId == track.trackId }
+//            add(0, track)
+//            if (size > 10) removeLast()
+//        }
+//
+//        saveHistory()
+//
+//    }
 
-        trackHistoryList.apply {
-            removeIf { it.trackId == track.trackId }
-            add(0, track)
-            if (size > 10) removeLast()
-        }
-
-        saveHistory()
-
-    }
-
-    private fun saveHistory() {
-        sharedPreferences.edit {
-            putString(KEY_FOR_HISTORY_LIST_TRACK, Gson().toJson(trackHistoryList))
-        }
-    }
+//    private fun saveHistory() {
+//        sharedPreferences.edit {
+//            putString(KEY_FOR_HISTORY_LIST_TRACK, Gson().toJson(trackHistoryList))
+//        }
+//    }
 
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)

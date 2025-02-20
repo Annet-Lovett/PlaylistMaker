@@ -5,7 +5,9 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.practicum.playlistmaker.creator.Creator
 import com.practicum.playlistmaker.domain.models.Track
+import com.practicum.playlistmaker.search.data.HistoryState
 import com.practicum.playlistmaker.search.data.ScreenState
+import com.practicum.playlistmaker.search.data.SearchPrefs
 import com.practicum.playlistmaker.search.data.SearchScreenState
 import com.practicum.playlistmaker.sharing.domain.api.TrackInteractor
 import java.util.concurrent.Executors
@@ -14,7 +16,21 @@ import java.util.concurrent.TimeUnit
 
 class SearchViewModel() : ViewModel() {
 
-    private val screenStateLiveData = MutableLiveData(ScreenState(false, SearchScreenState.History))
+    private val searchPrefs = SearchPrefs()
+
+    private val screenStateLiveData = MutableLiveData(
+        ScreenState(false, historyState)
+    )
+
+    private val historyState: HistoryState get(){
+        return if(searchPrefs.getHistory().isEmpty()) {
+            HistoryState.Empty
+        }
+
+        else{
+           HistoryState.Data(searchPrefs.getHistory())
+        }
+    }
 
     private val interactor = Creator.provideTrackInteractor()
 
@@ -40,7 +56,9 @@ class SearchViewModel() : ViewModel() {
         )
 
         if(request.isEmpty()){
-            screenStateLiveData.value = screenStateLiveData.value!!.copy(searchState = SearchScreenState.History)
+            screenStateLiveData.value = screenStateLiveData.value!!.copy(
+                searchState = historyState
+            )
             return
         }
 
@@ -95,6 +113,19 @@ class SearchViewModel() : ViewModel() {
         }
 
         screenStateLiveData.value = screenStateLiveData.value!!.copy(searchState = SearchScreenState.Loading)
+
+    }
+
+    fun saveTrack(track: Track){
+        searchPrefs.recordTrack(track)
+    }
+
+    fun clearHistory(){
+
+        searchPrefs.clearHistory()
+        screenStateLiveData.value = screenStateLiveData.value!!.copy(
+            searchState = HistoryState.Empty
+        )
 
     }
 
