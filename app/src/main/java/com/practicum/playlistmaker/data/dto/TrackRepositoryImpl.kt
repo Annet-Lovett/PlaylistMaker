@@ -1,13 +1,13 @@
 package com.practicum.playlistmaker.data.dto
 
 import com.practicum.playlistmaker.data.NetworkClient
-import com.practicum.playlistmaker.domain.api.TrackRepository
+import com.practicum.playlistmaker.sharing.domain.api.TrackRepository
 import com.practicum.playlistmaker.domain.models.Track
 
 class TrackRepositoryImpl(private  val networkClient: NetworkClient) : TrackRepository {
 
     override fun searchTracks(request: String): List<Track>? {
-        val response: Response = networkClient.doRequest(TrackRequest(request))
+        val response = networkClient.doRequest(TrackRequest(request))
 
             if (response.resultCode == 200 && (response as TrackResponse).results.isNotEmpty()) {
 

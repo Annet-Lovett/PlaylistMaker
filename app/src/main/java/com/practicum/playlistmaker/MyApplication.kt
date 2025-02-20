@@ -1,10 +1,17 @@
-package com.practicum.playlistmaker.data.dto
+package com.practicum.playlistmaker
 
 import android.app.Application
 import android.content.SharedPreferences
 import androidx.appcompat.app.AppCompatDelegate
+import com.practicum.playlistmaker.data.dto.TrackRepositoryImpl
+import com.practicum.playlistmaker.data.network.RetrofitNetworkClient
+import com.practicum.playlistmaker.domain.impl.TrackInteractorImpl
+import com.practicum.playlistmaker.domain.impl.TrackPlayerImpl
+import com.practicum.playlistmaker.sharing.domain.api.TrackInteractor
+import com.practicum.playlistmaker.sharing.domain.api.TrackPlayer
+import com.practicum.playlistmaker.sharing.domain.api.TrackRepository
 
-class App : Application() {
+class MyApplication : Application() {
 
 
     private lateinit var sharedPreferences: SharedPreferences
@@ -32,6 +39,19 @@ class App : Application() {
         const val KEY_FOR_THE_CURRENT_THEME_STATE = "KEY_FOR_THE_CURRENT_THEME_STATE"
     }
 
+    fun getRepository(): TrackRepository {
+        return TrackRepositoryImpl(RetrofitNetworkClient())
+    }
+
+    fun provideTracksInteractor(): TrackInteractor {
+        return TrackInteractorImpl(getRepository())
+    }
+
+    fun provideTrackPlayer(): TrackPlayer {
+        return TrackPlayerImpl()
+    }
 }
+
+
 
 

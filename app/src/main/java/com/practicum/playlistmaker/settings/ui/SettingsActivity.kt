@@ -1,27 +1,29 @@
-package com.practicum.playlistmaker.ui.settings
+package com.practicum.playlistmaker.settings.ui
 
 
 import android.content.Intent
 import android.content.SharedPreferences
 import android.net.Uri
 import android.os.Bundle
-import android.widget.Button
 import android.widget.Switch
 import androidx.appcompat.app.AppCompatActivity
-import com.google.android.material.appbar.MaterialToolbar
-import com.practicum.playlistmaker.data.dto.App
+import com.practicum.playlistmaker.MyApplication
 import com.practicum.playlistmaker.R
+import com.practicum.playlistmaker.databinding.ActivitySettingsBinding
 
 class SettingsActivity : AppCompatActivity() {
 
     private lateinit var switchTheme: Switch
     private lateinit var sharedPreferences: SharedPreferences
+    private lateinit var binding: ActivitySettingsBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_settings)
 
-        val backButton = findViewById<MaterialToolbar>(R.id.buttonSettingsBack)
+        binding = ActivitySettingsBinding.inflate(layoutInflater)
+        setContentView(binding.root)
+
+        val backButton = binding.buttonSettingsBack
 
         backButton.setNavigationOnClickListener {
             finish()
@@ -37,12 +39,12 @@ class SettingsActivity : AppCompatActivity() {
             sharedPreferences.edit()
                 .putBoolean(KEY_FOR_THE_CURRENT_THEME_STATE, checked)
                 .apply()
-            (applicationContext as App).switchTheme(sharedPreferences.getBoolean(
+            (applicationContext as MyApplication).switchTheme(sharedPreferences.getBoolean(
                 KEY_FOR_THE_CURRENT_THEME_STATE, false))
         }
 
 
-        val shareBtn = findViewById<Button>(R.id.btnShareSettings)
+        val shareBtn = binding.btnShareSettings
 
         shareBtn.setOnClickListener {
             val sendIntent: Intent = Intent().apply {
@@ -56,7 +58,7 @@ class SettingsActivity : AppCompatActivity() {
 
         }
 
-        val writeBtn = findViewById<Button>(R.id.btnWriteToSupportSettings)
+        val writeBtn = binding.btnWriteToSupportSettings
 
         writeBtn.setOnClickListener {
             val message = getString(R.string.message_to_support)
@@ -69,7 +71,7 @@ class SettingsActivity : AppCompatActivity() {
             startActivity(shareIntent)
         }
 
-        val btnTermsOfUse = findViewById<Button>(R.id.btnTermsOfUseSettings)
+        val btnTermsOfUse = binding.btnTermsOfUseSettings
 
         btnTermsOfUse.setOnClickListener{
             val intent = Intent(Intent.ACTION_VIEW).apply {

@@ -1,9 +1,9 @@
-package com.practicum.playlistmaker
+package com.practicum.playlistmaker.creator
 
 import com.practicum.playlistmaker.data.dto.TrackRepositoryImpl
 import com.practicum.playlistmaker.data.network.RetrofitNetworkClient
-import com.practicum.playlistmaker.domain.api.TrackInteractor
-import com.practicum.playlistmaker.domain.api.TrackRepository
+import com.practicum.playlistmaker.sharing.domain.api.TrackInteractor
+import com.practicum.playlistmaker.sharing.domain.api.TrackRepository
 import com.practicum.playlistmaker.domain.impl.TrackInteractorImpl
 
 object Creator {

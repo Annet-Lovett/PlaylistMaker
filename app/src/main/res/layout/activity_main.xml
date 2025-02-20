@@ -21,19 +21,19 @@
         android:textFontWeight="500"/>
 
     <Button
-        android:id="@+id/buttonsearch1"
+        android:id="@+id/button_main_search"
         style="@style/buttonMainStyle"
         android:text="@string/Search"
         app:icon="@drawable/search" />
 
     <Button
-        android:id="@+id/buttonmedia1"
+        android:id="@+id/button_main_media"
         style="@style/buttonMainStyle"
         android:text="@string/Mediateka"
         app:icon="@drawable/media" />
 
     <Button
-        android:id="@+id/buttonsettings1"
+        android:id="@+id/button_main_settings"
         android:text="@string/Settings"
         app:icon="@drawable/settings"
         style="@style/buttonMainStyle"/>

@@ -1,25 +1,23 @@
-package com.practicum.playlistmaker.ui.search
+package com.practicum.playlistmaker.search.ui
 
 import android.util.TypedValue
 import android.view.View
-import android.widget.ImageView
-import android.widget.LinearLayout
-import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.practicum.playlistmaker.R
+import com.practicum.playlistmaker.databinding.TrackItemBinding
 import com.practicum.playlistmaker.domain.models.Track
 import java.text.SimpleDateFormat
 import java.util.Locale
 
-class SearchTrackHolder(item: View, onItemClick: ((track: Track) -> Unit)?) : RecyclerView.ViewHolder(item) {
+class SearchTrackHolder(private val binding: TrackItemBinding, onItemClick: ((track: Track) -> Unit)?) : RecyclerView.ViewHolder(binding.root) {
 
-    private val fullTrack = item.findViewById<LinearLayout>(R.id.fullTrack)
-    private val trackImage = item.findViewById<ImageView>(R.id.trackImage)
-    private val nameOfTheTrack = item.findViewById<TextView>(R.id.nameOfTheTrack)
-    private val nameOfTheArtist = item.findViewById<TextView>(R.id.nameOfTheArtist)
-    private val durationOfTheTrack = item.findViewById<TextView>(R.id.durationOfTheTrack)
+    private val fullTrack = binding.fullTrack
+    private val trackImage = binding.trackImage
+    private val nameOfTheTrack = binding.nameOfTheTrack
+    private val nameOfTheArtist = binding.nameOfTheArtist
+    private val durationOfTheTrack = binding.durationOfTheTrack
 
     fun bind(track: Track) {
         val imgUrl = track.artworkUrl100
