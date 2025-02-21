@@ -31,9 +31,7 @@ import com.practicum.playlistmaker.sharing.domain.api.TrackInteractor
 
 class SearchActivity : ComponentActivity() {
 
-    private var inputValue: String = VALUE_DEF
-
-    private lateinit var buttonBack: MaterialToolbar
+//    private lateinit var buttonBack: MaterialToolbar //TODO аналагично убрать все поля
     private lateinit var buttonClear: ImageButton
     lateinit var recyclerTrack: RecyclerView
     private lateinit var nothingFound: LinearLayout
@@ -42,11 +40,15 @@ class SearchActivity : ComponentActivity() {
     private lateinit var trackHistoryRecycler: RecyclerView
     private lateinit var clearHistoryButton: Button
     private lateinit var searchHistoryContainer: LinearLayout
-    private lateinit var sharedPreferences: SharedPreferences
     private lateinit var searchProgressBar: ProgressBar
     private lateinit var binding: ActivitySearchBinding
 
     private var isClickAllowed = true
+    private val inputValue: String get() = binding.searchInput.text.toString()
+
+//    private fun getInputValue2 (): String {
+//        return binding.searchInput.text.toString()
+//    }
 
 //    private val trackHistoryList by lazy {
 //        getSearchHistory()
@@ -54,7 +56,7 @@ class SearchActivity : ComponentActivity() {
     private val viewModel by lazy { ViewModelProvider(this)[SearchViewModel::class] }
 
 
-//    private val listOfTracks = ArrayList<Track>()
+//  private val listOfTracks = ArrayList<Track>()
     private val trackAdapter = SearchTrackListAdapter()
 
     private val trackHistoryAdapter = SearchTrackListAdapter()
@@ -68,11 +70,11 @@ class SearchActivity : ComponentActivity() {
         binding = ActivitySearchBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        buttonBack = binding.buttonSettingsBack
+//        buttonBack = binding.buttonSettingsBack
         buttonClear = binding.buttonClear
         recyclerTrack = binding.recyclerTrack
         nothingFound = binding.nothingFound
-        serverpromlems = binding.nothingFound
+        serverpromlems = binding.serverProblems
         refreshButton = binding.refreshButtonSearch
         trackHistoryRecycler = binding.historyRecycler
         clearHistoryButton = binding.clearHistoryButton
@@ -80,13 +82,6 @@ class SearchActivity : ComponentActivity() {
         searchProgressBar = binding.searchProgressBar
 
         initInput()
-
-//        viewModel.getScreenStateLiveData().observe(this) { screenState ->
-//
-//        }
-
-
-        sharedPreferences = getSharedPreferences(KEY_FOR_SETTINGS, MODE_PRIVATE)
 
         recyclerTrack.adapter = trackAdapter
 
@@ -101,6 +96,7 @@ class SearchActivity : ComponentActivity() {
 //        trackHistoryAdapter.subList(trackHistoryList)
 
         trackHistoryAdapter.onItemClick = { track ->
+            viewModel.saveTrack(track)
             startPlayerActivity(track)
         }
 
@@ -109,10 +105,10 @@ class SearchActivity : ComponentActivity() {
         refreshButton.setOnClickListener {
 //            serverpromlems.isVisible = false
 //            enreachAndViewTracks()
-            viewModel.loadListOfTheTracks(inputValue)
-            if (viewModel.listOfFoundTracks.isNullOrEmpty()) {
+            viewModel.enterSearch(inputValue)
+//            if (viewModel.listOfFoundTracks.isNullOrEmpty()) {
 //                listOfTracks.addAll(viewModel.listOfFoundTracks)
-            }
+//            }
         }
 
         buttonClear.setOnClickListener {
@@ -120,7 +116,7 @@ class SearchActivity : ComponentActivity() {
             recyclerTrack.isVisible = false
         }
 
-        buttonBack.setNavigationOnClickListener {
+        binding.buttonSettingsBack.setNavigationOnClickListener {
             finish()
         }
 
@@ -134,7 +130,6 @@ class SearchActivity : ComponentActivity() {
         viewModel.getScreenStateLiveData().observe(this) {
             renderState(it)
         }
-
     }
 
     private fun renderState(screenState: ScreenState) {
@@ -142,6 +137,15 @@ class SearchActivity : ComponentActivity() {
         buttonClear.isVisible = screenState.showClear
 
         when (screenState.searchState) {
+            is SearchScreenState.Initial -> {
+                searchProgressBar.isVisible = false
+                searchHistoryContainer.isVisible = false
+                clearHistoryButton.isVisible = false
+                serverpromlems.isVisible = false
+                nothingFound.isVisible = false
+                recyclerTrack.isVisible = false
+            }
+
             is SearchScreenState.Content -> {
                 searchProgressBar.isVisible = false
                 searchHistoryContainer.isVisible = false
@@ -207,38 +211,21 @@ class SearchActivity : ComponentActivity() {
         binding.searchInput.addTextChangedListener {
             viewModel.inputChange(it.toString())
         }
-
-//        binding.searchInput.addTextChangedListener(
-//            onTextChanged = { s: CharSequence?, _, _, _ ->
-//                searchDebounce()
-//                buttonClear.isVisible = !s.isNullOrEmpty()
-//                inputValue = s.toString()
-//            })
-
-        binding.searchInput.setOnEditorActionListener { _, actionId, _ ->
+      binding.searchInput.setOnEditorActionListener { _, actionId, _ ->
             if (actionId == EditorInfo.IME_ACTION_DONE) {
-//                nothingFound.isVisible = false
-//                listOfTracks.clear()
-                viewModel.loadListOfTheTracks(inputValue)
-                if (viewModel.listOfFoundTracks.isNullOrEmpty()) {
-//                    listOfTracks.addAll(viewModel.listOfFoundTracks)
-                }
-                //enreachAndViewTracks()
+                viewModel.enterSearch(inputValue)
             }
-            false
+            true
         }
 
         binding.searchInput.setOnFocusChangeListener { view, hasFocus ->
-            searchHistoryContainer.isVisible =
-                hasFocus && binding.searchInput.text.isEmpty()// && trackHistoryList.isNotEmpty()
+            if(hasFocus) viewModel.onFocusedSearch()
         }
+
     }
 
     private fun startPlayerActivity(track: Track) {
         if (clickDebounce()) {
-            sharedPreferences.edit()
-                .putString(KEY_FOR_CURRENT_TRACK, Gson().toJson(track))
-                .apply()
             val playerActivityIntent = Intent(this, PlayerActivity::class.java)
             startActivity(playerActivityIntent)
         }
@@ -253,27 +240,20 @@ class SearchActivity : ComponentActivity() {
         return current
     }
 
-    private val searchRunnable = Runnable {
-        //enreachAndViewTracks()
-        viewModel.loadListOfTheTracks(inputValue)
-        if (viewModel.listOfFoundTracks.isNullOrEmpty()) {
-//            listOfTracks.addAll(viewModel.listOfFoundTracks)
-        }
-    }
 
-    private fun searchDebounce() {
-        handler.removeCallbacks(searchRunnable)
-        handler.postDelayed(searchRunnable, SEARCH_DEBOUNCE_DELAY)
-    }
-
-    private fun getSearchHistory(): MutableList<Track> {
-        val prefsHistory = sharedPreferences.getString(KEY_FOR_HISTORY_LIST_TRACK, null)
-
-        return if (!prefsHistory.isNullOrBlank()) {
-            Gson().fromJson(prefsHistory, object : TypeToken<List<Track>>() {}.type)
-                ?: mutableListOf()
-        } else mutableListOf()
-    }
+//    private fun searchDebounce() {
+//        handler.removeCallbacks(searchRunnable)
+//        handler.postDelayed(searchRunnable, SEARCH_DEBOUNCE_DELAY)
+//    }
+//
+//    private fun getSearchHistory(): MutableList<Track> {
+//        val prefsHistory = sharedPreferences.getString(KEY_FOR_HISTORY_LIST_TRACK, null)
+//
+//        return if (!prefsHistory.isNullOrBlank()) {
+//            Gson().fromJson(prefsHistory, object : TypeToken<List<Track>>() {}.type)
+//                ?: mutableListOf()
+//        } else mutableListOf()
+//    }
 
 
 //    private fun enreachAndViewTracks() {
@@ -347,31 +327,16 @@ class SearchActivity : ComponentActivity() {
 //        }
 //    }
 
-    override fun onSaveInstanceState(outState: Bundle) {
-        super.onSaveInstanceState(outState)
-        outState.putString(INPUT_AMOUNT, inputValue)
-    }
-
     companion object {
         const val INPUT_AMOUNT = "INPUT_AMOUNT"
         const val VALUE_DEF = ""
-        const val NOTHING_FOUND = "nothing_found"
-        const val SERVER_PROBLEMS = "server_problems"
+//        const val NOTHING_FOUND = "nothing_found"
+//        const val SERVER_PROBLEMS = "server_problems"
         const val KEY_FOR_SETTINGS = "key_for_settings"
         const val KEY_FOR_HISTORY_LIST_TRACK = "key_for_history_list_preferences"
         const val KEY_FOR_CURRENT_TRACK = "key_for_current_track"
-        private const val SEARCH_DEBOUNCE_DELAY = 2000L
+//        private const val SEARCH_DEBOUNCE_DELAY = 2000L
         private const val CLICK_DEBOUNCE_DELAY = 1000L
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        handler.removeCallbacks(searchRunnable)
-    }
-
-    override fun onRestoreInstanceState(savedInstanceState: Bundle) {
-        super.onRestoreInstanceState(savedInstanceState)
-        inputValue = savedInstanceState.getString(INPUT_AMOUNT, VALUE_DEF)
     }
 
 }

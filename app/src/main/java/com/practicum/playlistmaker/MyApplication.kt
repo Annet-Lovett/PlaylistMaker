@@ -40,13 +40,13 @@ class MyApplication : Application() {
         return TrackRepositoryImpl(RetrofitNetworkClient())
     }
 
-    fun provideTracksInteractor(): TrackInteractor {
-        return TrackInteractorImpl(getRepository())
-    }
-
-    fun provideTrackPlayer(): TrackPlayer {
-        return TrackPlayerImpl()
-    }
+//    fun provideTracksInteractor(): TrackInteractor {
+//        return TrackInteractorImpl(getRepository())
+//    }
+//
+//    fun provideTrackPlayer(): TrackPlayer {
+//        return TrackPlayerImpl()
+//    }
 }
 
 

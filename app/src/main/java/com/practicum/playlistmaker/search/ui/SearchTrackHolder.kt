@@ -11,7 +11,9 @@ import com.practicum.playlistmaker.domain.models.Track
 import java.text.SimpleDateFormat
 import java.util.Locale
 
-class SearchTrackHolder(private val binding: TrackItemBinding, onItemClick: ((track: Track) -> Unit)?) : RecyclerView.ViewHolder(binding.root) {
+class SearchTrackHolder(private val binding: TrackItemBinding,
+                        onItemClick: ((track: Track) -> Unit)?)
+    : RecyclerView.ViewHolder(binding.root) {
 
     private val fullTrack = binding.fullTrack
     private val trackImage = binding.trackImage
@@ -33,7 +35,7 @@ class SearchTrackHolder(private val binding: TrackItemBinding, onItemClick: ((tr
                 context.resources.displayMetrics).toInt()
         }
 
-        Glide.with(itemView)
+        Glide.with(binding.trackImage.context)
             .load(imgUrl)
             .fitCenter()
             .centerCrop()

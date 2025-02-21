@@ -6,6 +6,7 @@ import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import com.practicum.playlistmaker.MyApplication
 import com.practicum.playlistmaker.domain.models.Track
+import com.practicum.playlistmaker.player.ui.PlayerActivity.Companion.KEY_FOR_CURRENT_TRACK
 import com.practicum.playlistmaker.search.ui.SearchActivity.Companion.KEY_FOR_HISTORY_LIST_TRACK
 
 class SearchPrefs {
@@ -13,6 +14,8 @@ class SearchPrefs {
     private val prefs: SharedPreferences = MyApplication.sharedPreferences
 
     fun recordTrack(track: Track) {
+
+        prefs.edit(true) { putString(KEY_FOR_CURRENT_TRACK, Gson().toJson(track)) }
 
         val currentHistoryList = getHistory().toMutableList()
 

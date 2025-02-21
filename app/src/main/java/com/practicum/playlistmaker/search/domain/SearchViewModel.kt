@@ -19,18 +19,17 @@ class SearchViewModel() : ViewModel() {
     private val searchPrefs = SearchPrefs()
 
     private val screenStateLiveData = MutableLiveData(
-        ScreenState(false, historyState)
+        ScreenState(false, SearchScreenState.Initial)
     )
 
-    private val historyState: HistoryState get(){
-        return if(searchPrefs.getHistory().isEmpty()) {
-            HistoryState.Empty
+    private val historyState: HistoryState
+        get() {
+            return if (searchPrefs.getHistory().isEmpty()) {
+                HistoryState.Empty
+            } else {
+                HistoryState.Data(searchPrefs.getHistory())
+            }
         }
-
-        else{
-           HistoryState.Data(searchPrefs.getHistory())
-        }
-    }
 
     private val interactor = Creator.provideTrackInteractor()
 
@@ -41,12 +40,6 @@ class SearchViewModel() : ViewModel() {
 
     fun getScreenStateLiveData(): MutableLiveData<ScreenState> = screenStateLiveData
 
-    fun loadListOfTheTracks(request: String) {
-
-        screenStateLiveData.value = ScreenState(false, SearchScreenState.Loading)
-
-    }
-
     fun inputChange(request: String) {
 
         debounceFuture?.cancel(true)
@@ -55,7 +48,7 @@ class SearchViewModel() : ViewModel() {
             showClear = request.isNotEmpty()
         )
 
-        if(request.isEmpty()){
+        if (request.isEmpty()) {
             screenStateLiveData.value = screenStateLiveData.value!!.copy(
                 searchState = historyState
             )
@@ -68,7 +61,13 @@ class SearchViewModel() : ViewModel() {
             interactor.searchTrack(request, object : TrackInteractor.TrackConsumer {
                 override fun consume(foundTracks: List<Track>?) {
                     if (!foundTracks.isNullOrEmpty()) {
-                        screenStateLiveData.postValue(screenStateLiveData.value!!.copy(searchState = SearchScreenState.Content(foundTracks)))
+                        screenStateLiveData.postValue(
+                            screenStateLiveData.value!!.copy(
+                                searchState = SearchScreenState.Content(
+                                    foundTracks
+                                )
+                            )
+                        )
                         listOfFoundTracks = foundTracks
                     }
                     if (foundTracks != null && foundTracks.isEmpty()) {
@@ -112,35 +111,28 @@ class SearchViewModel() : ViewModel() {
             })
         }
 
-        screenStateLiveData.value = screenStateLiveData.value!!.copy(searchState = SearchScreenState.Loading)
+        screenStateLiveData.value =
+            screenStateLiveData.value!!.copy(searchState = SearchScreenState.Loading)
 
     }
 
-    fun saveTrack(track: Track){
+    fun onFocusedSearch() {
+
+        screenStateLiveData.value =
+            screenStateLiveData.value!!.copy(searchState = historyState)
+    }
+
+    fun saveTrack(track: Track) {
         searchPrefs.recordTrack(track)
     }
 
-    fun clearHistory(){
+    fun clearHistory() {
 
         searchPrefs.clearHistory()
         screenStateLiveData.value = screenStateLiveData.value!!.copy(
             searchState = HistoryState.Empty
         )
-
     }
-
-//    binding.searchInput.addTextChangedListener(
-//    onTextChanged = { s: CharSequence?, _, _, _ ->
-//        searchDebounce()
-//        buttonClear.isVisible = !s.isNullOrEmpty()
-//        inputValue = s.toString()
-//    })
-//
-//    private fun searchDebounce() {
-//        handler.removeCallbacks(searchRunnable)
-//        handler.postDelayed(searchRunnable, SEARCH_DEBOUNCE_DELAY)
-//    }
-
 
 }
 

@@ -7,13 +7,13 @@ data class ScreenState(val showClear: Boolean,
 
 sealed interface SearchScreenState {
 
+    object  Initial: SearchScreenState
+
     object Loading: SearchScreenState
 
     object Error: SearchScreenState
 
     object Empty: SearchScreenState
-
-//    class History: HistoryState
 
     data class Content(val trackList: List<Track>): SearchScreenState
 }

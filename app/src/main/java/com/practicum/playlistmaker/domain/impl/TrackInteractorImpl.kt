@@ -8,7 +8,14 @@ class TrackInteractorImpl(private  val repository: TrackRepository) : TrackInter
     override fun searchTrack(request: String, consumer: TrackInteractor.TrackConsumer) {
 
         val  thread = Thread {
-            consumer.consume(repository.searchTracks(request))
+            try {
+                consumer.consume(repository.searchTracks(request))
+            }
+
+            catch (ex: Exception) {
+                consumer.consume(null)
+            }
+
         }
 
         thread.start()
