@@ -1,9 +1,9 @@
-package com.practicum.playlistmaker.search.ui
+package com.practicum.playlistmaker.search.ui.activity
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.practicum.playlistmaker.databinding.TrackItemBinding
-import com.practicum.playlistmaker.domain.models.Track
+import com.practicum.playlistmaker.sharing.domain.models.Track
 
 class SearchTrackListAdapter: RecyclerView.Adapter<SearchTrackHolder>() {
 

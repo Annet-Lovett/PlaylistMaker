@@ -1,4 +1,4 @@
-package com.practicum.playlistmaker.settings.domain
+package com.practicum.playlistmaker.settings.ui.view_model
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData

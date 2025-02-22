@@ -1,10 +1,10 @@
-package com.practicum.playlistmaker.search.domain
+package com.practicum.playlistmaker.search.ui.view_model
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.practicum.playlistmaker.creator.Creator
-import com.practicum.playlistmaker.domain.models.Track
+import com.practicum.playlistmaker.sharing.domain.models.Track
 import com.practicum.playlistmaker.search.data.HistoryState
 import com.practicum.playlistmaker.search.data.ScreenState
 import com.practicum.playlistmaker.search.data.SearchPrefs

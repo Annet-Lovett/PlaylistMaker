@@ -1,10 +1,10 @@
 package com.practicum.playlistmaker.creator
 
-import com.practicum.playlistmaker.data.dto.TrackRepositoryImpl
-import com.practicum.playlistmaker.data.network.RetrofitNetworkClient
+import com.practicum.playlistmaker.sharing.data.dto.TrackRepositoryImpl
+import com.practicum.playlistmaker.sharing.data.network.RetrofitNetworkClient
 import com.practicum.playlistmaker.sharing.domain.api.TrackInteractor
 import com.practicum.playlistmaker.sharing.domain.api.TrackRepository
-import com.practicum.playlistmaker.domain.impl.TrackInteractorImpl
+import com.practicum.playlistmaker.sharing.domain.impl.TrackInteractorImpl
 
 object Creator {
 
@@ -13,6 +13,10 @@ object Creator {
     }
 
     fun provideTrackInteractor(): TrackInteractor {
+        return TrackInteractorImpl(getTrackRepository())
+    }
+
+    fun provide(): TrackInteractor {
         return TrackInteractorImpl(getTrackRepository())
     }
 

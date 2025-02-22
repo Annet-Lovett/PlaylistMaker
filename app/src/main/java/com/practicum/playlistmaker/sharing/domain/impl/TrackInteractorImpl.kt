@@ -1,4 +1,4 @@
-package com.practicum.playlistmaker.domain.impl
+package com.practicum.playlistmaker.sharing.domain.impl
 
 import com.practicum.playlistmaker.sharing.domain.api.TrackInteractor
 import com.practicum.playlistmaker.sharing.domain.api.TrackRepository

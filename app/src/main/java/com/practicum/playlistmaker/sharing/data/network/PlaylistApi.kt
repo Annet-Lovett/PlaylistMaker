@@ -1,6 +1,6 @@
-package com.practicum.playlistmaker.data.network
+package com.practicum.playlistmaker.sharing.data.network
 
-import com.practicum.playlistmaker.data.dto.TrackResponse
+import com.practicum.playlistmaker.sharing.data.dto.TrackResponse
 import retrofit2.Call
 import retrofit2.http.GET
 import retrofit2.http.Query

@@ -1,6 +1,6 @@
 package com.practicum.playlistmaker.sharing.domain.api
 
-import com.practicum.playlistmaker.domain.models.Track
+import com.practicum.playlistmaker.sharing.domain.models.Track
 
 interface TrackInteractor {
 

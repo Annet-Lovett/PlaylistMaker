@@ -1,4 +1,4 @@
-package com.practicum.playlistmaker.search.ui
+package com.practicum.playlistmaker.search.ui.activity
 
 import android.util.TypedValue
 import android.view.View
@@ -7,7 +7,7 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.practicum.playlistmaker.R
 import com.practicum.playlistmaker.databinding.TrackItemBinding
-import com.practicum.playlistmaker.domain.models.Track
+import com.practicum.playlistmaker.sharing.domain.models.Track
 import java.text.SimpleDateFormat
 import java.util.Locale
 

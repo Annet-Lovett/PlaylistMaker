@@ -1,6 +1,6 @@
 package com.practicum.playlistmaker.player.data
 
-import com.practicum.playlistmaker.domain.models.Track
+import com.practicum.playlistmaker.sharing.domain.models.Track
 
 sealed interface PlayerState {
     object Initial: PlayerState
@@ -8,7 +8,8 @@ sealed interface PlayerState {
 
 data class TrackState(val progress: String,
                        val isPlaying: Boolean,
-                       val track: Track) : PlayerState
+                       val track: Track
+) : PlayerState
 
 
 

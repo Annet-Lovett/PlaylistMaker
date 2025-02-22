@@ -1,4 +1,4 @@
-package com.practicum.playlistmaker.search.ui
+package com.practicum.playlistmaker.search.ui.activity
 
 import android.content.Intent
 import android.os.Bundle
@@ -10,11 +10,11 @@ import androidx.core.view.isVisible
 import androidx.core.widget.addTextChangedListener
 import androidx.lifecycle.ViewModelProvider
 import com.practicum.playlistmaker.databinding.ActivitySearchBinding
-import com.practicum.playlistmaker.player.ui.PlayerActivity
+import com.practicum.playlistmaker.player.ui.activity.PlayerActivity
 import com.practicum.playlistmaker.search.data.HistoryState
 import com.practicum.playlistmaker.search.data.ScreenState
 import com.practicum.playlistmaker.search.data.SearchScreenState
-import com.practicum.playlistmaker.search.domain.SearchViewModel
+import com.practicum.playlistmaker.search.ui.view_model.SearchViewModel
 
 class SearchActivity : AppCompatActivity() {
 
@@ -136,6 +136,7 @@ class SearchActivity : AppCompatActivity() {
 
                 when(screenState.searchState) {
                     is HistoryState.Empty -> {
+                        binding.yourSearchingHistory.isVisible = false
                         binding.clearHistoryButton.isVisible = false
                         trackHistoryAdapter.subList(listOf())
                     }

@@ -1,4 +1,4 @@
-package com.practicum.playlistmaker.settings.ui
+package com.practicum.playlistmaker.settings.ui.activity
 
 import android.content.Intent
 import android.net.Uri
@@ -8,7 +8,7 @@ import androidx.lifecycle.ViewModelProvider
 import com.practicum.playlistmaker.R
 import com.practicum.playlistmaker.databinding.ActivitySettingsBinding
 import com.practicum.playlistmaker.settings.data.SettingsScreenState
-import com.practicum.playlistmaker.settings.domain.SettingsViewModel
+import com.practicum.playlistmaker.settings.ui.view_model.SettingsViewModel
 
 class SettingsActivity : AppCompatActivity() {
 
@@ -56,7 +56,7 @@ class SettingsActivity : AppCompatActivity() {
             startActivity(shareIntent)
         }
 
-        binding.btnShareSettings.setOnClickListener{
+        binding.btnTermsOfUseSettings.setOnClickListener{
             val intent = Intent(Intent.ACTION_VIEW).apply {
                 data = Uri.parse(getString(R.string.link_to_offer))
             }

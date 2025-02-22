@@ -1,9 +1,6 @@
-package com.practicum.playlistmaker.player.ui
-
+package com.practicum.playlistmaker.player.ui.activity
 
 import android.os.Bundle
-import android.os.Handler
-import android.os.Looper
 import android.util.TypedValue
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
@@ -15,8 +12,7 @@ import com.practicum.playlistmaker.R
 import com.practicum.playlistmaker.databinding.ActivityPlayerBinding
 import com.practicum.playlistmaker.player.data.PlayerState
 import com.practicum.playlistmaker.player.data.TrackState
-import com.practicum.playlistmaker.player.domain.PlayerViewModel
-import java.text.FieldPosition
+import com.practicum.playlistmaker.player.ui.view_model.PlayerViewModel
 import java.text.SimpleDateFormat
 import java.util.Locale
 

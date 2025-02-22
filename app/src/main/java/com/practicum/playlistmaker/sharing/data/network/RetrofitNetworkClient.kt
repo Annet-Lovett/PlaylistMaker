@@ -1,8 +1,8 @@
-package com.practicum.playlistmaker.data.network
+package com.practicum.playlistmaker.sharing.data.network
 
-import com.practicum.playlistmaker.data.NetworkClient
-import com.practicum.playlistmaker.data.dto.Response
-import com.practicum.playlistmaker.data.dto.TrackRequest
+import com.practicum.playlistmaker.sharing.data.NetworkClient
+import com.practicum.playlistmaker.sharing.data.dto.Response
+import com.practicum.playlistmaker.sharing.data.dto.TrackRequest
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 

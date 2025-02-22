@@ -5,8 +5,8 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import com.practicum.playlistmaker.media.ui.MediaActivity
 import com.practicum.playlistmaker.databinding.ActivityMainBinding
-import com.practicum.playlistmaker.search.ui.SearchActivity
-import com.practicum.playlistmaker.settings.ui.SettingsActivity
+import com.practicum.playlistmaker.search.ui.activity.SearchActivity
+import com.practicum.playlistmaker.settings.ui.activity.SettingsActivity
 
 
 class MainActivity : AppCompatActivity() {
@@ -19,22 +19,18 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        val searchButton = binding.buttonMainSearch
-        val mediaButton = binding.buttonMainMedia
-        val settingsButton = binding.buttonMainSettings
 
-
-        searchButton.setOnClickListener {
+        binding.buttonMainSearch.setOnClickListener {
             val searchIntent = Intent(this, SearchActivity::class.java)
             startActivity(searchIntent)
         }
 
-        mediaButton.setOnClickListener {
+        binding.buttonMainMedia.setOnClickListener {
             val mediaIntent = Intent(this, MediaActivity::class.java)
             startActivity(mediaIntent)
         }
 
-        settingsButton.setOnClickListener {
+        binding.buttonMainSettings.setOnClickListener {
             val settingsIntent = Intent(this, SettingsActivity::class.java)
             startActivity(settingsIntent)
         }

@@ -1,8 +1,8 @@
-package com.practicum.playlistmaker.data.dto
+package com.practicum.playlistmaker.sharing.data.dto
 
-import com.practicum.playlistmaker.data.NetworkClient
+import com.practicum.playlistmaker.sharing.data.NetworkClient
 import com.practicum.playlistmaker.sharing.domain.api.TrackRepository
-import com.practicum.playlistmaker.domain.models.Track
+import com.practicum.playlistmaker.sharing.domain.models.Track
 
 class TrackRepositoryImpl(private  val networkClient: NetworkClient) : TrackRepository {
 

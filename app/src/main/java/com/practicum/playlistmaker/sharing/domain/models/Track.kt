@@ -1,4 +1,4 @@
-package com.practicum.playlistmaker.domain.models
+package com.practicum.playlistmaker.sharing.domain.models
 
 data class Track(val trackName: String,
                  val artistName: String,
