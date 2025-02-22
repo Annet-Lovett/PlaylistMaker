@@ -3,20 +3,16 @@ package com.practicum.playlistmaker.search.ui.view_model
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.practicum.playlistmaker.creator.Creator
 import com.practicum.playlistmaker.sharing.domain.models.Track
 import com.practicum.playlistmaker.search.ui.view_states.HistoryState
 import com.practicum.playlistmaker.search.ui.view_states.ScreenState
-import com.practicum.playlistmaker.search.data.SearchPrefs
 import com.practicum.playlistmaker.search.ui.view_states.SearchScreenState
 import com.practicum.playlistmaker.sharing.domain.api.TrackInteractor
 import java.util.concurrent.Executors
 import java.util.concurrent.Future
 import java.util.concurrent.TimeUnit
 
-class SearchViewModel : ViewModel() {
-
-    private val searchPrefs = SearchPrefs()
+class SearchViewModel(private val interactor: TrackInteractor) : ViewModel() {
 
     private val screenStateLiveData = MutableLiveData(
         ScreenState(false, SearchScreenState.Initial)
@@ -24,14 +20,13 @@ class SearchViewModel : ViewModel() {
 
     private val historyState: HistoryState
         get() {
-            return if (searchPrefs.getHistory().isEmpty()) {
+            return if (interactor.getHistory().isEmpty()) {
                 HistoryState.Empty
             } else {
-                HistoryState.Data(searchPrefs.getHistory())
+                HistoryState.Data(interactor.getHistory())
             }
         }
 
-    private val interactor = Creator.provideTrackInteractor()
 
     private val debounceExecutor = Executors.newSingleThreadScheduledExecutor()
     private var debounceFuture: Future<*>? = null
@@ -123,12 +118,12 @@ class SearchViewModel : ViewModel() {
     }
 
     fun saveTrack(track: Track) {
-        searchPrefs.recordTrack(track)
+        interactor.recordTrack(track)
     }
 
     fun clearHistory() {
 
-        searchPrefs.clearHistory()
+        interactor.clearHistory()
         screenStateLiveData.value = screenStateLiveData.value!!.copy(
             searchState = HistoryState.Empty
         )

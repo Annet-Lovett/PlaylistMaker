@@ -1,13 +1,13 @@
-package com.practicum.playlistmaker.player.ui.view_model
+package com.practicum.playlistmaker.creator
 
-import android.app.Application
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.practicum.playlistmaker.MyApplication
 import com.practicum.playlistmaker.player.data.PlayerPrefs
 import com.practicum.playlistmaker.player.domain.PlayerInteractorImpl
+import com.practicum.playlistmaker.player.ui.view_model.PlayerViewModel
 
-class PlayerViewModelFactory(val application: Application): ViewModelProvider.Factory {
+class PlayerViewModelFactory: ViewModelProvider.Factory {
 
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
         val playerPrefs = PlayerPrefs(MyApplication.sharedPreferences)

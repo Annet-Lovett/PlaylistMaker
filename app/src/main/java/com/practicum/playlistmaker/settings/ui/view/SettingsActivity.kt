@@ -1,26 +1,29 @@
-package com.practicum.playlistmaker.settings.ui.activity
+package com.practicum.playlistmaker.settings.ui.view
 
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.ViewModelProvider
 import com.practicum.playlistmaker.R
+import com.practicum.playlistmaker.creator.SettingsViewModelFactory
 import com.practicum.playlistmaker.databinding.ActivitySettingsBinding
 import com.practicum.playlistmaker.settings.ui.view_states.SettingsScreenState
 import com.practicum.playlistmaker.settings.ui.view_model.SettingsViewModel
 
 class SettingsActivity : AppCompatActivity() {
 
-    private lateinit var binding: ActivitySettingsBinding
+    private var _binding: ActivitySettingsBinding? = null
+    private val binding: ActivitySettingsBinding
+        get() = _binding!!
 
-    private val viewModel by lazy { ViewModelProvider(this)[SettingsViewModel::class] }
+    private val viewModel by viewModels<SettingsViewModel> { SettingsViewModelFactory() }
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        binding = ActivitySettingsBinding.inflate(layoutInflater)
+        _binding = ActivitySettingsBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
         binding.buttonSettingsBack.setNavigationOnClickListener {

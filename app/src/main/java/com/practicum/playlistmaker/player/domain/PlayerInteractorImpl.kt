@@ -5,7 +5,7 @@ import com.practicum.playlistmaker.sharing.domain.models.Track
 
 class PlayerInteractorImpl(private val playerPrefs: PlayerPrefs): PlayerInteractor {
 
-    override fun provideTrack(): Track {
+    override fun getTrack(): Track {
         return playerPrefs.getTrack()
     }
 }

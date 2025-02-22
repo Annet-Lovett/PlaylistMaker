@@ -4,6 +4,6 @@ import com.practicum.playlistmaker.sharing.domain.models.Track
 
 interface PlayerInteractor {
 
-    fun provideTrack () : Track
+    fun getTrack () : Track
 
 }

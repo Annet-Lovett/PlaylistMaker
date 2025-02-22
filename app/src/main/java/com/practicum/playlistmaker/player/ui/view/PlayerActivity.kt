@@ -1,33 +1,35 @@
-package com.practicum.playlistmaker.player.ui.activity
+package com.practicum.playlistmaker.player.ui.view
 
 import android.os.Bundle
 import android.util.TypedValue
 import android.view.View
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
-import androidx.lifecycle.ViewModelProvider
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.practicum.playlistmaker.R
+import com.practicum.playlistmaker.creator.PlayerViewModelFactory
 import com.practicum.playlistmaker.databinding.ActivityPlayerBinding
+import com.practicum.playlistmaker.player.ui.view_model.PlayerViewModel
 import com.practicum.playlistmaker.player.ui.view_states.PlayerState
 import com.practicum.playlistmaker.player.ui.view_states.TrackState
-import com.practicum.playlistmaker.player.ui.view_model.PlayerViewModel
 import java.text.SimpleDateFormat
 import java.util.Locale
 
 class PlayerActivity : AppCompatActivity() {
 
-    private val viewModel by lazy { ViewModelProvider(this)[PlayerViewModel::class] }
+    private val viewModel by viewModels<PlayerViewModel> { PlayerViewModelFactory() }
 
-
-    private lateinit var binding: ActivityPlayerBinding
+    private var _binding: ActivityPlayerBinding? = null
+    private val binding: ActivityPlayerBinding
+        get() = _binding!!
 
     override fun onCreate(savedInstanceState: Bundle?) {
 
         super.onCreate(savedInstanceState)
 
-        binding = ActivityPlayerBinding.inflate(layoutInflater)
+        _binding = ActivityPlayerBinding.inflate(layoutInflater)
 
         setContentView(binding.root)
 
@@ -48,6 +50,11 @@ class PlayerActivity : AppCompatActivity() {
     override fun onPause() {
         super.onPause()
         viewModel.pausePlayer()
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        _binding = null
     }
 
     private fun dpToPx(dp: Float, context: View): Int {
