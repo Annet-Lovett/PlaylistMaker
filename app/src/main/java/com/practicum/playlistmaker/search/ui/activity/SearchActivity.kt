@@ -11,9 +11,9 @@ import androidx.core.widget.addTextChangedListener
 import androidx.lifecycle.ViewModelProvider
 import com.practicum.playlistmaker.databinding.ActivitySearchBinding
 import com.practicum.playlistmaker.player.ui.activity.PlayerActivity
-import com.practicum.playlistmaker.search.data.HistoryState
-import com.practicum.playlistmaker.search.data.ScreenState
-import com.practicum.playlistmaker.search.data.SearchScreenState
+import com.practicum.playlistmaker.search.ui.view_states.HistoryState
+import com.practicum.playlistmaker.search.ui.view_states.ScreenState
+import com.practicum.playlistmaker.search.ui.view_states.SearchScreenState
 import com.practicum.playlistmaker.search.ui.view_model.SearchViewModel
 
 class SearchActivity : AppCompatActivity() {

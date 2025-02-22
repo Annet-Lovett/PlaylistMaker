@@ -5,10 +5,10 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.practicum.playlistmaker.creator.Creator
 import com.practicum.playlistmaker.sharing.domain.models.Track
-import com.practicum.playlistmaker.search.data.HistoryState
-import com.practicum.playlistmaker.search.data.ScreenState
+import com.practicum.playlistmaker.search.ui.view_states.HistoryState
+import com.practicum.playlistmaker.search.ui.view_states.ScreenState
 import com.practicum.playlistmaker.search.data.SearchPrefs
-import com.practicum.playlistmaker.search.data.SearchScreenState
+import com.practicum.playlistmaker.search.ui.view_states.SearchScreenState
 import com.practicum.playlistmaker.sharing.domain.api.TrackInteractor
 import java.util.concurrent.Executors
 import java.util.concurrent.Future

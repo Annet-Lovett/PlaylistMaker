@@ -5,7 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.practicum.playlistmaker.MyApplication
 import com.practicum.playlistmaker.settings.data.SettingsPrefs
-import com.practicum.playlistmaker.settings.data.SettingsScreenState
+import com.practicum.playlistmaker.settings.ui.view_states.SettingsScreenState
 
 class SettingsViewModel : ViewModel() {
 

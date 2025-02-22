@@ -6,8 +6,7 @@ import com.practicum.playlistmaker.MyApplication
 import com.practicum.playlistmaker.sharing.domain.models.Track
 import com.practicum.playlistmaker.player.ui.activity.PlayerActivity.Companion.KEY_FOR_CURRENT_TRACK
 
-class PlayerPrefs {
-    private val prefs: SharedPreferences = MyApplication.sharedPreferences
+class PlayerPrefs(private val prefs: SharedPreferences) {
 
     fun getTrack(): Track {
         return prefs.getString(KEY_FOR_CURRENT_TRACK, "")!!.let { createFactFromJson(it) }

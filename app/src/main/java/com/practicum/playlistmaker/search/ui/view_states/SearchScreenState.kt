@@ -1,9 +1,10 @@
-package com.practicum.playlistmaker.search.data
+package com.practicum.playlistmaker.search.ui.view_states
 
 import com.practicum.playlistmaker.sharing.domain.models.Track
 
 data class ScreenState(val showClear: Boolean,
-                       val searchState: SearchScreenState)
+                       val searchState: SearchScreenState
+)
 
 sealed interface SearchScreenState {
 
