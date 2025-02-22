@@ -7,15 +7,24 @@ import android.net.Uri
 import android.os.Bundle
 import android.widget.Switch
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.ViewModelProvider
 import com.practicum.playlistmaker.MyApplication
 import com.practicum.playlistmaker.R
 import com.practicum.playlistmaker.databinding.ActivitySettingsBinding
+import com.practicum.playlistmaker.player.data.PlayerState
+import com.practicum.playlistmaker.player.domain.PlayerViewModel
+import com.practicum.playlistmaker.player.ui.PlayerActivity.Companion.START_TIME
+import com.practicum.playlistmaker.settings.data.SettingsScreenState
+import com.practicum.playlistmaker.settings.domain.SettingsViewModel
 
 class SettingsActivity : AppCompatActivity() {
 
-    private lateinit var switchTheme: Switch
-    private lateinit var sharedPreferences: SharedPreferences
+//    private lateinit var switchTheme: Switch
+//    private lateinit var sharedPreferences: SharedPreferences
     private lateinit var binding: ActivitySettingsBinding
+
+    private val viewModel by lazy { ViewModelProvider(this)[SettingsViewModel::class] }
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -23,30 +32,32 @@ class SettingsActivity : AppCompatActivity() {
         binding = ActivitySettingsBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        val backButton = binding.buttonSettingsBack
+//        val backButton = binding.buttonSettingsBack
 
-        backButton.setNavigationOnClickListener {
+        binding.buttonSettingsBack.setNavigationOnClickListener {
             finish()
         }
 
-        sharedPreferences = getSharedPreferences(KEY_FOR_SETTINGS, MODE_PRIVATE)
+//        sharedPreferences = getSharedPreferences(KEY_FOR_SETTINGS, MODE_PRIVATE)
 
-        switchTheme=findViewById(R.id.theme_switcher)
+//        switchTheme=findViewById(R.id.theme_switcher)
 
-        switchTheme.isChecked = sharedPreferences.getBoolean(KEY_FOR_THE_CURRENT_THEME_STATE, false)
+//        binding.switchTheme.isChecked = sharedPreferences.getBoolean(KEY_FOR_THE_CURRENT_THEME_STATE, false)
 
-        switchTheme.setOnCheckedChangeListener { _, checked ->
-            sharedPreferences.edit()
-                .putBoolean(KEY_FOR_THE_CURRENT_THEME_STATE, checked)
-                .apply()
-            (applicationContext as MyApplication).switchTheme(sharedPreferences.getBoolean(
-                KEY_FOR_THE_CURRENT_THEME_STATE, false))
+        binding.themeSwitcher.setOnCheckedChangeListener { _, checked ->
+
+            viewModel.changeTheme(checked)
+//            sharedPreferences.edit()
+//                .putBoolean(KEY_FOR_THE_CURRENT_THEME_STATE, checked)
+//                .apply()
+//            (applicationContext as MyApplication).switchTheme(sharedPreferences.getBoolean(
+//                KEY_FOR_THE_CURRENT_THEME_STATE, false))
         }
 
 
-        val shareBtn = binding.btnShareSettings
+//        val shareBtn = binding.btnShareSettings
 
-        shareBtn.setOnClickListener {
+        binding.btnShareSettings.setOnClickListener {
             val sendIntent: Intent = Intent().apply {
                 action = Intent.ACTION_SEND
                 putExtra(Intent.EXTRA_TEXT, "https://practicum.yandex.ru/")
@@ -58,9 +69,9 @@ class SettingsActivity : AppCompatActivity() {
 
         }
 
-        val writeBtn = binding.btnWriteToSupportSettings
+//        val writeBtn = binding.btnWriteToSupportSettings
 
-        writeBtn.setOnClickListener {
+        binding.btnWriteToSupportSettings.setOnClickListener {
             val message = getString(R.string.message_to_support)
             val subject = getString(R.string.subject_support)
             val shareIntent = Intent(Intent.ACTION_SENDTO)
@@ -71,21 +82,30 @@ class SettingsActivity : AppCompatActivity() {
             startActivity(shareIntent)
         }
 
-        val btnTermsOfUse = binding.btnTermsOfUseSettings
+//        val btnTermsOfUse = binding.btnTermsOfUseSettings
 
-        btnTermsOfUse.setOnClickListener{
+        binding.btnShareSettings.setOnClickListener{
             val intent = Intent(Intent.ACTION_VIEW).apply {
                 data = Uri.parse(getString(R.string.link_to_offer))
             }
 
             startActivity(intent)
         }
+
+        viewModel.getScreenStateLiveData().observe(this) {
+            render(it)
+        }
     }
 
-    companion object {
-        const val KEY_FOR_SETTINGS = "key_for_settings"
-        const val KEY_FOR_THE_CURRENT_THEME_STATE = "KEY_FOR_THE_CURRENT_THEME_STATE"
+    private fun render (state: SettingsScreenState) {
+        binding.themeSwitcher.isChecked = state.isDarkTheme
     }
+
+
+//    companion object {
+//        const val KEY_FOR_SETTINGS = "key_for_settings"
+//        const val KEY_FOR_THE_CURRENT_THEME_STATE = "KEY_FOR_THE_CURRENT_THEME_STATE"
+//    }
 
 
 

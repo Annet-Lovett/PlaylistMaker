@@ -17,6 +17,7 @@ class MyApplication : Application() {
         super.onCreate()
         sharedPreferences = getSharedPreferences(KEY_FOR_SETTINGS, MODE_PRIVATE)
         switchTheme(sharedPreferences.getBoolean(KEY_FOR_THE_CURRENT_THEME_STATE, false))
+        instance = this
     }
 
     fun switchTheme(darkThemeEnabled: Boolean) {
@@ -32,14 +33,15 @@ class MyApplication : Application() {
 
     companion object {
         lateinit var sharedPreferences: SharedPreferences
+        lateinit var instance: MyApplication
         const val KEY_FOR_SETTINGS = "key_for_settings"
         const val KEY_FOR_THE_CURRENT_THEME_STATE = "KEY_FOR_THE_CURRENT_THEME_STATE"
     }
 
-    fun getRepository(): TrackRepository {
-        return TrackRepositoryImpl(RetrofitNetworkClient())
-    }
-
+//    fun getRepository(): TrackRepository {
+//        return TrackRepositoryImpl(RetrofitNetworkClient())
+//    }
+//
 //    fun provideTracksInteractor(): TrackInteractor {
 //        return TrackInteractorImpl(getRepository())
 //    }

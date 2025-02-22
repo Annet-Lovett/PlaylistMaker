@@ -1,6 +1,7 @@
 package com.practicum.playlistmaker.search.domain
 
 //import com.practicum.playlistmaker.search.ui.SearchActivity.Companion.SEARCH_DEBOUNCE_DELAY
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.practicum.playlistmaker.creator.Creator
@@ -14,7 +15,7 @@ import java.util.concurrent.Executors
 import java.util.concurrent.Future
 import java.util.concurrent.TimeUnit
 
-class SearchViewModel() : ViewModel() {
+class SearchViewModel : ViewModel() {
 
     private val searchPrefs = SearchPrefs()
 
@@ -38,7 +39,7 @@ class SearchViewModel() : ViewModel() {
 
     var listOfFoundTracks = emptyList<Track>()
 
-    fun getScreenStateLiveData(): MutableLiveData<ScreenState> = screenStateLiveData
+    fun getScreenStateLiveData(): LiveData<ScreenState> = screenStateLiveData
 
     fun inputChange(request: String) {
 
