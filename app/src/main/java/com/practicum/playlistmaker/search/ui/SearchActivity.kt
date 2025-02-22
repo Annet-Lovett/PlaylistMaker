@@ -1,34 +1,20 @@
 package com.practicum.playlistmaker.search.ui
 
 import android.content.Intent
-import android.content.SharedPreferences
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
 import android.view.inputmethod.EditorInfo
-import android.widget.Button
-import android.widget.ImageButton
-import android.widget.LinearLayout
-import android.widget.ProgressBar
-import androidx.activity.ComponentActivity
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.content.edit
 import androidx.core.view.isVisible
 import androidx.core.widget.addTextChangedListener
 import androidx.lifecycle.ViewModelProvider
-import androidx.recyclerview.widget.RecyclerView
-import com.google.android.material.appbar.MaterialToolbar
-import com.google.gson.Gson
-import com.google.gson.reflect.TypeToken
-import com.practicum.playlistmaker.creator.Creator
 import com.practicum.playlistmaker.databinding.ActivitySearchBinding
-import com.practicum.playlistmaker.domain.models.Track
 import com.practicum.playlistmaker.player.ui.PlayerActivity
 import com.practicum.playlistmaker.search.data.HistoryState
 import com.practicum.playlistmaker.search.data.ScreenState
 import com.practicum.playlistmaker.search.data.SearchScreenState
 import com.practicum.playlistmaker.search.domain.SearchViewModel
-import com.practicum.playlistmaker.sharing.domain.api.TrackInteractor
 
 class SearchActivity : AppCompatActivity() {
 
@@ -58,14 +44,14 @@ class SearchActivity : AppCompatActivity() {
 
         trackAdapter.onItemClick = { track ->
             viewModel.saveTrack(track)
-            startPlayerActivity(track)
+            startPlayerActivity()
         }
 
         binding.historyRecycler.adapter = trackHistoryAdapter
 
         trackHistoryAdapter.onItemClick = { track ->
             viewModel.saveTrack(track)
-            startPlayerActivity(track)
+            startPlayerActivity()
         }
 
         binding.refreshButtonSearch.setOnClickListener {
@@ -182,7 +168,7 @@ class SearchActivity : AppCompatActivity() {
 
     }
 
-    private fun startPlayerActivity(track: Track) {
+    private fun startPlayerActivity() {
         if (clickDebounce()) {
             val playerActivityIntent = Intent(this, PlayerActivity::class.java)
             startActivity(playerActivityIntent)

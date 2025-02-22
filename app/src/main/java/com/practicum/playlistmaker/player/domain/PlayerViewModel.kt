@@ -7,9 +7,12 @@ import androidx.lifecycle.ViewModel
 import com.practicum.playlistmaker.player.data.PlayerPrefs
 import com.practicum.playlistmaker.player.data.PlayerState
 import com.practicum.playlistmaker.player.data.TrackState
-import com.practicum.playlistmaker.player.ui.PlayerActivity.Companion.DURATION_FORMAT
+import com.practicum.playlistmaker.player.ui.PlayerActivity.Companion.START_TIME
 import java.text.SimpleDateFormat
 import java.util.Locale
+import java.util.concurrent.Executors
+import java.util.concurrent.Future
+import java.util.concurrent.TimeUnit
 
 class PlayerViewModel : ViewModel() {
 
@@ -18,6 +21,9 @@ class PlayerViewModel : ViewModel() {
     private val playerStateLiveData = MutableLiveData<PlayerState>(PlayerState.Initial)
 
     private var mediaPlayer = MediaPlayer()
+
+    private var progressExecutor = Executors.newSingleThreadScheduledExecutor()
+    private var executorFuture: Future<*>? = null
 
     init {
         preparePlayer(mediaPlayer)
@@ -28,17 +34,22 @@ class PlayerViewModel : ViewModel() {
     override fun onCleared() {
         super.onCleared()
         mediaPlayer.release()
+        executorFuture?.cancel(true)
+        progressExecutor.shutdownNow()
     }
 
     private fun preparePlayer(mediaPlayer: MediaPlayer) {
         mediaPlayer.setDataSource(playerPrefs.getTrack().previewUrl)
         mediaPlayer.prepareAsync()
         mediaPlayer.setOnPreparedListener {
-            playerStateLiveData.value = TrackState(progress = 0f, isPlaying = false, track = playerPrefs.getTrack())
+            playerStateLiveData.value = TrackState(progress = START_TIME, isPlaying = false, track = playerPrefs.getTrack())
 
         }
         mediaPlayer.setOnCompletionListener {
-            playerStateLiveData.value = TrackState(progress = 0f, isPlaying = false, track = playerPrefs.getTrack())
+            executorFuture?.cancel(true)
+            progressExecutor.shutdownNow()
+            progressExecutor = Executors.newSingleThreadScheduledExecutor()
+            playerStateLiveData.value = TrackState(progress = START_TIME, isPlaying = false, track = playerPrefs.getTrack())
         }
     }
 
@@ -48,6 +59,7 @@ class PlayerViewModel : ViewModel() {
         val trackState = playerStateLiveData.value as TrackState
         mediaPlayer.start()
         playerStateLiveData.value = trackState.copy(isPlaying = true)
+        executorFuture = progressExecutor.scheduleWithFixedDelay({ updatePlayerState() }, 0, 300, TimeUnit.MILLISECONDS )
 
     }
 
@@ -55,6 +67,9 @@ class PlayerViewModel : ViewModel() {
         val trackState = playerStateLiveData.value as TrackState
         mediaPlayer.pause()
         playerStateLiveData.value = trackState.copy(isPlaying = false)
+        executorFuture?.cancel(true)
+        progressExecutor.shutdownNow()
+        progressExecutor = Executors.newSingleThreadScheduledExecutor()
     }
 
     fun toggle() {
@@ -73,6 +88,11 @@ class PlayerViewModel : ViewModel() {
     fun getCurrentPosition(): String {
         return SimpleDateFormat("mm:ss",
             Locale.getDefault()).format(mediaPlayer.currentPosition)
+    }
+
+    private fun updatePlayerState() {
+        val trackState = playerStateLiveData.value as TrackState
+        playerStateLiveData.postValue(trackState.copy(progress = getCurrentPosition()))
     }
 }
 

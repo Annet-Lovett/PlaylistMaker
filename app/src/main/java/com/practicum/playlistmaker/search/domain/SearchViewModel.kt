@@ -1,6 +1,5 @@
 package com.practicum.playlistmaker.search.domain
 
-//import com.practicum.playlistmaker.search.ui.SearchActivity.Companion.SEARCH_DEBOUNCE_DELAY
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel

@@ -22,15 +22,10 @@ import java.util.Locale
 
 class PlayerActivity : AppCompatActivity() {
 
-  private lateinit var playRunnable: Runnable
-
-  private val handler = Handler(Looper.getMainLooper())
-
-
     private val viewModel by lazy { ViewModelProvider(this)[PlayerViewModel::class] }
 
 
-private lateinit var binding: ActivityPlayerBinding
+    private lateinit var binding: ActivityPlayerBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
 
@@ -43,12 +38,6 @@ private lateinit var binding: ActivityPlayerBinding
         binding.playerButtonPlay.setOnClickListener {
             viewModel.toggle()
         }
-
-        playRunnable = Runnable {
-                handler.post{changeCurrentPosition(viewModel.getCurrentPosition())}
-                handler.postDelayed(this.playRunnable, REFRESHING_DURATION_TIME)
-        }
-
 
         binding.playerBackButton.setOnClickListener {
             finish()
@@ -65,15 +54,6 @@ private lateinit var binding: ActivityPlayerBinding
         viewModel.pausePlayer()
     }
 
-    private fun runAutoupdateDurationView() {
-        handler.removeCallbacks(playRunnable)
-        handler.postDelayed(playRunnable, 300)
-    }
-
-    private fun changeCurrentPosition (position: String) {
-        binding.playerDurationOfTheTrackNearThePlay.text = position
-    }
-
     private fun dpToPx(dp: Float, context: View): Int {
         return TypedValue.applyDimension(
             TypedValue.COMPLEX_UNIT_DIP,
@@ -83,16 +63,9 @@ private lateinit var binding: ActivityPlayerBinding
     }
 
     companion object {
-        const val KEY_FOR_SETTINGS = "key_for_settings"
         const val KEY_FOR_CURRENT_TRACK = "key_for_current_track"
-        const val STATE_DEFAULT = 0
-        const val STATE_PREPARED = 1
-        const val STATE_PLAYING = 2
-        const val STATE_PAUSED = 3
         const val DURATION_FORMAT = "mm:ss"
-        const val REFRESHING_DURATION_TIME = 300L
         const val START_TIME = "00:00"
-
     }
 
 
@@ -133,12 +106,10 @@ private lateinit var binding: ActivityPlayerBinding
                     binding.playerAlbumName.isVisible = false
                 }
 
+                binding.playerDurationOfTheTrackNearThePlay.text = playerState.progress
+
                 if (playerState.isPlaying) {
                     binding.playerButtonPlay.setBackgroundResource(R.drawable.pause_light)
-                    handler.post{
-                        runAutoupdateDurationView()
-                    }
-
 
 
                 } else {
