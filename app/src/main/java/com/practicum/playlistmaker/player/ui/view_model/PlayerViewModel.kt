@@ -13,11 +13,10 @@ import java.util.concurrent.Executors
 import java.util.concurrent.Future
 import java.util.concurrent.TimeUnit
 
-class PlayerViewModel(private val playerInteractor: PlayerInteractor) : ViewModel() {
+class PlayerViewModel(private val playerInteractor: PlayerInteractor,
+                      private val mediaPlayer: MediaPlayer) : ViewModel() {
 
     private val playerStateLiveData = MutableLiveData<PlayerState>(PlayerState.Initial)
-
-    private var mediaPlayer = MediaPlayer()
 
     private var progressExecutor = Executors.newSingleThreadScheduledExecutor()
     private var executorFuture: Future<*>? = null
