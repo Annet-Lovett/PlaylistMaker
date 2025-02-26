@@ -3,16 +3,17 @@ package com.practicum.playlistmaker.search.ui.view_model
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.practicum.playlistmaker.sharing.domain.models.Track
 import com.practicum.playlistmaker.search.ui.view_states.HistoryState
 import com.practicum.playlistmaker.search.ui.view_states.ScreenState
 import com.practicum.playlistmaker.search.ui.view_states.SearchScreenState
 import com.practicum.playlistmaker.sharing.domain.api.TrackInteractor
-import java.util.concurrent.Executors
+import com.practicum.playlistmaker.sharing.domain.models.Track
 import java.util.concurrent.Future
+import java.util.concurrent.ScheduledExecutorService
 import java.util.concurrent.TimeUnit
 
-class SearchViewModel(private val interactor: TrackInteractor) : ViewModel() {
+class SearchViewModel(private val interactor: TrackInteractor,
+                      private val debounceExecutor: ScheduledExecutorService) : ViewModel() {
 
     private val screenStateLiveData = MutableLiveData(
         ScreenState(false, SearchScreenState.Initial)
@@ -27,8 +28,6 @@ class SearchViewModel(private val interactor: TrackInteractor) : ViewModel() {
             }
         }
 
-
-    private val debounceExecutor = Executors.newSingleThreadScheduledExecutor()
     private var debounceFuture: Future<*>? = null
 
     var listOfFoundTracks = emptyList<Track>()

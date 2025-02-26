@@ -5,17 +5,16 @@ import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
 import android.view.inputmethod.EditorInfo
-import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
 import androidx.core.widget.addTextChangedListener
-import com.practicum.playlistmaker.creator.SearchViewModelFactory
 import com.practicum.playlistmaker.databinding.ActivitySearchBinding
 import com.practicum.playlistmaker.player.ui.view.PlayerActivity
+import com.practicum.playlistmaker.search.ui.view_model.SearchViewModel
 import com.practicum.playlistmaker.search.ui.view_states.HistoryState
 import com.practicum.playlistmaker.search.ui.view_states.ScreenState
 import com.practicum.playlistmaker.search.ui.view_states.SearchScreenState
-import com.practicum.playlistmaker.search.ui.view_model.SearchViewModel
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class SearchActivity : AppCompatActivity() {
 
@@ -26,7 +25,7 @@ class SearchActivity : AppCompatActivity() {
     private var isClickAllowed = true
     private val inputValue: String get() = binding.searchInput.text.toString()
 
-    private val viewModel by viewModels<SearchViewModel> { SearchViewModelFactory() }
+    private val searchViewModel by viewModel<SearchViewModel>()
 
     private val trackAdapter = SearchTrackListAdapter()
 
@@ -46,19 +45,19 @@ class SearchActivity : AppCompatActivity() {
         binding.recyclerTrack.adapter = trackAdapter
 
         trackAdapter.onItemClick = { track ->
-            viewModel.saveTrack(track)
+            searchViewModel.saveTrack(track)
             startPlayerActivity()
         }
 
         binding.historyRecycler.adapter = trackHistoryAdapter
 
         trackHistoryAdapter.onItemClick = { track ->
-            viewModel.saveTrack(track)
+            searchViewModel.saveTrack(track)
             startPlayerActivity()
         }
 
         binding.refreshButtonSearch.setOnClickListener {
-            viewModel.enterSearch(inputValue)
+            searchViewModel.enterSearch(inputValue)
         }
 
         binding.buttonClear.setOnClickListener {
@@ -71,10 +70,10 @@ class SearchActivity : AppCompatActivity() {
         }
 
         binding.clearHistoryButton.setOnClickListener {
-            viewModel.clearHistory()
+            searchViewModel.clearHistory()
         }
 
-        viewModel.getScreenStateLiveData().observe(this) {
+        searchViewModel.getScreenStateLiveData().observe(this) {
             renderState(it)
         }
     }
@@ -157,17 +156,17 @@ class SearchActivity : AppCompatActivity() {
 
     private fun initInput() {
         binding.searchInput.addTextChangedListener {
-            viewModel.inputChange(it.toString())
+            searchViewModel.inputChange(it.toString())
         }
       binding.searchInput.setOnEditorActionListener { _, actionId, _ ->
             if (actionId == EditorInfo.IME_ACTION_DONE) {
-                viewModel.enterSearch(inputValue)
+                searchViewModel.enterSearch(inputValue)
             }
             true
         }
 
         binding.searchInput.setOnFocusChangeListener { view, hasFocus ->
-            if(hasFocus) viewModel.onFocusedSearch()
+            if(hasFocus) searchViewModel.onFocusedSearch()
         }
 
     }

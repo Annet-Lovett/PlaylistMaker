@@ -8,11 +8,12 @@ import com.practicum.playlistmaker.sharing.domain.models.Track
 import com.practicum.playlistmaker.player.ui.view.PlayerActivity.Companion.KEY_FOR_CURRENT_TRACK
 import com.practicum.playlistmaker.search.ui.view.SearchActivity.Companion.KEY_FOR_HISTORY_LIST_TRACK
 
-class SearchPrefs(private val prefs: SharedPreferences) {
+class SearchPrefs(private val prefs: SharedPreferences,
+                  private val gson: Gson) {
 
     fun recordTrack(track: Track) {
 
-        prefs.edit(true) { putString(KEY_FOR_CURRENT_TRACK, Gson().toJson(track)) }
+        prefs.edit(true) { putString(KEY_FOR_CURRENT_TRACK, gson.toJson(track)) }
 
         val currentHistoryList = getHistory().toMutableList()
 
@@ -22,7 +23,7 @@ class SearchPrefs(private val prefs: SharedPreferences) {
             if (size > 10) take(10)
         }
 
-        prefs.edit { putString(KEY_FOR_HISTORY_LIST_TRACK, Gson().toJson(currentHistoryList)) }
+        prefs.edit { putString(KEY_FOR_HISTORY_LIST_TRACK, gson.toJson(currentHistoryList)) }
 
     }
 
@@ -30,12 +31,12 @@ class SearchPrefs(private val prefs: SharedPreferences) {
         val prefsHistory = prefs.getString(KEY_FOR_HISTORY_LIST_TRACK, null)
 
         return if (!prefsHistory.isNullOrBlank()) {
-            Gson().fromJson(prefsHistory, object : TypeToken<List<Track>>() {}.type)
+            gson.fromJson(prefsHistory, object : TypeToken<List<Track>>() {}.type)
                 ?: listOf()
         } else listOf()
     }
 
     fun clearHistory() {
-        prefs.edit (true){ putString(KEY_FOR_HISTORY_LIST_TRACK, Gson().toJson(listOf<Track>())) }
+        prefs.edit (true){ putString(KEY_FOR_HISTORY_LIST_TRACK, gson.toJson(listOf<Track>())) }
     }
 }
