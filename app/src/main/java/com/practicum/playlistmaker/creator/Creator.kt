@@ -10,13 +10,13 @@ import com.practicum.playlistmaker.sharing.domain.impl.TrackInteractorImpl
 
 object Creator {
 
-    private fun getTrackRepository(): TrackRepository {
-        return TrackRepositoryImpl(RetrofitNetworkClient())
-    }
-    private fun getSearchPrefs (): SearchPrefs { return SearchPrefs(MyApplication.sharedPreferences) }
-
-    fun provideTrackInteractor(): TrackInteractor {
-        return TrackInteractorImpl(getTrackRepository(), getSearchPrefs())
-    }
+//    private fun getTrackRepository(): TrackRepository {
+//        return TrackRepositoryImpl(RetrofitNetworkClient())
+//    }
+//    private fun getSearchPrefs (): SearchPrefs { return SearchPrefs(MyApplication.sharedPreferences) }
+//
+//    fun provideTrackInteractor(): TrackInteractor {
+//        return TrackInteractorImpl(getTrackRepository(), getSearchPrefs())
+//    }
 
 }
