@@ -3,13 +3,12 @@ package com.practicum.playlistmaker.settings.ui.view
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
-import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import com.practicum.playlistmaker.R
-import com.practicum.playlistmaker.creator.SettingsViewModelFactory
 import com.practicum.playlistmaker.databinding.ActivitySettingsBinding
-import com.practicum.playlistmaker.settings.ui.view_states.SettingsScreenState
 import com.practicum.playlistmaker.settings.ui.view_model.SettingsViewModel
+import com.practicum.playlistmaker.settings.ui.view_states.SettingsScreenState
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class SettingsActivity : AppCompatActivity() {
 
@@ -17,7 +16,7 @@ class SettingsActivity : AppCompatActivity() {
     private val binding: ActivitySettingsBinding
         get() = _binding!!
 
-    private val viewModel by viewModels<SettingsViewModel> { SettingsViewModelFactory() }
+    private val settingsViewModel by viewModel<SettingsViewModel>()
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -32,7 +31,7 @@ class SettingsActivity : AppCompatActivity() {
 
         binding.themeSwitcher.setOnCheckedChangeListener { _, checked ->
 
-            viewModel.changeTheme(checked)
+            settingsViewModel.changeTheme(checked)
         }
 
 
@@ -67,7 +66,7 @@ class SettingsActivity : AppCompatActivity() {
             startActivity(intent)
         }
 
-        viewModel.getScreenStateLiveData().observe(this) {
+        settingsViewModel.getScreenStateLiveData().observe(this) {
             render(it)
         }
     }

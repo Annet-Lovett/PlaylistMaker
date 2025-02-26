@@ -21,7 +21,13 @@ import org.koin.core.context.startKoin
 import org.koin.dsl.module
 import java.util.concurrent.Executors
 import com.practicum.playlistmaker.search.ui.view_model.SearchViewModel
+import com.practicum.playlistmaker.settings.data.SettingsPrefs
+import com.practicum.playlistmaker.settings.domain.SettingsInteractor
+import com.practicum.playlistmaker.settings.domain.SettingsInteractorImpl
 import com.practicum.playlistmaker.sharing.data.NetworkClient
+import com.practicum.playlistmaker.settings.ui.view_model.SettingsViewModel
+import org.koin.core.module.dsl.bind
+import org.koin.core.module.dsl.singleOf
 
 class MyApplication : Application() {
 
@@ -57,6 +63,12 @@ class MyApplication : Application() {
                     single <TrackInteractor> { TrackInteractorImpl(get(), get()) }
                     factory { Executors.newSingleThreadScheduledExecutor() }
                     viewModelOf(::SearchViewModel)
+                },
+
+                module { //укороченная запись верхних модулей
+                    singleOf(::SettingsPrefs)
+                    singleOf(::SettingsInteractorImpl){bind<SettingsInteractor>()}
+                    viewModelOf(::SettingsViewModel)
                 }
             )
 

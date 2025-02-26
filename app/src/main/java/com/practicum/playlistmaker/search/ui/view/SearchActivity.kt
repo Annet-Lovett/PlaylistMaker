@@ -25,7 +25,7 @@ class SearchActivity : AppCompatActivity() {
     private var isClickAllowed = true
     private val inputValue: String get() = binding.searchInput.text.toString()
 
-    private val viewModel by viewModel<SearchViewModel>()
+    private val searchViewModel by viewModel<SearchViewModel>()
 
     private val trackAdapter = SearchTrackListAdapter()
 
@@ -45,19 +45,19 @@ class SearchActivity : AppCompatActivity() {
         binding.recyclerTrack.adapter = trackAdapter
 
         trackAdapter.onItemClick = { track ->
-            viewModel.saveTrack(track)
+            searchViewModel.saveTrack(track)
             startPlayerActivity()
         }
 
         binding.historyRecycler.adapter = trackHistoryAdapter
 
         trackHistoryAdapter.onItemClick = { track ->
-            viewModel.saveTrack(track)
+            searchViewModel.saveTrack(track)
             startPlayerActivity()
         }
 
         binding.refreshButtonSearch.setOnClickListener {
-            viewModel.enterSearch(inputValue)
+            searchViewModel.enterSearch(inputValue)
         }
 
         binding.buttonClear.setOnClickListener {
@@ -70,10 +70,10 @@ class SearchActivity : AppCompatActivity() {
         }
 
         binding.clearHistoryButton.setOnClickListener {
-            viewModel.clearHistory()
+            searchViewModel.clearHistory()
         }
 
-        viewModel.getScreenStateLiveData().observe(this) {
+        searchViewModel.getScreenStateLiveData().observe(this) {
             renderState(it)
         }
     }
@@ -156,17 +156,17 @@ class SearchActivity : AppCompatActivity() {
 
     private fun initInput() {
         binding.searchInput.addTextChangedListener {
-            viewModel.inputChange(it.toString())
+            searchViewModel.inputChange(it.toString())
         }
       binding.searchInput.setOnEditorActionListener { _, actionId, _ ->
             if (actionId == EditorInfo.IME_ACTION_DONE) {
-                viewModel.enterSearch(inputValue)
+                searchViewModel.enterSearch(inputValue)
             }
             true
         }
 
         binding.searchInput.setOnFocusChangeListener { view, hasFocus ->
-            if(hasFocus) viewModel.onFocusedSearch()
+            if(hasFocus) searchViewModel.onFocusedSearch()
         }
 
     }
