@@ -5,7 +5,8 @@ import com.practicum.playlistmaker.sharing.domain.api.TrackInteractor
 import com.practicum.playlistmaker.sharing.domain.api.TrackRepository
 import com.practicum.playlistmaker.sharing.domain.models.Track
 
-class TrackInteractorImpl(private  val repository: TrackRepository, private val searchPrefs: SearchPrefs) : TrackInteractor {
+class TrackInteractorImpl(private  val repository: TrackRepository,
+                          private val searchPrefs: SearchPrefs) : TrackInteractor {
 
     override fun searchTrack(request: String, consumer: TrackInteractor.TrackConsumer) {
 
