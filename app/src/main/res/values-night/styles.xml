@@ -94,5 +94,19 @@
         <item name="background">@color/dark</item>
     </style>
 
+    <style name="tab_style">
+        <item name="android:gravity">center</item>
+        <item name="tabTextColor">@color/white</item>
+        <item name="tabSelectedTextColor">@color/white</item>
+        <item name="tabIndicatorColor">@color/white</item>
+        <item name="tabRippleColor">@color/light_blue</item>
+        <item name="tabBackground">@color/dark</item>
+        <item name="tabIndicator">@drawable/tab_indicator_white</item>
+        <item name="tabMode">fixed</item>
+        <item name="tabGravity">fill</item>
+        <item name="tabMinWidth">240dp</item>
+        <item name="background">@color/white</item>
+    </style>
+
 
 </resources>

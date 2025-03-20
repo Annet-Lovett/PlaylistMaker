@@ -1,4 +1,4 @@
-<resources xmlns:tools="http://schemas.android.com/tools">
+<resources>
     <!-- Base application theme. -->
     <style name="Base.Theme.PlaylistMaker" parent="Theme.Material3.DayNight.NoActionBar">
         <!-- Customize your dark theme here. -->
@@ -46,5 +46,17 @@
         <item name="android:insetBottom">0dp</item>
         <item name="android:outlineSpotShadowColor">@color/transp</item>
     </style>
+
+<!--    <style name="AppTheme.TabStyle" parent="Widget.Design.TabLayout">-->
+<!--        &lt;!&ndash;        <item name="tabTextAppearance">@style/AppTheme.TextStyle</item>&ndash;&gt;-->
+<!--        <item name="tabTextColor">@color/white</item>-->
+<!--        <item name="tabSelectedTextColor">@color/white</item>-->
+<!--        <item name="tabIndicatorColor">@color/white</item>-->
+<!--        <item name="android:background">@color/dark</item>-->
+<!--        <item name="tabIndicatorHeight">2dp</item>-->
+<!--        <item name="tabMinWidth">148dp</item>-->
+<!--        <item name="tabIndicator">@drawable/tab_indicator_white</item>-->
+
+<!--    </style>-->
 
 </resources>

@@ -6,11 +6,27 @@
         <item name="android:background">@color/light_blue</item>
         <item name="android:statusBarColor">@color/white</item>
         <item name="android:windowLightStatusBar">true</item>
+        <item name="tabIndicatorColor">@color/dark</item>
     </style>
 
     <style name="Base.Settings.Theme.PlaylistMaker" parent="Base.Theme.PlaylistMaker">
         <!-- Customize your light theme here. -->
         <item name="android:background">@color/white</item>
     </style>
+
+<!--    <style name="AppTheme.TabStyle" parent="Widget.Design.TabLayout">-->
+<!--&lt;!&ndash;        <item name="tabTextAppearance">@style/AppTheme.TextStyle</item>&ndash;&gt;-->
+<!--        <item name="tabTextColor">@color/dark</item>-->
+<!--        <item name="tabSelectedTextColor">@color/dark</item>-->
+<!--        <item name="tabIndicatorColor">@color/dark</item>-->
+<!--        <item name="tabIndicatorHeight">2dp</item>-->
+<!--        <item name="background">@color/white</item>-->
+<!--        <item name="tabMinWidth">148dp</item>-->
+<!--        <item name="tabIndicator">@drawable/tab_indicator</item>-->
+<!--&lt;!&ndash;        <item name="android:background">?attr/colorPrimary</item>&ndash;&gt;-->
+<!--    </style>-->
+
+
+
 
 </resources>
