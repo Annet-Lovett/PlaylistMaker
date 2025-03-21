@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".media.ui.view.MediaActivity"
-    android:theme="@style/Base.Settings.Theme.PlaylistMaker">
+    style="@style/other_screens">
 
     <com.google.android.material.appbar.MaterialToolbar
         android:id="@+id/buttonSettingsBack"
@@ -19,11 +19,12 @@
         app:iconGravity="start"
         app:navigationIcon="@drawable/arrow"
         app:title="@string/Mediateka"
-        tools:ignore="MissingConstraints" />
+        tools:ignore="MissingConstraints"
+        style="@style/Base.Settings.Theme.PlaylistMaker"/>
 
     <com.google.android.material.tabs.TabLayout
-        android:id="@+id/tabLayout"
         style="@style/tab_style"
+        android:id="@+id/tabLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_constraintTop_toBottomOf="@+id/buttonSettingsBack"/>

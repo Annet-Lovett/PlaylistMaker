@@ -1,5 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+
+    <style name="main_screen">
+        <item name="android:background">@color/light_blue</item>
+    </style>
+
+    <style name="other_screens">
+        <item name="android:background">@color/white</item>
+    </style>
+
     <style name="buttonMainStyle" parent="Widget.MaterialComponents.Button.UnelevatedButton">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">220dp</item>
