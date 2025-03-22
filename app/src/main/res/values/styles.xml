@@ -167,4 +167,8 @@
         <item name="background">@color/dark</item>
     </style>
 
+    <style name="refactor_theme" parent="Theme.AppCompat.NoActionBar">
+
+    </style>
+
 </resources>

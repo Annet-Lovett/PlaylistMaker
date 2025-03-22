@@ -6,7 +6,7 @@ import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import com.practicum.playlistmaker.sharing.domain.models.Track
 import com.practicum.playlistmaker.player.ui.view.PlayerActivity.Companion.KEY_FOR_CURRENT_TRACK
-import com.practicum.playlistmaker.search.ui.view.SearchActivity.Companion.KEY_FOR_HISTORY_LIST_TRACK
+import com.practicum.playlistmaker.search.ui.view.SearchFragment.Companion.KEY_FOR_HISTORY_LIST_TRACK
 
 class SearchPrefs(private val prefs: SharedPreferences,
                   private val gson: Gson) {
