@@ -1,6 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
+    <style name="main_screen">
+        <item name="android:background">@color/dark</item>
+    </style>
+
+    <style name="other_screens">
+        <item name="android:background">@color/dark</item>
+    </style>
+
     <style name="menuSettings">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">61dp</item>
@@ -92,6 +100,20 @@
 
     <style name="playlistActivity">
         <item name="background">@color/dark</item>
+    </style>
+
+    <style name="tab_style">
+        <item name="android:gravity">center</item>
+        <item name="tabTextColor">@color/white</item>
+        <item name="tabSelectedTextColor">@color/white</item>
+        <item name="tabIndicatorColor">@color/white</item>
+        <item name="tabRippleColor">@color/light_blue</item>
+        <item name="tabBackground">@color/dark</item>
+        <item name="tabIndicator">@drawable/tab_indicator_white</item>
+        <item name="tabMode">fixed</item>
+        <item name="tabGravity">fill</item>
+        <item name="tabMinWidth">240dp</item>
+        <item name="background">@color/white</item>
     </style>
 
 
