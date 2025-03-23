@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".search.ui.view.SearchActivity">
+    style="@style/other_screens">
 
     <com.google.android.material.appbar.MaterialToolbar
         android:id="@+id/buttonSettingsBack"

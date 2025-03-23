@@ -3,31 +3,40 @@ package com.practicum.playlistmaker.settings.ui.view
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
-import androidx.appcompat.app.AppCompatActivity
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import androidx.fragment.app.Fragment
 import com.practicum.playlistmaker.R
-import com.practicum.playlistmaker.databinding.ActivitySettingsBinding
+import com.practicum.playlistmaker.databinding.FragmentSettingsBinding
 import com.practicum.playlistmaker.settings.ui.view_model.SettingsViewModel
 import com.practicum.playlistmaker.settings.ui.view_states.SettingsScreenState
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
-class SettingsActivity : AppCompatActivity() {
+class SettingsFragment: Fragment() {
 
-    private var _binding: ActivitySettingsBinding? = null
-    private val binding: ActivitySettingsBinding
+    private var _binding: FragmentSettingsBinding? = null
+    private val binding: FragmentSettingsBinding
         get() = _binding!!
 
     private val settingsViewModel by viewModel<SettingsViewModel>()
 
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View {
+        _binding = FragmentSettingsBinding.inflate(layoutInflater)
+        return binding.root
+    }
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
+    }
 
-        _binding = ActivitySettingsBinding.inflate(layoutInflater)
-        setContentView(binding.root)
-
-        binding.buttonSettingsBack.setNavigationOnClickListener {
-            finish()
-        }
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
 
         binding.themeSwitcher.setOnCheckedChangeListener { _, checked ->
 
@@ -66,7 +75,7 @@ class SettingsActivity : AppCompatActivity() {
             startActivity(intent)
         }
 
-        settingsViewModel.getScreenStateLiveData().observe(this) {
+        settingsViewModel.getScreenStateLiveData().observe(viewLifecycleOwner) {
             render(it)
         }
     }
@@ -74,5 +83,6 @@ class SettingsActivity : AppCompatActivity() {
     private fun render (state: SettingsScreenState) {
         binding.themeSwitcher.isChecked = state.isDarkTheme
     }
+
 
 }

@@ -168,7 +168,6 @@ class SearchFragment : Fragment() {
 
     private fun initInput() {
         binding.searchInput.addTextChangedListener {
-            println("fragment: ${it.toString()}")
             searchViewModel.inputChange(it.toString())
         }
         binding.searchInput.setOnEditorActionListener { _, actionId, _ ->

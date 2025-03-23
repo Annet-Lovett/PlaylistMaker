@@ -1,10 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <style name="main_screen">
-        <item name="android:background">@color/light_blue</item>
-    </style>
-
     <style name="other_screens">
         <item name="android:background">@color/white</item>
     </style>
@@ -28,7 +24,8 @@
         <item name="android:fontFamily">@font/ys_display_medium</item>
     </style>
     
-    <style name="menuSettings">
+    <style name="menuSettings"
+        parent="@style/Widget.AppCompat.Button.Borderless">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">61dp</item>
         <item name="android:gravity">center_vertical</item>
@@ -42,6 +39,7 @@
         <item name="android:outlineSpotShadowColor">@color/transp</item>
         <item name="android:textAllCaps">false</item>
         <item name="android:letterSpacing">0.01</item>
+        <item name="elevation">0dp</item>
     </style>
 
     <style name="inputSearch">
@@ -165,10 +163,13 @@
         <item name="tabGravity">fill</item>
         <item name="tabMinWidth">240dp</item>
         <item name="background">@color/dark</item>
+        <item name="tabTextAppearance">@style/tab_title_appearanse</item>
     </style>
 
-    <style name="refactor_theme" parent="Theme.AppCompat.NoActionBar">
-
+    <style name="tab_title_appearanse" parent="@android:style/TextAppearance.Widget.TabWidget">
+        <item name="textAllCaps">false</item>
+        <item name="android:textAllCaps">false</item>
     </style>
+
 
 </resources>

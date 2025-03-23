@@ -4,39 +4,29 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:paddingHorizontal="@dimen/normal_padding_size"
-    android:paddingTop="4dp"
-    style="@style/main_screen">
+    android:orientation="vertical">
 
-    <TextView
-        android:layout_width="wrap_content"
+    <fragment
+        android:name="androidx.navigation.fragment.NavHostFragment"
+        android:id="@+id/content"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        app:defaultNavHost="true"
+        app:navGraph="@navigation/main"/>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/lightGrey"/>
+
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        style="@style/other_screens"
+        app:itemIconTint="@color/checked"
+        app:itemTextColor="@color/checked"
+        android:id="@+id/bottom_nav"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="start"
-        android:paddingTop="10dp"
-        android:paddingBottom="12dp"
-        android:text="@string/App_name"
-        android:textColor="@color/white"
-        android:textSize="@dimen/primary_text_size"
-        android:fontFamily="@font/ys_display_medium"
-        android:textFontWeight="500"/>
-
-    <Button
-        android:id="@+id/button_main_search"
-        style="@style/buttonMainStyle"
-        android:text="@string/Search"
-        app:icon="@drawable/search" />
-
-    <Button
-        android:id="@+id/button_main_media"
-        style="@style/buttonMainStyle"
-        android:text="@string/Mediateka"
-        app:icon="@drawable/media" />
-
-    <Button
-        android:id="@+id/button_main_settings"
-        android:text="@string/Settings"
-        app:icon="@drawable/settings"
-        style="@style/buttonMainStyle"/>
+        app:menu="@menu/main_bottom"/>
 
 </LinearLayout>
