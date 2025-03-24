@@ -110,6 +110,12 @@
         <item name="tabGravity">fill</item>
         <item name="tabMinWidth">240dp</item>
         <item name="background">@color/white</item>
+        <item name="tabTextAppearance">@style/tab_title_appearanse</item>
+    </style>
+
+    <style name="tab_title_appearanse" parent="@android:style/TextAppearance.Widget.TabWidget">
+        <item name="textAllCaps">false</item>
+        <item name="android:textAllCaps">false</item>
     </style>
 
 
