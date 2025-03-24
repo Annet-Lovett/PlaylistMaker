@@ -6,7 +6,7 @@
     android:id="@+id/scroll"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:theme="@style/Base.Settings.Theme.PlaylistMaker">
+    android:theme="@style/other_screens">
 
 <androidx.constraintlayout.widget.ConstraintLayout
     android:theme="@style/Base.Settings.Theme.PlaylistMaker"
@@ -95,13 +95,10 @@
       app:layout_constraintStart_toStartOf="@id/leftBorder24"
       app:layout_constraintTop_toBottomOf="@+id/playerNameOfTheTrack" />
 
+
   <com.google.android.material.button.MaterialButton
+      style="@style/buttonAdd"
       android:id="@+id/playerButtonPlus"
-      style="@style/buttonLikeAdd"
-      android:layout_width="51dp"
-      android:layout_height="51dp"
-      android:layout_marginTop="54dp"
-      app:icon="@drawable/playlist_button_plus"
       app:layout_constraintEnd_toStartOf="@id/playerButtonPlay"
       app:layout_constraintHorizontal_chainStyle="spread_inside"
       app:layout_constraintStart_toStartOf="@id/leftBorder24"
@@ -120,10 +117,7 @@
 
   <com.google.android.material.button.MaterialButton
       android:id="@+id/playerButtonLike"
-      style="@style/buttonLikeAdd"
-      android:layout_width="51dp"
-      android:layout_height="51dp"
-      app:icon="@drawable/playlist_like_button"
+      style="@style/buttonLike"
       app:layout_constraintBaseline_toBaselineOf="@+id/playerButtonPlus"
       app:layout_constraintEnd_toEndOf="@id/rightBorder24"
       app:layout_constraintStart_toEndOf="@+id/playerButtonPlay" />

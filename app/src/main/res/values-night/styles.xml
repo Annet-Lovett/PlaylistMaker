@@ -80,15 +80,39 @@
         <item name="android:gravity">center</item>
     </style>
 
-    <style name="buttonLikeAdd">
-        <item name="backgroundTint">@color/trans_white</item>
+    <style name="buttonAdd">
+        <item name="cornerRadius">100dp</item>
         <item name="android:insetTop">0dp</item>
         <item name="android:insetBottom">0dp</item>
         <item name="iconGravity">textEnd</item>
         <item name="iconPadding">0dp</item>
-        <item name="iconSize">23dp</item>
+        <item name="android:layout_width">51dp</item>
+        <item name="android:layout_height">51dp</item>
+        <item name="android:layout_marginTop">54dp</item>
+        <item name="android:elevation">0dp</item>
+        <item name="android:backgroundTint">@color/trans_white</item>
         <item name="iconTint">@color/white</item>
+        <item name="elevation">0dp</item>
+        <item name="icon">@drawable/button_plus_dark</item>
     </style>
+
+    <style name="buttonLike">
+        <item name="cornerRadius">100dp</item>
+        <item name="android:insetTop">0dp</item>
+        <item name="android:insetBottom">0dp</item>
+        <item name="iconGravity">textEnd</item>
+        <item name="iconPadding">0dp</item>
+        <item name="android:layout_width">51dp</item>
+        <item name="android:layout_height">51dp</item>
+        <item name="android:layout_marginTop">54dp</item>
+        <item name="android:elevation">0dp</item>
+        <item name="android:backgroundTint">@color/trans_white</item>
+        <item name="iconTint">@color/white</item>
+        <item name="elevation">0dp</item>
+        <item name="icon">@drawable/button_like_dark</item>
+    </style>
+
+
 
     <style name="playlistPlayButton">
         <item name="backgroundTint">@color/white</item>
