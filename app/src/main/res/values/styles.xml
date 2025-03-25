@@ -1,10 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <style name="main_screen">
-        <item name="android:background">@color/light_blue</item>
-    </style>
-
     <style name="other_screens">
         <item name="android:background">@color/white</item>
     </style>
@@ -28,7 +24,8 @@
         <item name="android:fontFamily">@font/ys_display_medium</item>
     </style>
     
-    <style name="menuSettings">
+    <style name="menuSettings"
+        parent="@style/Widget.AppCompat.Button.Borderless">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">61dp</item>
         <item name="android:gravity">center_vertical</item>
@@ -42,6 +39,7 @@
         <item name="android:outlineSpotShadowColor">@color/transp</item>
         <item name="android:textAllCaps">false</item>
         <item name="android:letterSpacing">0.01</item>
+        <item name="elevation">0dp</item>
     </style>
 
     <style name="inputSearch">
@@ -135,36 +133,42 @@
         <item name="android:gravity">center</item>
     </style>
 
+
+
     <style name="buttonLikeAdd">
-        <item name="backgroundTint">@color/trans_dark</item>
-        <item name="android:insetTop">0dp</item>
-        <item name="android:insetBottom">0dp</item>
-        <item name="iconGravity">textEnd</item>
-        <item name="iconPadding">0dp</item>
-        <item name="iconSize">23dp</item>
-        <item name="iconTint">@color/white</item>
+        <item name="android:layout_width">51dp</item>
+        <item name="android:layout_height">51dp</item>
+        <item name="android:layout_marginTop">54dp</item>
+        <item name="android:background">@drawable/background_for_button_add_like_day</item>
     </style>
 
     <style name="playlistPlayButton">
-        <item name="backgroundTint">@color/black</item>
+        <item name="backgroundTint">@color/dark</item>
     </style>
 
     <style name="playlistActivity">
         <item name="background">@color/white</item>
     </style>
 
-    <style name="tab_style">
+    <style name="tab_style" parent="Widget.Design.TabLayout">
         <item name="android:gravity">center</item>
         <item name="tabTextColor">@color/black</item>
         <item name="tabSelectedTextColor">@color/black</item>
         <item name="tabIndicatorColor">@color/dark</item>
         <item name="tabRippleColor">@color/light_blue</item>
-        <item name="tabBackground">@color/white</item>
+<!--        <item name="tabBackground">@color/white</item>-->
         <item name="tabIndicator">@drawable/tab_indicator</item>
         <item name="tabMode">fixed</item>
         <item name="tabGravity">fill</item>
         <item name="tabMinWidth">240dp</item>
-        <item name="background">@color/dark</item>
+<!--        <item name="background">@color/dark</item>-->
+        <item name="tabTextAppearance">@style/tab_title_appearanse</item>
     </style>
+
+    <style name="tab_title_appearanse" parent="@android:style/TextAppearance.Widget.TabWidget">
+        <item name="textAllCaps">false</item>
+        <item name="android:textAllCaps">false</item>
+    </style>
+
 
 </resources>

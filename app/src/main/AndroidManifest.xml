@@ -19,21 +19,12 @@
         <activity
             android:name=".player.ui.view.PlayerActivity"
             android:exported="false" />
-        <activity
-            android:name=".media.ui.view.MediaActivity"
-            android:exported="false" />
-        <activity
-            android:name=".settings.ui.view.SettingsActivity"
-            android:exported="false"
-            android:theme="@style/Base.Settings.Theme.PlaylistMaker" />
-        <activity
-            android:name=".search.ui.view.SearchActivity"
-            android:exported="false"
-            android:theme="@style/Base.Settings.Theme.PlaylistMaker" />
+
         <activity
             android:name=".main.ui.MainActivity"
             android:exported="true"
-            android:theme="@style/Base.Theme.PlaylistMaker" >
+            android:theme="@style/Base.Theme.PlaylistMaker"
+            android:windowSoftInputMode="adjustPan">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

@@ -6,7 +6,7 @@
     android:id="@+id/scroll"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:theme="@style/Base.Settings.Theme.PlaylistMaker">
+    android:theme="@style/other_screens">
 
 <androidx.constraintlayout.widget.ConstraintLayout
     android:theme="@style/Base.Settings.Theme.PlaylistMaker"
@@ -95,38 +95,35 @@
       app:layout_constraintStart_toStartOf="@id/leftBorder24"
       app:layout_constraintTop_toBottomOf="@+id/playerNameOfTheTrack" />
 
-  <com.google.android.material.button.MaterialButton
-      android:id="@+id/playerButtonPlus"
+
+  <ImageButton
       style="@style/buttonLikeAdd"
-      android:layout_width="51dp"
-      android:layout_height="51dp"
-      android:layout_marginTop="54dp"
-      app:icon="@drawable/playlist_button_plus"
-      app:layout_constraintEnd_toStartOf="@id/playerButtonPlay"
+      android:id="@+id/playerButtonPlus"
+      app:srcCompat="@drawable/ic_player_add_plist_button"
       app:layout_constraintHorizontal_chainStyle="spread_inside"
       app:layout_constraintStart_toStartOf="@id/leftBorder24"
-      app:layout_constraintTop_toBottomOf="@+id/playerNameOfTheArtist" />
+      app:layout_constraintTop_toBottomOf="@+id/playerNameOfTheArtist"
+      app:layout_constraintEnd_toStartOf="@id/playerButtonPlay" />
 
   <com.google.android.material.button.MaterialButton
       style="@style/playlistPlayButton"
       android:id="@+id/playerButtonPlay"
+      android:layout_marginTop="38dp"
       android:layout_width="84dp"
       android:layout_height="84dp"
       android:background="@drawable/button_play"
-      android:theme="@style/Base.Theme.PlaylistMaker"
-      app:layout_constraintBaseline_toBaselineOf="@+id/playerButtonPlus"
+      app:layout_constraintTop_toBottomOf="@+id/playerNameOfTheArtist"
       app:layout_constraintEnd_toStartOf="@id/playerButtonLike"
       app:layout_constraintStart_toEndOf="@+id/playerButtonPlus" />
 
-  <com.google.android.material.button.MaterialButton
-      android:id="@+id/playerButtonLike"
+  <ImageButton
       style="@style/buttonLikeAdd"
-      android:layout_width="51dp"
-      android:layout_height="51dp"
-      app:icon="@drawable/playlist_like_button"
-      app:layout_constraintBaseline_toBaselineOf="@+id/playerButtonPlus"
-      app:layout_constraintEnd_toEndOf="@id/rightBorder24"
-      app:layout_constraintStart_toEndOf="@+id/playerButtonPlay" />
+      android:id="@+id/playerButtonLike"
+      app:srcCompat="@drawable/ic_player_add_favs_button"
+      app:layout_constraintTop_toBottomOf="@+id/playerNameOfTheArtist"
+      app:layout_constraintStart_toEndOf="@+id/playerButtonPlay"
+      app:layout_constraintEnd_toEndOf="@id/rightBorder24" />
+
 
   <TextView
       android:id="@+id/playerDurationOfTheTrackNearThePlay"

@@ -36,7 +36,7 @@ class PlayerActivity : AppCompatActivity() {
             playerViewModel.toggle()
         }
 
-        binding.playerBackButton.setOnClickListener {
+        binding.playerBackButton.setNavigationOnClickListener {
             finish()
         }
 

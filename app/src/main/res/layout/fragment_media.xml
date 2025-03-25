@@ -4,7 +4,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".media.ui.view.MediaActivity"
     style="@style/other_screens">
 
     <com.google.android.material.appbar.MaterialToolbar
@@ -17,7 +16,6 @@
         android:textFontWeight="500"
         app:contentInsetStartWithNavigation="24dp"
         app:iconGravity="start"
-        app:navigationIcon="@drawable/arrow"
         app:title="@string/Mediateka"
         tools:ignore="MissingConstraints"
         style="@style/Base.Settings.Theme.PlaylistMaker"/>

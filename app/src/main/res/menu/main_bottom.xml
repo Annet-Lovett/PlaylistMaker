@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item android:id="@+id/search_page"
+        android:title="@string/Search"
+        android:icon="@drawable/search"/>
+
+    <item android:id="@+id/media_page"
+        android:title="@string/Mediateka"
+        android:icon="@drawable/media"/>
+
+    <item android:id="@+id/settings_page"
+        android:title="@string/Settings"
+        android:icon="@drawable/settings"/>
+
+
+</menu>

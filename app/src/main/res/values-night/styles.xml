@@ -1,10 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <style name="main_screen">
-        <item name="android:background">@color/dark</item>
-    </style>
-
     <style name="other_screens">
         <item name="android:background">@color/dark</item>
     </style>
@@ -85,14 +81,12 @@
     </style>
 
     <style name="buttonLikeAdd">
-        <item name="backgroundTint">@color/trans_white</item>
-        <item name="android:insetTop">0dp</item>
-        <item name="android:insetBottom">0dp</item>
-        <item name="iconGravity">textEnd</item>
-        <item name="iconPadding">0dp</item>
-        <item name="iconSize">23dp</item>
-        <item name="iconTint">@color/white</item>
+        <item name="android:layout_width">51dp</item>
+        <item name="android:layout_height">51dp</item>
+        <item name="android:layout_marginTop">54dp</item>
+        <item name="android:background">@drawable/background_for_button_add_like_night</item>
     </style>
+
 
     <style name="playlistPlayButton">
         <item name="backgroundTint">@color/white</item>
@@ -102,18 +96,24 @@
         <item name="background">@color/dark</item>
     </style>
 
-    <style name="tab_style">
+    <style name="tab_style" parent="Widget.Design.TabLayout">
         <item name="android:gravity">center</item>
         <item name="tabTextColor">@color/white</item>
         <item name="tabSelectedTextColor">@color/white</item>
         <item name="tabIndicatorColor">@color/white</item>
         <item name="tabRippleColor">@color/light_blue</item>
-        <item name="tabBackground">@color/dark</item>
+<!--        <item name="tabBackground">@color/dark</item>-->
         <item name="tabIndicator">@drawable/tab_indicator_white</item>
         <item name="tabMode">fixed</item>
         <item name="tabGravity">fill</item>
         <item name="tabMinWidth">240dp</item>
-        <item name="background">@color/white</item>
+<!--        <item name="background">@color/white</item>-->
+        <item name="tabTextAppearance">@style/tab_title_appearanse</item>
+    </style>
+
+    <style name="tab_title_appearanse" parent="@android:style/TextAppearance.Widget.TabWidget">
+        <item name="textAllCaps">false</item>
+        <item name="android:textAllCaps">false</item>
     </style>
 
 

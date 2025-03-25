@@ -35,7 +35,6 @@ class SearchViewModel(private val interactor: TrackInteractor,
     fun getScreenStateLiveData(): LiveData<ScreenState> = screenStateLiveData
 
     fun inputChange(request: String) {
-
         debounceFuture?.cancel(true)
 
         screenStateLiveData.value = screenStateLiveData.value!!.copy(
