@@ -96,31 +96,34 @@
       app:layout_constraintTop_toBottomOf="@+id/playerNameOfTheTrack" />
 
 
-  <com.google.android.material.button.MaterialButton
-      style="@style/buttonAdd"
+  <ImageButton
+      style="@style/buttonLikeAdd"
       android:id="@+id/playerButtonPlus"
-      app:layout_constraintEnd_toStartOf="@id/playerButtonPlay"
+      app:srcCompat="@drawable/ic_player_add_plist_button"
       app:layout_constraintHorizontal_chainStyle="spread_inside"
       app:layout_constraintStart_toStartOf="@id/leftBorder24"
-      app:layout_constraintTop_toBottomOf="@+id/playerNameOfTheArtist" />
+      app:layout_constraintTop_toBottomOf="@+id/playerNameOfTheArtist"
+      app:layout_constraintEnd_toStartOf="@id/playerButtonPlay" />
 
   <com.google.android.material.button.MaterialButton
       style="@style/playlistPlayButton"
       android:id="@+id/playerButtonPlay"
+      android:layout_marginTop="38dp"
       android:layout_width="84dp"
       android:layout_height="84dp"
       android:background="@drawable/button_play"
-      android:theme="@style/Base.Theme.PlaylistMaker"
-      app:layout_constraintBaseline_toBaselineOf="@+id/playerButtonPlus"
+      app:layout_constraintTop_toBottomOf="@+id/playerNameOfTheArtist"
       app:layout_constraintEnd_toStartOf="@id/playerButtonLike"
       app:layout_constraintStart_toEndOf="@+id/playerButtonPlus" />
 
-  <com.google.android.material.button.MaterialButton
+  <ImageButton
+      style="@style/buttonLikeAdd"
       android:id="@+id/playerButtonLike"
-      style="@style/buttonLike"
-      app:layout_constraintBaseline_toBaselineOf="@+id/playerButtonPlus"
-      app:layout_constraintEnd_toEndOf="@id/rightBorder24"
-      app:layout_constraintStart_toEndOf="@+id/playerButtonPlay" />
+      app:srcCompat="@drawable/ic_player_add_favs_button"
+      app:layout_constraintTop_toBottomOf="@+id/playerNameOfTheArtist"
+      app:layout_constraintStart_toEndOf="@+id/playerButtonPlay"
+      app:layout_constraintEnd_toEndOf="@id/rightBorder24" />
+
 
   <TextView
       android:id="@+id/playerDurationOfTheTrackNearThePlay"
