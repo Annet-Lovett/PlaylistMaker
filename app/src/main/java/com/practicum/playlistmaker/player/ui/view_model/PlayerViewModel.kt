@@ -4,34 +4,39 @@ import android.media.MediaPlayer
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.practicum.playlistmaker.player.ui.view_states.PlayerState
 import com.practicum.playlistmaker.player.ui.view_states.TrackState
 import com.practicum.playlistmaker.player.domain.PlayerInteractor
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat
 import java.util.Locale
-import java.util.concurrent.Executors
-import java.util.concurrent.Future
 import java.util.concurrent.TimeUnit
 
 class PlayerViewModel(private val playerInteractor: PlayerInteractor,
                       private val mediaPlayer: MediaPlayer) : ViewModel() {
 
-    private val playerStateLiveData = MutableLiveData<PlayerState>(PlayerState.Initial)
+//    private val playerStateLiveData = MutableLiveData<PlayerState>(PlayerState.Initial)
 
-    private var progressExecutor = Executors.newSingleThreadScheduledExecutor()
-    private var executorFuture: Future<*>? = null
+    val progressFlow = MutableStateFlow<PlayerState>(PlayerState.Initial)
+
+    private var progressJob : Job? = null
 
     init {
         preparePlayer(mediaPlayer)
     }
 
-    fun getScreenStateLiveData(): LiveData<PlayerState> = playerStateLiveData
+//    fun getScreenStateLiveData(): LiveData<PlayerState> = playerStateLiveData
 
     override fun onCleared() {
         super.onCleared()
         mediaPlayer.release()
-        executorFuture?.cancel(true)
-        progressExecutor.shutdownNow()
+
     }
 
     private fun preparePlayer(mediaPlayer: MediaPlayer) {
@@ -41,14 +46,10 @@ class PlayerViewModel(private val playerInteractor: PlayerInteractor,
         mediaPlayer.setDataSource(track.previewUrl)
         mediaPlayer.prepareAsync()
         mediaPlayer.setOnPreparedListener {
-            playerStateLiveData.value = TrackState(progress = START_TIME, isPlaying = false, track = track)
-
+            progressFlow.update { TrackState(progress = START_TIME, isPlaying = false, track = track) }
         }
         mediaPlayer.setOnCompletionListener {
-            executorFuture?.cancel(true)
-            progressExecutor.shutdownNow()
-            progressExecutor = Executors.newSingleThreadScheduledExecutor()
-            playerStateLiveData.value = TrackState(progress = START_TIME, isPlaying = false, track = track)
+            progressFlow.update {TrackState(progress = START_TIME, isPlaying = false, track = track)}
         }
     }
 
@@ -56,40 +57,44 @@ class PlayerViewModel(private val playerInteractor: PlayerInteractor,
 
     fun startPlayer() {
 
-        val currentState = playerStateLiveData.value
+        val currentState = progressFlow.value
 
         when (currentState) {
             is TrackState -> {
                 val newState = currentState.copy(isPlaying = true)
-                playerStateLiveData.postValue(newState)
+                progressFlow.update { newState }
             }
             else -> {}
         }
 
         mediaPlayer.start()
-        executorFuture = progressExecutor.scheduleWithFixedDelay({ updatePlayerState() }, 0, 300, TimeUnit.MILLISECONDS )
+//        executorFuture = progressExecutor.scheduleWithFixedDelay({ updatePlayerState() }, 0, 300, TimeUnit.MILLISECONDS)
+        progressJob = viewModelScope.launch {
+            while (true) {
+                delay(300)
+                updatePlayerState()
+            }
+        }
 
     }
 
     fun pausePlayer() {
-        val currentState = playerStateLiveData.value
+        val currentState = progressFlow.value
 
         when (currentState) {
             is TrackState -> {
                 val newState = currentState.copy(isPlaying = false)
-                playerStateLiveData.postValue(newState)
+                progressFlow.update { newState }
             }
             else -> {}
         }
 
         mediaPlayer.pause()
-        executorFuture?.cancel(true)
-        progressExecutor.shutdownNow()
-        progressExecutor = Executors.newSingleThreadScheduledExecutor()
+        progressJob?.cancel()
     }
 
     fun toggle() {
-        val trackState = playerStateLiveData.value as? TrackState
+        val trackState = progressFlow.value as? TrackState
 
         if(trackState?.isPlaying==true) {
             pausePlayer()
@@ -106,8 +111,8 @@ class PlayerViewModel(private val playerInteractor: PlayerInteractor,
     }
 
     private fun updatePlayerState() {
-        val trackState = playerStateLiveData.value as TrackState
-        playerStateLiveData.postValue(trackState.copy(progress = getCurrentPosition()))
+        val trackState = progressFlow.value as TrackState
+        progressFlow.update { trackState.copy(progress = getCurrentPosition()) }
     }
 
     companion object {

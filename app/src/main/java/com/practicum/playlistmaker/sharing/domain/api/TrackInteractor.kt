@@ -4,7 +4,7 @@ import com.practicum.playlistmaker.sharing.domain.models.Track
 
 interface TrackInteractor {
 
-    fun searchTrack (request: String, consumer: TrackConsumer)
+    suspend fun searchTrack (request: String) : List<Track>?
 
     fun getHistory (): List<Track>
 
@@ -12,8 +12,5 @@ interface TrackInteractor {
 
     fun recordTrack(track: Track)
 
-    interface TrackConsumer {
-        fun consume(foundTracks: List<Track>?)
-    }
 
 }

@@ -4,6 +4,6 @@ import com.practicum.playlistmaker.sharing.domain.models.Track
 
 interface TrackRepository {
 
-    fun searchTracks (request: String): List<Track>?
+    suspend fun searchTracks (request: String): List<Track>?
 
 }

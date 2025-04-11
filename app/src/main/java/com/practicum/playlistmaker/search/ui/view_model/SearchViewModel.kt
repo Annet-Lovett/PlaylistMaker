@@ -3,17 +3,18 @@ package com.practicum.playlistmaker.search.ui.view_model
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.practicum.playlistmaker.search.ui.view_states.HistoryState
 import com.practicum.playlistmaker.search.ui.view_states.ScreenState
 import com.practicum.playlistmaker.search.ui.view_states.SearchScreenState
 import com.practicum.playlistmaker.sharing.domain.api.TrackInteractor
 import com.practicum.playlistmaker.sharing.domain.models.Track
-import java.util.concurrent.Future
-import java.util.concurrent.ScheduledExecutorService
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import java.util.concurrent.TimeUnit
 
-class SearchViewModel(private val interactor: TrackInteractor,
-                      private val debounceExecutor: ScheduledExecutorService) : ViewModel() {
+class SearchViewModel(private val interactor: TrackInteractor) : ViewModel() {
 
     private val screenStateLiveData = MutableLiveData(
         ScreenState(false, SearchScreenState.Initial)
@@ -28,14 +29,14 @@ class SearchViewModel(private val interactor: TrackInteractor,
             }
         }
 
-    private var debounceFuture: Future<*>? = null
+    private var debounceJob: Job? = null
 
     var listOfFoundTracks = emptyList<Track>()
 
     fun getScreenStateLiveData(): LiveData<ScreenState> = screenStateLiveData
 
     fun inputChange(request: String) {
-        debounceFuture?.cancel(true)
+        debounceJob?.cancel()
 
         screenStateLiveData.value = screenStateLiveData.value!!.copy(
             showClear = request.isNotEmpty()
@@ -48,60 +49,60 @@ class SearchViewModel(private val interactor: TrackInteractor,
             return
         }
 
-        debounceFuture = debounceExecutor.schedule({
+        debounceJob = viewModelScope.launch {
+
+            delay(TimeUnit.SECONDS.toMillis(1))
+
             screenStateLiveData.postValue(screenStateLiveData.value!!.copy(searchState = SearchScreenState.Loading))
 
-            interactor.searchTrack(request, object : TrackInteractor.TrackConsumer {
-                override fun consume(foundTracks: List<Track>?) {
-                    if (!foundTracks.isNullOrEmpty()) {
-                        screenStateLiveData.postValue(
-                            screenStateLiveData.value!!.copy(
-                                searchState = SearchScreenState.Content(
-                                    foundTracks
-                                )
-                            )
+            val foundTracks = interactor.searchTrack(request)
+
+            if (!foundTracks.isNullOrEmpty()) {
+                screenStateLiveData.postValue(
+                    screenStateLiveData.value!!.copy(
+                        searchState = SearchScreenState.Content(
+                            foundTracks
                         )
-                        listOfFoundTracks = foundTracks
-                    }
-                    if (foundTracks != null && foundTracks.isEmpty()) {
-                        screenStateLiveData.postValue(screenStateLiveData.value!!.copy(searchState = SearchScreenState.Empty))
-                    }
+                    )
+                )
+                listOfFoundTracks = foundTracks
+            }
+            if (foundTracks != null && foundTracks.isEmpty()) {
+                screenStateLiveData.postValue(screenStateLiveData.value!!.copy(searchState = SearchScreenState.Empty))
+            }
 
-                    if (foundTracks == null) {
-                        screenStateLiveData.postValue(screenStateLiveData.value!!.copy(searchState = SearchScreenState.Error))
-                    }
-                }
-            })
-        }, 1, TimeUnit.SECONDS)
-
+            if (foundTracks == null) {
+                screenStateLiveData.postValue(screenStateLiveData.value!!.copy(searchState = SearchScreenState.Error))
+            }
+        }
     }
 
     fun enterSearch(request: String) {
 
-        debounceFuture?.cancel(true) //отменяет ожидаемый запрос
+        debounceJob?.cancel() //отменяет ожидаемый запрос
 
-        debounceFuture = debounceExecutor.submit {
-            interactor.searchTrack(request, object : TrackInteractor.TrackConsumer {
-                override fun consume(foundTracks: List<Track>?) {
-                    if (!foundTracks.isNullOrEmpty()) {
-                        screenStateLiveData.postValue(
-                            screenStateLiveData.value!!.copy(
-                                searchState = SearchScreenState.Content(
-                                    foundTracks
-                                )
-                            )
+        viewModelScope.launch {
+
+            val foundTracks = interactor.searchTrack(request)
+
+            if (!foundTracks.isNullOrEmpty()) {
+                screenStateLiveData.postValue(
+                    screenStateLiveData.value!!.copy(
+                        searchState = SearchScreenState.Content(
+                            foundTracks
                         )
-                        listOfFoundTracks = foundTracks
-                    }
-                    if (foundTracks != null && foundTracks.isEmpty()) {
-                        screenStateLiveData.postValue(screenStateLiveData.value!!.copy(searchState = SearchScreenState.Empty))
-                    }
+                    )
+                )
+                listOfFoundTracks = foundTracks
+            }
+            if (foundTracks != null && foundTracks.isEmpty()) {
+                screenStateLiveData.postValue(screenStateLiveData.value!!.copy(searchState = SearchScreenState.Empty))
+            }
 
-                    if (foundTracks == null) {
-                        screenStateLiveData.postValue(screenStateLiveData.value!!.copy(searchState = SearchScreenState.Error))
-                    }
-                }
-            })
+            if (foundTracks == null) {
+                screenStateLiveData.postValue(screenStateLiveData.value!!.copy(searchState = SearchScreenState.Error))
+            }
+
         }
 
         screenStateLiveData.value =
