@@ -1,8 +1,6 @@
 package com.practicum.playlistmaker.player.ui.view_model
 
 import android.media.MediaPlayer
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.practicum.playlistmaker.player.ui.view_states.PlayerState
@@ -11,17 +9,13 @@ import com.practicum.playlistmaker.player.domain.PlayerInteractor
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat
 import java.util.Locale
-import java.util.concurrent.TimeUnit
 
 class PlayerViewModel(private val playerInteractor: PlayerInteractor,
                       private val mediaPlayer: MediaPlayer) : ViewModel() {
-
-//    private val playerStateLiveData = MutableLiveData<PlayerState>(PlayerState.Initial)
 
     val progressFlow = MutableStateFlow<PlayerState>(PlayerState.Initial)
 
@@ -31,12 +25,10 @@ class PlayerViewModel(private val playerInteractor: PlayerInteractor,
         preparePlayer(mediaPlayer)
     }
 
-//    fun getScreenStateLiveData(): LiveData<PlayerState> = playerStateLiveData
 
     override fun onCleared() {
         super.onCleared()
         mediaPlayer.release()
-
     }
 
     private fun preparePlayer(mediaPlayer: MediaPlayer) {
@@ -50,10 +42,9 @@ class PlayerViewModel(private val playerInteractor: PlayerInteractor,
         }
         mediaPlayer.setOnCompletionListener {
             progressFlow.update {TrackState(progress = START_TIME, isPlaying = false, track = track)}
+            progressJob?.cancel()
         }
     }
-
-
 
     fun startPlayer() {
 
@@ -68,8 +59,9 @@ class PlayerViewModel(private val playerInteractor: PlayerInteractor,
         }
 
         mediaPlayer.start()
-//        executorFuture = progressExecutor.scheduleWithFixedDelay({ updatePlayerState() }, 0, 300, TimeUnit.MILLISECONDS)
+
         progressJob = viewModelScope.launch {
+
             while (true) {
                 delay(300)
                 updatePlayerState()
