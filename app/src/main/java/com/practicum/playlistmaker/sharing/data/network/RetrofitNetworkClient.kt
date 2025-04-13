@@ -20,6 +20,8 @@ class RetrofitNetworkClient: NetworkClient {
     override suspend fun doRequest(dto: Any): Response {
         return  try {
             trackService.search((dto as TrackRequest).request)
+                .apply { resultCode = 200 }
+
         }
 
         catch (t: Throwable) {
