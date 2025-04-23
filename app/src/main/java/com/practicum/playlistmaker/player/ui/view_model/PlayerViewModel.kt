@@ -6,16 +6,22 @@ import androidx.lifecycle.viewModelScope
 import com.practicum.playlistmaker.player.ui.view_states.PlayerState
 import com.practicum.playlistmaker.player.ui.view_states.TrackState
 import com.practicum.playlistmaker.player.domain.PlayerInteractor
+import com.practicum.playlistmaker.sharing.domain.api.FavouritesInteractor
+import com.practicum.playlistmaker.sharing.domain.impl.FavouritesInteractorImpl
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat
 import java.util.Locale
 
 class PlayerViewModel(private val playerInteractor: PlayerInteractor,
-                      private val mediaPlayer: MediaPlayer) : ViewModel() {
+                      private val mediaPlayer: MediaPlayer,
+    private val favouritesInteractor: FavouritesInteractor,) : ViewModel() {
 
     val progressFlow = MutableStateFlow<PlayerState>(PlayerState.Initial)
 
@@ -23,6 +29,14 @@ class PlayerViewModel(private val playerInteractor: PlayerInteractor,
 
     init {
         preparePlayer(mediaPlayer)
+
+        viewModelScope.launch {
+            favouritesInteractor.getAllFavouriteTracks()
+                .map { it.contains(playerInteractor.getTrack()) }
+                .collect { isFavourite ->
+                    progressFlow.update { (it as TrackState).copy(isFavourite = isFavourite) }
+                }
+        }
     }
 
 
@@ -38,10 +52,10 @@ class PlayerViewModel(private val playerInteractor: PlayerInteractor,
         mediaPlayer.setDataSource(track.previewUrl)
         mediaPlayer.prepareAsync()
         mediaPlayer.setOnPreparedListener {
-            progressFlow.update { TrackState(progress = START_TIME, isPlaying = false, track = track) }
+            progressFlow.update { (it as TrackState).copy(progress = START_TIME, isPlaying = false, track = track) }
         }
         mediaPlayer.setOnCompletionListener {
-            progressFlow.update {TrackState(progress = START_TIME, isPlaying = false, track = track)}
+            progressFlow.update { (it as TrackState).copy(progress = START_TIME, isPlaying = false, track = track)}
             progressJob?.cancel()
         }
     }
@@ -71,6 +85,7 @@ class PlayerViewModel(private val playerInteractor: PlayerInteractor,
     }
 
     fun pausePlayer() {
+
         val currentState = progressFlow.value
 
         when (currentState) {
@@ -105,6 +120,21 @@ class PlayerViewModel(private val playerInteractor: PlayerInteractor,
     private fun updatePlayerState() {
         val trackState = progressFlow.value as TrackState
         progressFlow.update { trackState.copy(progress = getCurrentPosition()) }
+    }
+
+    fun onFavoriteClicked() {
+
+        val trackState = progressFlow.value as TrackState
+
+        viewModelScope.launch {
+            if (trackState.isFavourite) {
+                favouritesInteractor.deleteTrack(playerInteractor.getTrack())
+            }
+
+            else {
+                favouritesInteractor.addFavouriteTrack(playerInteractor.getTrack())
+            }
+        }
     }
 
     companion object {

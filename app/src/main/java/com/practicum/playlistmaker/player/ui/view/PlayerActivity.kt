@@ -124,8 +124,18 @@ class PlayerActivity : AppCompatActivity() {
                     binding.playerButtonPlay.setBackgroundResource(R.drawable.pause_light)
 
 
-                } else {
+                }
+
+                else {
                     binding.playerButtonPlay.setBackgroundResource(R.drawable.button_play)
+                }
+
+                if (playerState.isFavourite) {
+                    binding.playerButtonLike.setBackgroundResource(R.drawable.like_red)
+                }
+
+                else {
+                    binding.playerButtonLike.setBackgroundResource(R.drawable.playlist_like_button)
                 }
 
             }

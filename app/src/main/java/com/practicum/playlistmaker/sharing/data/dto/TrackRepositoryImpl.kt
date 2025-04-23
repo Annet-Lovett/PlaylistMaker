@@ -21,7 +21,8 @@ class TrackRepositoryImpl(private  val networkClient: NetworkClient) : TrackRepo
                     releaseDate = it.releaseDate,
                     primaryGenreName = it.primaryGenreName,
                     country = it.country,
-                    previewUrl = it.previewUrl)
+                    previewUrl = it.previewUrl,
+                    isFavourite = false)
                 }
             }
 

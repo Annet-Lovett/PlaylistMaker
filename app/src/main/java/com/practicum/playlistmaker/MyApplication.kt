@@ -4,8 +4,10 @@ import android.app.Application
 import android.content.SharedPreferences
 import android.media.MediaPlayer
 import androidx.appcompat.app.AppCompatDelegate
+import androidx.room.Room
 import com.google.gson.Gson
 import com.practicum.playlistmaker.player.data.PlayerPrefs
+import com.practicum.playlistmaker.player.data.db.AppDatabase
 import com.practicum.playlistmaker.player.domain.PlayerInteractor
 import com.practicum.playlistmaker.player.domain.PlayerInteractorImpl
 import com.practicum.playlistmaker.player.ui.view_model.PlayerViewModel
@@ -26,6 +28,10 @@ import com.practicum.playlistmaker.settings.domain.SettingsInteractor
 import com.practicum.playlistmaker.settings.domain.SettingsInteractorImpl
 import com.practicum.playlistmaker.sharing.data.NetworkClient
 import com.practicum.playlistmaker.settings.ui.view_model.SettingsViewModel
+import com.practicum.playlistmaker.sharing.data.dto.FavouritesRepositoryImpl
+import com.practicum.playlistmaker.sharing.domain.api.FavouritesInteractor
+import com.practicum.playlistmaker.sharing.domain.api.FavouritesRepository
+import com.practicum.playlistmaker.sharing.domain.impl.FavouritesInteractorImpl
 import org.koin.core.module.dsl.bind
 import org.koin.core.module.dsl.singleOf
 
@@ -48,8 +54,6 @@ class MyApplication : Application() {
                 },
 
                 module {
-
-
                     single { PlayerPrefs(get(), get()) }
                     single <PlayerInteractor> { PlayerInteractorImpl(get()) }
                     factory { MediaPlayer() }
@@ -69,6 +73,24 @@ class MyApplication : Application() {
                     singleOf(::SettingsPrefs)
                     singleOf(::SettingsInteractorImpl){bind<SettingsInteractor>()}
                     viewModelOf(::SettingsViewModel)
+                },
+
+                module {
+                    single<FavouritesInteractor> { FavouritesInteractorImpl(get()) }
+                    single<FavouritesRepository> {
+                        FavouritesRepositoryImpl(
+                            get<AppDatabase>().trackDao()
+                        )
+                    }
+                },
+
+                module {
+                    single {
+                        Room.databaseBuilder(
+                            androidContext(),
+                            AppDatabase::class.java,
+                            "database.db"
+                        ).build() }
                 }
             )
 
