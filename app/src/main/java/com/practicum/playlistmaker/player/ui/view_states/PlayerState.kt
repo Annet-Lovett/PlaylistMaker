@@ -1,17 +1,18 @@
 package com.practicum.playlistmaker.player.ui.view_states
 
-import com.practicum.playlistmaker.sharing.domain.api.FavouritesRepository
 import com.practicum.playlistmaker.sharing.domain.models.Track
 
-sealed interface PlayerState {
-    data object Initial: PlayerState
+sealed class PlayerState(
+    open val isFavourite: Boolean,
+) {
+    data class Initial(override val isFavourite: Boolean,): PlayerState(isFavourite)
 }
 
 data class TrackState(val progress: String,
-                       val isPlaying: Boolean,
-                       val track: Track,
-                        val isFavourite: Boolean,
-) : PlayerState
+                      val isPlaying: Boolean,
+                      val track: Track,
+                      override val isFavourite: Boolean
+) : PlayerState(isFavourite)
 
 
 

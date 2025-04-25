@@ -206,7 +206,7 @@ class SearchFragment : Fragment() {
 
     companion object {
         const val KEY_FOR_HISTORY_LIST_TRACK = "key_for_history_list_preferences"
-        private const val CLICK_DEBOUNCE_DELAY = 1000L
+        const val CLICK_DEBOUNCE_DELAY = 1000L
     }
 
 }

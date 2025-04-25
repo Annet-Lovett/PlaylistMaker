@@ -10,4 +10,19 @@ data class Track(val trackName: String,
                  val primaryGenreName: String,
                  val country: String,
                  val previewUrl: String,
-                var isFavourite: Boolean,)
+                var isFavourite: Boolean,) {
+
+    override fun equals(other: Any?): Boolean {
+        return other is Track &&  trackName == other.trackName &&
+         artistName == other.artistName &&
+         trackTimeMillis == other.trackTimeMillis &&
+         artworkUrl100 == other.artworkUrl100 &&
+         trackId == other.trackId &&
+         collectionName == other.collectionName &&
+         releaseDate == other.releaseDate &&
+         primaryGenreName == other.primaryGenreName &&
+         country == other.country &&
+         previewUrl == other.previewUrl
+
+    }
+}

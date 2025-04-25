@@ -17,6 +17,7 @@ import com.practicum.playlistmaker.player.ui.view_states.PlayerState
 import com.practicum.playlistmaker.player.ui.view_states.TrackState
 import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
+import java.security.AccessController.getContext
 import java.text.SimpleDateFormat
 import java.util.Locale
 
@@ -44,6 +45,10 @@ class PlayerActivity : AppCompatActivity() {
             finish()
         }
 
+        binding.playerButtonLike.setOnClickListener{
+            playerViewModel.onFavoriteClicked()
+        }
+
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
                 playerViewModel.progressFlow.collect {
@@ -51,9 +56,6 @@ class PlayerActivity : AppCompatActivity() {
                 }
             }
         }
-
-
-
     }
 
     override fun onPause() {
@@ -131,11 +133,11 @@ class PlayerActivity : AppCompatActivity() {
                 }
 
                 if (playerState.isFavourite) {
-                    binding.playerButtonLike.setBackgroundResource(R.drawable.like_red)
+                    binding.playerButtonLike.setImageResource(R.drawable.like_red)
                 }
 
                 else {
-                    binding.playerButtonLike.setBackgroundResource(R.drawable.playlist_like_button)
+                    binding.playerButtonLike.setImageResource(R.drawable.playlist_like_button)
                 }
 
             }

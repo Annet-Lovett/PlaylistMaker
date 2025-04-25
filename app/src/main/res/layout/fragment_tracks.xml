@@ -3,33 +3,51 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".media.ui.view.PlaylistFragment"
-    android:theme="@style/Base.Settings.Theme.PlaylistMaker">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:theme="@style/Base.Settings.Theme.PlaylistMaker"
+    tools:context=".media.ui.view.PlaylistFragment">
 
     <LinearLayout
         android:id="@+id/media_fragment"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="102dp"
+
         android:orientation="vertical"
-        android:visibility="visible"
-        android:paddingHorizontal="16dp">
+        android:paddingHorizontal="16dp"
+        android:visibility="visible">
 
         <ImageView
             android:id="@+id/nothingFoundImg"
             android:layout_width="match_parent"
+            android:visibility="gone"
+            android:layout_marginTop="102dp"
             android:layout_height="120dp"
-            android:theme="@style/nothingFoundImg"/>
+            android:theme="@style/nothingFoundImg" />
 
         <TextView
             android:id="@+id/media_text"
             style="@style/menuSettings"
+            android:visibility="gone"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginTop="16dp"
             android:gravity="center"
             android:text="@string/your_media_is_empty"
             android:textSize="19sp" />
+
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/favouriteListRecycler"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:layout_marginTop="20dp"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            tools:itemCount="10"
+            android:visibility="gone"
+            tools:visibility="visible"
+            tools:countitems="5"
+            tools:listitem="@layout/track_item"/>
 
     </LinearLayout>
 
