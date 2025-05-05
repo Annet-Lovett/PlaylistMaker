@@ -34,6 +34,7 @@ import com.practicum.playlistmaker.sharing.domain.api.FavouritesRepository
 import com.practicum.playlistmaker.sharing.domain.impl.FavouritesInteractorImpl
 import org.koin.core.module.dsl.bind
 import org.koin.core.module.dsl.singleOf
+import com.practicum.playlistmaker.media.ui.view_model.TracksViewModel
 
 class MyApplication : Application() {
 
@@ -82,6 +83,7 @@ class MyApplication : Application() {
                             get<AppDatabase>().trackDao()
                         )
                     }
+                    viewModelOf(::TracksViewModel)
                 },
 
                 module {

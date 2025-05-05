@@ -1,6 +1,7 @@
 package com.practicum.playlistmaker.player.ui.view_model
 
 import android.media.MediaPlayer
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.practicum.playlistmaker.player.domain.PlayerInteractor
@@ -22,7 +23,9 @@ class PlayerViewModel(
     private val favouritesInteractor: FavouritesInteractor,
 ) : ViewModel() {
 
-    val progressFlow = MutableStateFlow<PlayerState>(PlayerState.Initial(false))
+//    val progressFlow = MutableStateFlow<PlayerState>(PlayerState.Initial(false))
+
+    val liveData = MutableLiveData<PlayerState>(PlayerState.Initial(false))
 
     private var progressJob: Job? = null
 
@@ -33,12 +36,16 @@ class PlayerViewModel(
             favouritesInteractor.getAllFavouriteTracks()
                 .map { it.contains(playerInteractor.getTrack()) }
                 .collect { isFavourite ->
-                    if (progressFlow.value is TrackState) {
-                        progressFlow.update { (it as TrackState).copy(isFavourite = isFavourite) }
+//                    if (progressFlow.value is TrackState) {
+//                        progressFlow.update { (it as TrackState).copy(isFavourite = isFavourite) }
+//                    }
+
+                    if (liveData.value is TrackState) {
+                        liveData.value = (liveData.value as TrackState).copy(isFavourite = isFavourite)
                     }
 
                     else {
-                        progressFlow.update {PlayerState.Initial(isFavourite)}
+                        liveData.value = PlayerState.Initial(isFavourite)
                     }
 
                 }
@@ -59,7 +66,8 @@ class PlayerViewModel(
         mediaPlayer.prepareAsync()
 
         mediaPlayer.setOnPreparedListener {
-            progressFlow.update {
+//            progressFlow.update {
+            liveData.value = liveData.value.let {
                 if (it is TrackState) {
                     it.copy(
                         progress = START_TIME,
@@ -71,7 +79,7 @@ class PlayerViewModel(
                         progress = START_TIME,
                         isPlaying = false,
                         track = track,
-                        isFavourite = progressFlow.value.isFavourite
+                        isFavourite = false
                     )
                 }
 
@@ -79,7 +87,8 @@ class PlayerViewModel(
         }
 
         mediaPlayer.setOnCompletionListener {
-            progressFlow.update {
+//            progressFlow.update {
+            liveData.value = liveData.value.let {
                 (it as TrackState).copy(
                     progress = START_TIME,
                     isPlaying = false,
@@ -92,12 +101,14 @@ class PlayerViewModel(
 
     fun startPlayer() {
 
-        val currentState = progressFlow.value
+//        val currentState = progressFlow.value
+
+        val currentState = liveData.value
 
         when (currentState) {
             is TrackState -> {
                 val newState = currentState.copy(isPlaying = true)
-                progressFlow.update { newState }
+                liveData.value = newState
             }
 
             else -> {}
@@ -117,12 +128,13 @@ class PlayerViewModel(
 
     fun pausePlayer() {
 
-        val currentState = progressFlow.value
+        val currentState = liveData.value
 
         when (currentState) {
             is TrackState -> {
                 val newState = currentState.copy(isPlaying = false)
-                progressFlow.update { newState }
+//                progressFlow.update { newState }
+                liveData.value = newState
             }
 
             else -> {}
@@ -133,7 +145,7 @@ class PlayerViewModel(
     }
 
     fun toggle() {
-        val trackState = progressFlow.value as? TrackState
+        val trackState = liveData.value as? TrackState
 
         if (trackState?.isPlaying == true) {
             pausePlayer()
@@ -150,15 +162,15 @@ class PlayerViewModel(
     }
 
     private fun updatePlayerState() {
-        val trackState = progressFlow.value as TrackState
-        progressFlow.update { trackState.copy(progress = getCurrentPosition()) }
+        val trackState = liveData.value as TrackState
+        liveData.value = trackState.copy(progress = getCurrentPosition())
     }
 
     fun onFavoriteClicked() {
 
-        if (progressFlow.value !is TrackState) return
+//        if (progressFlow.value !is TrackState) return
 
-        val trackState = progressFlow.value as TrackState
+        val trackState = liveData.value as TrackState
 
         viewModelScope.launch {
             if (trackState.isFavourite) {

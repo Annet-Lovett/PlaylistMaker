@@ -17,7 +17,7 @@ interface TrackDao {
     @Delete
     suspend fun deleteTrack(track: TrackEntity)
 
-    @Query("SELECT * FROM track_table")
+    @Query("SELECT * FROM track_table ORDER BY addedAt DESC")
     fun getTracks(): Flow<List<TrackEntity>>
 
 //    @Query("SELECT * FROM track_table")

@@ -9,6 +9,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
 import com.practicum.playlistmaker.databinding.FragmentTracksBinding
+import com.practicum.playlistmaker.media.ui.view_model.TracksViewModel
 import com.practicum.playlistmaker.player.ui.view.PlayerActivity
 import com.practicum.playlistmaker.search.ui.view.SearchFragment.Companion.CLICK_DEBOUNCE_DELAY
 import com.practicum.playlistmaker.search.ui.view.SearchTrackListAdapter
@@ -17,6 +18,7 @@ import com.practicum.playlistmaker.sharing.domain.api.TrackInteractor
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import org.koin.android.ext.android.get
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class TracksFragment : Fragment() {
 
@@ -32,6 +34,7 @@ class TracksFragment : Fragment() {
     private var isClickAllowed = true
 
     private val favouriteTrackAdapter = SearchTrackListAdapter()
+    private val tracksViewModel: TracksViewModel by viewModel()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -48,30 +51,28 @@ class TracksFragment : Fragment() {
         binding.favouriteListRecycler.adapter = favouriteTrackAdapter
 
         favouriteTrackAdapter.onItemClick = { track ->
-            get<TrackInteractor>().recordTrack(track)
+//            get<TrackInteractor>().recordTrack(track)
+            tracksViewModel.selectTrack(track)
             startPlayerActivity()
         }
 
-        viewLifecycleOwner.lifecycleScope.launch {
-            get<FavouritesInteractor>().getAllFavouriteTracks()
-                .flowWithLifecycle(viewLifecycleOwner.lifecycle)
-                .collect {
+        tracksViewModel.favouritesLiveData.observe(viewLifecycleOwner){
 
-                    favouriteTrackAdapter.subList(it)
+            favouriteTrackAdapter.subList(it)
 
-                    if (it.isNotEmpty()) {
-                        binding.favouriteListRecycler.visibility = View.VISIBLE
-                        binding.nothingFoundImg.visibility = View.GONE
-                        binding.mediaText.visibility = View.GONE
+            if (it.isNotEmpty()) {
+                binding.favouriteListRecycler.visibility = View.VISIBLE
+                binding.nothingFoundImg.visibility = View.GONE
+                binding.mediaText.visibility = View.GONE
 
-                    } else {
-                        binding.favouriteListRecycler.visibility = View.GONE
-                        binding.nothingFoundImg.visibility = View.VISIBLE
-                        binding.mediaText.visibility = View.VISIBLE
-                    }
+            } else {
+                binding.favouriteListRecycler.visibility = View.GONE
+                binding.nothingFoundImg.visibility = View.VISIBLE
+                binding.mediaText.visibility = View.VISIBLE
+            }
 
-                }
         }
+
     }
 
     private fun startPlayerActivity() {

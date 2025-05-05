@@ -54,7 +54,7 @@ class FavouritesRepositoryImpl(private val dao: TrackDao): FavouritesRepository 
             releaseDate = track.releaseDate,
             primaryGenreName = track.primaryGenreName,
             country = track.country,
-            previewUrl = track.previewUrl
+            previewUrl = track.previewUrl,
 
         )
 

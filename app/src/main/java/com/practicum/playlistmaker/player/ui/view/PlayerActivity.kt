@@ -49,12 +49,16 @@ class PlayerActivity : AppCompatActivity() {
             playerViewModel.onFavoriteClicked()
         }
 
-        lifecycleScope.launch {
-            repeatOnLifecycle(Lifecycle.State.STARTED) {
-                playerViewModel.progressFlow.collect {
-                    render(it)
-                }
-            }
+//        lifecycleScope.launch {
+//            repeatOnLifecycle(Lifecycle.State.STARTED) {
+//                playerViewModel.progressFlow.collect {
+//                    render(it)
+//                }
+//            }
+//        }
+
+        playerViewModel.liveData.observe(this) {
+            render(it)
         }
     }
 
