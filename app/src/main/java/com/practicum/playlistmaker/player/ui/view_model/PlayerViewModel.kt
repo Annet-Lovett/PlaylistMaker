@@ -10,9 +10,7 @@ import com.practicum.playlistmaker.player.ui.view_states.TrackState
 import com.practicum.playlistmaker.sharing.domain.api.FavouritesInteractor
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
-import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.map
-import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat
 import java.util.Locale
@@ -66,7 +64,7 @@ class PlayerViewModel(
         mediaPlayer.prepareAsync()
 
         mediaPlayer.setOnPreparedListener {
-//            progressFlow.update {
+
             liveData.value = liveData.value.let {
                 if (it is TrackState) {
                     it.copy(
@@ -79,7 +77,7 @@ class PlayerViewModel(
                         progress = START_TIME,
                         isPlaying = false,
                         track = track,
-                        isFavourite = false
+                        isFavourite = it!!.isFavourite
                     )
                 }
 
@@ -87,7 +85,7 @@ class PlayerViewModel(
         }
 
         mediaPlayer.setOnCompletionListener {
-//            progressFlow.update {
+
             liveData.value = liveData.value.let {
                 (it as TrackState).copy(
                     progress = START_TIME,
@@ -100,8 +98,6 @@ class PlayerViewModel(
     }
 
     fun startPlayer() {
-
-//        val currentState = progressFlow.value
 
         val currentState = liveData.value
 
@@ -168,7 +164,7 @@ class PlayerViewModel(
 
     fun onFavoriteClicked() {
 
-//        if (progressFlow.value !is TrackState) return
+        if (liveData.value !is TrackState) return
 
         val trackState = liveData.value as TrackState
 
