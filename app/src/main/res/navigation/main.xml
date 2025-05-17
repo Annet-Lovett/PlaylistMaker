@@ -3,21 +3,27 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main"
-    app:startDestination="@id/media_page">
+    app:startDestination="@id/main_container">
 
     <fragment
-        android:id="@+id/search_page"
-        android:name="com.practicum.playlistmaker.search.ui.view.SearchFragment"
-        android:label="SearchFragment"
-        tools:layout="@layout/fragment_search"/>
+        android:id="@+id/main_container"
+        android:name="com.practicum.playlistmaker.main.ui.MainContainerFragment"
+        tools:layout="@layout/fragment_main_container"
+        >
+        <action
+            android:id="@+id/action_main_container_to_playlist_create"
+            app:destination="@id/playlist_create" />
+    </fragment>
+
+<!--    <navigation-->
+<!--        android:id="@+id/main_container"-->
+<!--        app:startDestination="@id/media_page"-->
+<!--        />-->
+
     <fragment
-        android:id="@+id/media_page"
-        android:name="com.practicum.playlistmaker.media.ui.view.MediaFragment"
-        android:label="MediaFragment"
-        tools:layout="@layout/fragment_media"/>
-    <fragment
-        android:id="@+id/settings_page"
-        android:name="com.practicum.playlistmaker.settings.ui.view.SettingsFragment"
-        android:label="SettingsFragment"
-        tools:layout="@layout/fragment_settings"/>
+        android:id="@+id/playlist_create"
+        android:name="com.practicum.playlistmaker.create_playlist.ui.PlayListCreateFragment"
+        tools:layout="@layout/fragment_playlist_create"
+        />
+
 </navigation>
