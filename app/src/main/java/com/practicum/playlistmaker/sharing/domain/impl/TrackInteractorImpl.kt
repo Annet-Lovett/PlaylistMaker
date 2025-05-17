@@ -8,20 +8,15 @@ import com.practicum.playlistmaker.sharing.domain.models.Track
 class TrackInteractorImpl(private  val repository: TrackRepository,
                           private val searchPrefs: SearchPrefs) : TrackInteractor {
 
-    override fun searchTrack(request: String, consumer: TrackInteractor.TrackConsumer) {
+    override suspend fun searchTrack(request: String) : List<Track>? {
 
-        val  thread = Thread {
-            try {
-                consumer.consume(repository.searchTracks(request))
+            return try {
+                repository.searchTracks(request)
             }
 
             catch (ex: Exception) {
-                consumer.consume(null)
+                null
             }
-
-        }
-
-        thread.start()
 
     }
 

@@ -6,7 +6,7 @@ import com.practicum.playlistmaker.sharing.domain.models.Track
 
 class TrackRepositoryImpl(private  val networkClient: NetworkClient) : TrackRepository {
 
-    override fun searchTracks(request: String): List<Track>? {
+    override suspend fun searchTracks(request: String): List<Track>? {
         val response = networkClient.doRequest(TrackRequest(request))
 
             if (response.resultCode == 200 && (response as TrackResponse).results.isNotEmpty()) {
@@ -21,7 +21,8 @@ class TrackRepositoryImpl(private  val networkClient: NetworkClient) : TrackRepo
                     releaseDate = it.releaseDate,
                     primaryGenreName = it.primaryGenreName,
                     country = it.country,
-                    previewUrl = it.previewUrl)
+                    previewUrl = it.previewUrl,
+                    isFavourite = false)
                 }
             }
 

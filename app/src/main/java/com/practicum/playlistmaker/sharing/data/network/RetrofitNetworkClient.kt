@@ -17,14 +17,15 @@ class RetrofitNetworkClient: NetworkClient {
 
     private val trackService = retrofit.create(PlaylistApi::class.java)
 
-    override fun doRequest(dto: Any): Response {
-        if (dto is TrackRequest) {
-            val resp = trackService.search(dto.request).execute()
-            val body = resp.body() ?: Response()
+    override suspend fun doRequest(dto: Any): Response {
+        return  try {
+            trackService.search((dto as TrackRequest).request)
+                .apply { resultCode = 200 }
 
-            return body.apply { resultCode = resp.code() }
-        } else {
-            return Response().apply { resultCode = 400 }
+        }
+
+        catch (t: Throwable) {
+            Response().apply { resultCode = 400 }
         }
     }
 

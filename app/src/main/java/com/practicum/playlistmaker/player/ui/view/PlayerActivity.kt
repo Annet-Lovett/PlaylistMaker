@@ -40,10 +40,14 @@ class PlayerActivity : AppCompatActivity() {
             finish()
         }
 
-        playerViewModel.getScreenStateLiveData().observe(this) {
-            render(it)
+        binding.playerButtonLike.setOnClickListener{
+            playerViewModel.onFavoriteClicked()
         }
 
+
+        playerViewModel.liveData.observe(this) {
+            render(it)
+        }
     }
 
     override fun onPause() {
@@ -114,8 +118,18 @@ class PlayerActivity : AppCompatActivity() {
                     binding.playerButtonPlay.setBackgroundResource(R.drawable.pause_light)
 
 
-                } else {
+                }
+
+                else {
                     binding.playerButtonPlay.setBackgroundResource(R.drawable.button_play)
+                }
+
+                if (playerState.isFavourite) {
+                    binding.playerButtonLike.setImageResource(R.drawable.like_red)
+                }
+
+                else {
+                    binding.playerButtonLike.setImageResource(R.drawable.playlist_like_button)
                 }
 
             }
