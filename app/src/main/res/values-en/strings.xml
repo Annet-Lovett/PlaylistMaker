@@ -30,4 +30,9 @@
     <string name="you_havent_been_created">You have not created any playlists</string>
     <string name="new_playlist">New Playlist</string>
     <string name="your_media_is_empty">Your media is empty</string>
+
+    <string name="name_hint">Name*</string>
+    <string name="description_hint">Description</string>
+    <string name="create">Create</string>
+
 </resources>
