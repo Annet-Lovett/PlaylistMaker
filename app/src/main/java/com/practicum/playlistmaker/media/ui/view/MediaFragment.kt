@@ -34,6 +34,7 @@ class MediaFragment: Fragment() {
             }
         }
         tabMediator.attach()
+
     }
 
 
