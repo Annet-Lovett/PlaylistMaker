@@ -6,8 +6,6 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.navigation.fragment.findNavController
-import com.practicum.playlistmaker.R
 import com.practicum.playlistmaker.databinding.FragmentPlaylistBinding
 import com.practicum.playlistmaker.media.ui.view_model.PlaylistViewModel
 
@@ -35,7 +33,7 @@ class PlaylistFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         binding.newPlaylistButton.setOnClickListener {
-            findNavController().navigate(R.id.playlist_create)
+
         }
 
     }

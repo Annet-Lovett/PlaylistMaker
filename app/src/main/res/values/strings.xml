@@ -31,10 +31,8 @@
     <string name="you_havent_been_created">Вы не создали ни одного плейлиста</string>
     <string name="new_playlist">Новый плейлист</string>
     <string name="your_media_is_empty">Ваша медиатека пуста</string>
-
+    
     <string name="name_hint">Название*</string>
     <string name="description_hint">Описание</string>
     <string name="create">Создать</string>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>
