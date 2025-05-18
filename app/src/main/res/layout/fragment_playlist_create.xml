@@ -51,6 +51,7 @@
         >
 
         <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/playlist_name_field"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:hint="@string/name_hint"
@@ -75,6 +76,7 @@
         >
 
         <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/playlist_description_field"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:hint="@string/description_hint"

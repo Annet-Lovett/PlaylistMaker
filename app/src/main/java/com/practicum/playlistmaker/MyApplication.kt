@@ -6,6 +6,7 @@ import android.media.MediaPlayer
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.room.Room
 import com.google.gson.Gson
+import com.practicum.playlistmaker.createPlaylist.ui.view_model.CreatePlaylistViewModel
 import com.practicum.playlistmaker.player.data.PlayerPrefs
 import com.practicum.playlistmaker.player.data.db.AppDatabase
 import com.practicum.playlistmaker.player.domain.PlayerInteractor
@@ -93,7 +94,12 @@ class MyApplication : Application() {
                             AppDatabase::class.java,
                             "database.db"
                         ).build() }
+                },
+
+                module {
+                    viewModelOf(::CreatePlaylistViewModel)
                 }
+
             )
 
         }

@@ -6,18 +6,14 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
 import com.practicum.playlistmaker.databinding.FragmentTracksBinding
 import com.practicum.playlistmaker.media.ui.view_model.TracksViewModel
 import com.practicum.playlistmaker.player.ui.view.PlayerActivity
 import com.practicum.playlistmaker.search.ui.view.SearchFragment.Companion.CLICK_DEBOUNCE_DELAY
 import com.practicum.playlistmaker.search.ui.view.SearchTrackListAdapter
-import com.practicum.playlistmaker.sharing.domain.api.FavouritesInteractor
-import com.practicum.playlistmaker.sharing.domain.api.TrackInteractor
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
-import org.koin.android.ext.android.get
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class TracksFragment : Fragment() {
@@ -94,6 +90,11 @@ class TracksFragment : Fragment() {
 
         }
         return current
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 
 
