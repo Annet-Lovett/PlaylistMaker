@@ -15,7 +15,6 @@ class CreatePlaylistViewModel: ViewModel() {
 
         if (playlistName.isBlank()) {
             createPlaylistLiveData.value = createPlaylistLiveData.value!!.copy(ready = false, name = playlistName)
-
         }
 
         else {

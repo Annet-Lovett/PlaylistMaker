@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.widget.addTextChangedListener
@@ -72,6 +73,12 @@ class CreatePlaylistFragment: Fragment(R.layout.fragment_playlist_create) {
 
         binding.playlistCover.setOnClickListener {
             pickMedia.launch(PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly))
+        }
+
+        binding.playlistCreate.setOnClickListener {
+            Toast.makeText(requireContext(), "Плейлист ${createPlaylistViewModel.createPlaylistLiveData.value!!.name} создан",
+                Toast.LENGTH_SHORT).show()
+            findNavController().popBackStack()
         }
 
     }
