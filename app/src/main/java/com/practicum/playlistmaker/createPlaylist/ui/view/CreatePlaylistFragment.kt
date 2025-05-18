@@ -76,9 +76,13 @@ class CreatePlaylistFragment: Fragment(R.layout.fragment_playlist_create) {
         }
 
         binding.playlistCreate.setOnClickListener {
+
+            createPlaylistViewModel.createPlaylist()
+
             Toast.makeText(requireContext(), "Плейлист ${createPlaylistViewModel.createPlaylistLiveData.value!!.name} создан",
                 Toast.LENGTH_SHORT).show()
             findNavController().popBackStack()
+
         }
 
     }

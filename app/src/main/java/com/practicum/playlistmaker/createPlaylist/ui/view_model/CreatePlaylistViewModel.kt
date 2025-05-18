@@ -1,11 +1,17 @@
 package com.practicum.playlistmaker.createPlaylist.ui.view_model
 
+import android.app.Application
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import android.net.Uri
+import android.os.Environment
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.practicum.playlistmaker.createPlaylist.ui.view_state.CreatePlaylistViewState
+import java.io.File
+import java.io.FileOutputStream
 
-class CreatePlaylistViewModel: ViewModel() {
+class CreatePlaylistViewModel(val application: Application): ViewModel() {
 
     val createPlaylistLiveData = MutableLiveData<CreatePlaylistViewState>(CreatePlaylistViewState(false))
 
@@ -34,6 +40,31 @@ class CreatePlaylistViewModel: ViewModel() {
 
     fun isValueEmpty (): Boolean {
         return state.uri == null && state.description == "" && state.name == ""
+    }
+
+    private fun saveImageToPrivateStorage(uri: Uri) {
+
+        val filePath: File = File(application.getExternalFilesDir(Environment.DIRECTORY_PICTURES), "playlistCovers")
+
+        if (!filePath.exists()){
+            filePath.mkdirs()
+        }
+
+        val file = File(filePath, "first_cover.jpg")
+
+        val inputStream = application.contentResolver.openInputStream(uri)
+
+        val outputStream = FileOutputStream(file)
+
+        BitmapFactory
+            .decodeStream(inputStream)
+            .compress(Bitmap.CompressFormat.JPEG, 30, outputStream)
+    }
+
+    fun createPlaylist () {
+        if(state.uri != null) {
+            saveImageToPrivateStorage(state.uri!!)
+        }
     }
 
 }
