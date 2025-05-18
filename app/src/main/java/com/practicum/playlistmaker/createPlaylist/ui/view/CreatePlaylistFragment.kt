@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import com.practicum.playlistmaker.R
 import com.practicum.playlistmaker.createPlaylist.ui.view_model.CreatePlaylistViewModel
 import com.practicum.playlistmaker.createPlaylist.ui.view_state.CreatePlaylistViewState
@@ -39,6 +40,15 @@ class CreatePlaylistFragment: Fragment(R.layout.fragment_playlist_create) {
 
         binding.playlistNameField.addTextChangedListener {
             createPlaylistViewModel.onNameChanged(it.toString())
+            binding.playlistNameField.isHovered = it.toString().isNotBlank()
+        }
+
+        binding.playlistDescriptionField.addTextChangedListener {
+            binding.playlistDescriptionField.isHovered = it.toString().isNotBlank()
+        }
+
+        binding.buttonBack.setNavigationOnClickListener {
+            findNavController().popBackStack()
         }
 
     }

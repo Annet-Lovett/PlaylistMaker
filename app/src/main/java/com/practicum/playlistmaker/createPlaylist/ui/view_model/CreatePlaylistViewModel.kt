@@ -9,6 +9,7 @@ class CreatePlaylistViewModel: ViewModel() {
     val createPlaylistLiveData = MutableLiveData<CreatePlaylistViewState>(CreatePlaylistViewState(false))
 
     fun onNameChanged(playlistName: String) {
+
         if (playlistName.isBlank()) {
             createPlaylistLiveData.value = createPlaylistLiveData.value!!.copy(ready = false)
         }

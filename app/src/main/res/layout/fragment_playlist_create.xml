@@ -6,7 +6,7 @@
     xmlns:tools="http://schemas.android.com/tools">
 
         <com.google.android.material.appbar.MaterialToolbar
-            android:id="@+id/buttonSettingsBack"
+            android:id="@+id/buttonBack"
             android:layout_width="match_parent"
             android:layout_height="56dp"
             android:layout_marginBottom="8dp"
@@ -28,7 +28,7 @@
             android:layout_marginTop="26dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/buttonSettingsBack"
+            app:layout_constraintTop_toBottomOf="@+id/buttonBack"
             tools:ignore="MissingConstraints"
             android:background="@drawable/dash"
             android:src="@drawable/cover_playlist"
