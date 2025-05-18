@@ -38,20 +38,22 @@
         android:id="@+id/playlist_name"
         android:layout_width="0dp"
         android:layout_marginTop="32dp"
-        android:layout_height="wrap_content"
+        android:layout_height="56dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/constraintLayout"
         android:layout_marginHorizontal="16dp"
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
-        app:boxStrokeColor="@color/grey"
-        app:boxStrokeWidth="1dp">
+        app:boxStrokeColor="@color/blue_grey_focused"
+        app:boxStrokeWidth="1dp"
+        android:textColorHint="@color/blue_grey_focused"
+        app:hintTextColor="@color/blue_grey_focused"
+        >
 
         <com.google.android.material.textfield.TextInputEditText
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:hint="@string/name_hint"
-            android:background="@color/white"
             />
 
     </com.google.android.material.textfield.TextInputLayout>
@@ -66,14 +68,16 @@
         app:layout_constraintTop_toBottomOf="@+id/playlist_name"
         android:layout_marginHorizontal="16dp"
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
-        app:boxStrokeColor="@color/grey"
-        app:boxStrokeWidth="1dp">
+        app:boxStrokeColor="@color/blue_grey_focused"
+        app:boxStrokeWidth="1dp"
+        android:textColorHint="@color/blue_grey_focused"
+        app:hintTextColor="@color/blue_grey_focused"
+        >
 
         <com.google.android.material.textfield.TextInputEditText
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:hint="@string/description_hint"
-            android:background="@color/white"
             />
 
     </com.google.android.material.textfield.TextInputLayout>
@@ -83,14 +87,18 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="17dp"
-        android:layout_marginStart="16dp"
         android:layout_marginBottom="32dp"
         android:enabled="true"
+        android:insetTop="0dp"
+        android:insetBottom="0dp"
         android:text="@string/create"
         android:textAllCaps="false"
         android:textColor="@color/white"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"/>
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        android:backgroundTint="@color/blue_grey_enable"
+        app:background="@drawable/rect_rad_8"/>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -14,10 +14,20 @@
         android:id="@+id/media_page"
         android:name="com.practicum.playlistmaker.media.ui.view.MediaFragment"
         android:label="MediaFragment"
-        tools:layout="@layout/fragment_media"/>
+        tools:layout="@layout/fragment_media">
+        <action
+            android:id="@+id/action_media_page_to_playlist_create"
+            app:destination="@id/playlist_create" />
+    </fragment>
     <fragment
         android:id="@+id/settings_page"
         android:name="com.practicum.playlistmaker.settings.ui.view.SettingsFragment"
         android:label="SettingsFragment"
         tools:layout="@layout/fragment_settings"/>
+
+    <fragment
+        android:id="@+id/playlist_create"
+    android:name="com.practicum.playlistmaker.createPlaylist.ui.CreatePlaylistFragment"
+    android:label="CreatePlaylistFragment"
+    tools:layout="@layout/fragment_playlist_create"/>
 </navigation>
