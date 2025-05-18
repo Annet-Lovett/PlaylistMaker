@@ -1,7 +1,6 @@
 package com.practicum.playlistmaker.createPlaylist.ui.view
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -10,6 +9,7 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.practicum.playlistmaker.R
 import com.practicum.playlistmaker.createPlaylist.ui.view_model.CreatePlaylistViewModel
 import com.practicum.playlistmaker.createPlaylist.ui.view_state.CreatePlaylistViewState
@@ -49,20 +49,25 @@ class CreatePlaylistFragment: Fragment(R.layout.fragment_playlist_create) {
         }
 
         binding.playlistDescriptionField.addTextChangedListener {
+            createPlaylistViewModel.onDescriptionChanged(it.toString())
             binding.playlistDescriptionField.isHovered = it.toString().isNotBlank()
         }
 
         binding.buttonBack.setNavigationOnClickListener {
-            findNavController().popBackStack()
+
+            if (!createPlaylistViewModel.isValueEmpty()) {
+                confirmExit()
+            }
+            else {
+                findNavController().popBackStack()
+            }
+
         }
 
-
-
         val pickMedia =
+
             registerForActivityResult(ActivityResultContracts.PickVisualMedia()) { uri ->
-
                 createPlaylistViewModel.onPickImage(uri = uri)
-
             }
 
         binding.playlistCover.setOnClickListener {
@@ -78,13 +83,28 @@ class CreatePlaylistFragment: Fragment(R.layout.fragment_playlist_create) {
         if (state.uri != null) {
             binding.playlistCover.setImageURI(state.uri)
             binding.placeHolder.visibility = View.GONE
-//                    saveImageToPrivateStorage(uri)
+
         } else {
             binding.playlistCover.setImageURI(state.uri)
             binding.placeHolder.visibility = View.VISIBLE
         }
 
     }
+
+    fun confirmExit() {
+
+        MaterialAlertDialogBuilder(requireContext())
+            .setTitle("Завершить создание плейлиста?") // Заголовок диалога
+            .setMessage("Все несохраненные данные будут потеряны") // Описание диалога
+
+            .setNegativeButton("Отмена") { dialog, which -> // Добавляет кнопку «Нет»
+            }
+            .setPositiveButton("Завершить") { dialog, which -> // Добавляет кнопку «Да»
+                findNavController().popBackStack()
+            }
+            .show()
+    }
+
 
     override fun onDestroyView() {
         super.onDestroyView()
