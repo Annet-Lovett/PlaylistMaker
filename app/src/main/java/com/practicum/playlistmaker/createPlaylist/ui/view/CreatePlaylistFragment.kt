@@ -1,9 +1,12 @@
 package com.practicum.playlistmaker.createPlaylist.ui.view
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.activity.result.PickVisualMediaRequest
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
@@ -34,6 +37,8 @@ class CreatePlaylistFragment: Fragment(R.layout.fragment_playlist_create) {
 
         super.onViewCreated(view, savedInstanceState)
 
+        binding.playlistCover.clipToOutline = true
+
         createPlaylistViewModel.createPlaylistLiveData.observe(viewLifecycleOwner) {
             render(it)
         }
@@ -51,11 +56,33 @@ class CreatePlaylistFragment: Fragment(R.layout.fragment_playlist_create) {
             findNavController().popBackStack()
         }
 
+
+
+        val pickMedia =
+            registerForActivityResult(ActivityResultContracts.PickVisualMedia()) { uri ->
+
+                createPlaylistViewModel.onPickImage(uri = uri)
+
+            }
+
+        binding.playlistCover.setOnClickListener {
+            pickMedia.launch(PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly))
+        }
+
     }
 
     fun render (state: CreatePlaylistViewState) {
 
         binding.playlistCreate.isEnabled = state.ready
+
+        if (state.uri != null) {
+            binding.playlistCover.setImageURI(state.uri)
+            binding.placeHolder.visibility = View.GONE
+//                    saveImageToPrivateStorage(uri)
+        } else {
+            binding.playlistCover.setImageURI(state.uri)
+            binding.placeHolder.visibility = View.VISIBLE
+        }
 
     }
 

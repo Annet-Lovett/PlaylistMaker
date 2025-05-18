@@ -1,5 +1,6 @@
 package com.practicum.playlistmaker.createPlaylist.ui.view_model
 
+import android.net.Uri
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.practicum.playlistmaker.createPlaylist.ui.view_state.CreatePlaylistViewState
@@ -17,6 +18,11 @@ class CreatePlaylistViewModel: ViewModel() {
         else {
             createPlaylistLiveData.value = createPlaylistLiveData.value!!.copy(ready = true)
         }
+    }
+
+    fun onPickImage(uri: Uri?) {
+
+        createPlaylistLiveData.value = createPlaylistLiveData.value!!.copy(uri = uri)
     }
 
 }

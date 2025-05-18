@@ -1,4 +1,6 @@
 package com.practicum.playlistmaker.createPlaylist.ui.view_state
 
-data class CreatePlaylistViewState (val ready: Boolean) {
+import android.net.Uri
+
+data class CreatePlaylistViewState (val ready: Boolean, val uri: Uri? = null) {
 }
