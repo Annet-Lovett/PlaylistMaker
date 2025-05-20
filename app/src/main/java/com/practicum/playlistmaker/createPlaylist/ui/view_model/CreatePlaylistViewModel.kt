@@ -46,7 +46,7 @@ class CreatePlaylistViewModel(val application: Application, val playlistInteract
         return state.uri == null && state.description == "" && state.name == ""
     }
 
-    private fun saveImageToPrivateStorage(uri: Uri) {
+    private fun saveImageToPrivateStorage(uri: Uri): Uri {
 
         val filePath: File = File(application.getExternalFilesDir(Environment.DIRECTORY_PICTURES), "playlistCovers")
 
@@ -54,7 +54,7 @@ class CreatePlaylistViewModel(val application: Application, val playlistInteract
             filePath.mkdirs()
         }
 
-        val file = File(filePath, "first_cover.jpg")
+        val file = File(filePath, "first_cover_${System.currentTimeMillis()}.jpg")
 
         val inputStream = application.contentResolver.openInputStream(uri)
 
@@ -63,9 +63,17 @@ class CreatePlaylistViewModel(val application: Application, val playlistInteract
         BitmapFactory
             .decodeStream(inputStream)
             .compress(Bitmap.CompressFormat.JPEG, 30, outputStream)
+
+        return Uri.fromFile(file)
     }
 
     fun createPlaylist () {
+
+        var uri : Uri? = null
+
+        if(state.uri != null) {
+            uri = saveImageToPrivateStorage(state.uri!!)
+        }
 
         viewModelScope.launch {
             playlistInteractor.addPlaylist(
@@ -73,15 +81,11 @@ class CreatePlaylistViewModel(val application: Application, val playlistInteract
                     playlistName = state.name,
                     playlistId = 0,
                     playlistDescription = state.description,
-                    cover = state.uri.toString(),
+                    cover = uri.toString(),
                     tracksIdList = emptyList(),
                     numberTracks = 0
                 )
             )
-        }
-
-        if(state.uri != null) {
-            saveImageToPrivateStorage(state.uri!!)
         }
     }
 
