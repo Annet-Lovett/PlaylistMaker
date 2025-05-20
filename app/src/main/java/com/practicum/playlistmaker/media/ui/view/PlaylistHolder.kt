@@ -14,6 +14,10 @@ class PlaylistHolder(view: View): RecyclerView.ViewHolder(view) {
     private val title: TextView = itemView.findViewById(R.id.nameOfThePlaylist)
     private val description: TextView = itemView.findViewById(R.id.numberOfTheTracks)
 
+    init {
+        cover.clipToOutline = true
+    }
+
     fun bind(playlist: Playlist) {
 
         title.text = playlist.playlistName
@@ -24,17 +28,17 @@ class PlaylistHolder(view: View): RecyclerView.ViewHolder(view) {
         val few = arrayOf(2, 3, 4)
 
         if (single.contains(tracksPlural)) {
-            val track = R.string.very_very_many_tracks
+            val track = itemView.context.getString(R.string.very_very_many_tracks)
             description.text = "${playlist.numberTracks} $track"
         }
 
         else if (tracksPlural == 1) {
-            val track = R.string.track
+            val track = itemView.context.getString(R.string.track)
             description.text = " ${playlist.numberTracks} $track"
         }
 
         else if (few.contains(tracksPlural)) {
-            val track = R.string.many_tracks
+            val track = itemView.context.getString(R.string.many_tracks)
             description.text = " ${playlist.numberTracks} $track"
         }
 

@@ -81,7 +81,7 @@ class CreatePlaylistViewModel(val application: Application, val playlistInteract
                     playlistName = state.name,
                     playlistId = 0,
                     playlistDescription = state.description,
-                    cover = uri.toString(),
+                    cover = uri?.toString(),
                     tracksIdList = emptyList(),
                     numberTracks = 0
                 )
