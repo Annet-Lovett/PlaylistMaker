@@ -9,6 +9,7 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.practicum.playlistmaker.R
 import com.practicum.playlistmaker.databinding.ActivityPlayerBinding
+import com.practicum.playlistmaker.databinding.ScreenPlayerBinding
 import com.practicum.playlistmaker.player.ui.view_model.PlayerViewModel
 import com.practicum.playlistmaker.player.ui.view_states.PlayerState
 import com.practicum.playlistmaker.player.ui.view_states.TrackState
@@ -20,17 +21,23 @@ class PlayerActivity : AppCompatActivity() {
 
     private val playerViewModel by viewModel<PlayerViewModel>()
 
-    private var _binding: ActivityPlayerBinding? = null
-    private val binding: ActivityPlayerBinding
+    private var _binding_wrap: ActivityPlayerBinding? = null
+    private val binding_wrap: ActivityPlayerBinding
+        get() = _binding_wrap!!
+
+    private var _binding: ScreenPlayerBinding? = null
+    private val binding: ScreenPlayerBinding
         get() = _binding!!
 
     override fun onCreate(savedInstanceState: Bundle?) {
 
         super.onCreate(savedInstanceState)
 
-        _binding = ActivityPlayerBinding.inflate(layoutInflater)
+        _binding_wrap = ActivityPlayerBinding.inflate(layoutInflater)
 
-        setContentView(binding.root)
+        _binding = binding_wrap.player
+
+        setContentView(binding_wrap.root)
 
         binding.playerButtonPlay.setOnClickListener {
             playerViewModel.toggle()
