@@ -14,7 +14,8 @@
         android:paddingHorizontal="13dp">
 
         <ImageView
-             android:layout_height="160dp"
+            android:id="@+id/playlist_cover"
+            android:layout_height="160dp"
             android:layout_width="match_parent"
             android:src="@drawable/trackplaceholder"/>
 

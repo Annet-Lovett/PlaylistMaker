@@ -6,11 +6,18 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.flowWithLifecycle
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import com.practicum.playlistmaker.R
+import com.practicum.playlistmaker.createPlaylist.domain.api.PlaylistInteractor
+import com.practicum.playlistmaker.createPlaylist.domain.models.Playlist
 import com.practicum.playlistmaker.databinding.FragmentPlaylistBinding
 import com.practicum.playlistmaker.media.ui.view_model.PlaylistViewModel
+import kotlinx.coroutines.launch
+import org.koin.android.ext.android.get
+import org.koin.core.context.GlobalContext.get
 
 
 class PlaylistsFragment : Fragment() {
@@ -23,6 +30,8 @@ class PlaylistsFragment : Fragment() {
     private lateinit var binding: FragmentPlaylistBinding
 
     private val playlistViewModel: PlaylistViewModel by viewModels()
+
+    private val playlistAdapter = PlaylistAdapter()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -39,11 +48,34 @@ class PlaylistsFragment : Fragment() {
             findNavController().navigate(R.id.playlist_create)
         }
 
+        viewLifecycleOwner.lifecycleScope.launch{
+//            playlistViewModel.flow
+            val interactor: PlaylistInteractor= this@PlaylistsFragment.get()
+            interactor.getAllPlaylists()
+                .flowWithLifecycle(viewLifecycleOwner.lifecycle)
+                .collect { render(it) }
+        }
+
         val recyclerView = binding.playlistsRecyclerView
 
         recyclerView.layoutManager = GridLayoutManager(requireContext(), 2)
-        recyclerView.adapter = PlaylistAdapter()
+        recyclerView.adapter = playlistAdapter
 
+    }
+
+    private fun render(playlists: List<Playlist>) {
+
+        playlistAdapter.subList(playlists)
+
+        if (playlists.isEmpty()) {
+            binding.nothingFoundFragment.visibility = View.VISIBLE
+            binding.playlistsRecyclerView.visibility = View.GONE
+        }
+
+        else {
+            binding.nothingFoundFragment.visibility = View.GONE
+            binding.playlistsRecyclerView.visibility = View.VISIBLE
+        }
     }
 
 }

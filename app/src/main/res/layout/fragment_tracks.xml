@@ -8,7 +8,7 @@
     tools:context=".media.ui.view.PlaylistsFragment">
 
     <LinearLayout
-        android:id="@+id/media_fragment"
+        android:id="@+id/nothing_found_fragment"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
 

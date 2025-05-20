@@ -11,6 +11,7 @@ import com.practicum.playlistmaker.createPlaylist.domain.api.PlaylistInteractor
 import com.practicum.playlistmaker.createPlaylist.domain.api.PlaylistRepository
 import com.practicum.playlistmaker.createPlaylist.domain.impl.PlaylistInteractorImpl
 import com.practicum.playlistmaker.createPlaylist.ui.view_model.CreatePlaylistViewModel
+import com.practicum.playlistmaker.media.ui.view_model.PlaylistViewModel
 import com.practicum.playlistmaker.player.data.PlayerPrefs
 import com.practicum.playlistmaker.sharing.data.db.AppDatabase
 import com.practicum.playlistmaker.player.domain.PlayerInteractor
@@ -108,6 +109,7 @@ class MyApplication : Application() {
                         )
                     }
                     viewModelOf(::CreatePlaylistViewModel)
+                    viewModelOf(::PlaylistViewModel)
                 },
 
             )
