@@ -7,11 +7,15 @@ import android.net.Uri
 import android.os.Environment
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import com.practicum.playlistmaker.createPlaylist.domain.api.PlaylistInteractor
+import com.practicum.playlistmaker.createPlaylist.domain.models.Playlist
 import com.practicum.playlistmaker.createPlaylist.ui.view_state.CreatePlaylistViewState
+import kotlinx.coroutines.launch
 import java.io.File
 import java.io.FileOutputStream
 
-class CreatePlaylistViewModel(val application: Application): ViewModel() {
+class CreatePlaylistViewModel(val application: Application, val playlistInteractor: PlaylistInteractor): ViewModel() {
 
     val createPlaylistLiveData = MutableLiveData<CreatePlaylistViewState>(CreatePlaylistViewState(false))
 
@@ -46,7 +50,7 @@ class CreatePlaylistViewModel(val application: Application): ViewModel() {
 
         val filePath: File = File(application.getExternalFilesDir(Environment.DIRECTORY_PICTURES), "playlistCovers")
 
-        if (!filePath.exists()){
+        if (!filePath.exists()) {
             filePath.mkdirs()
         }
 
@@ -62,6 +66,20 @@ class CreatePlaylistViewModel(val application: Application): ViewModel() {
     }
 
     fun createPlaylist () {
+
+        viewModelScope.launch {
+            playlistInteractor.addPlaylist(
+                Playlist(
+                    playlistName = state.name,
+                    playlistId = 0,
+                    playlistDescription = state.description,
+                    cover = state.uri.toString(),
+                    tracksIdList = emptyList(),
+                    numberTracks = 0
+                )
+            )
+        }
+
         if(state.uri != null) {
             saveImageToPrivateStorage(state.uri!!)
         }

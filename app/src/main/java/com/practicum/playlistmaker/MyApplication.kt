@@ -6,9 +6,13 @@ import android.media.MediaPlayer
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.room.Room
 import com.google.gson.Gson
+import com.practicum.playlistmaker.createPlaylist.data.dto.PlaylistRepositoryImlp
+import com.practicum.playlistmaker.createPlaylist.domain.api.PlaylistInteractor
+import com.practicum.playlistmaker.createPlaylist.domain.api.PlaylistRepository
+import com.practicum.playlistmaker.createPlaylist.domain.impl.PlaylistInteractorImpl
 import com.practicum.playlistmaker.createPlaylist.ui.view_model.CreatePlaylistViewModel
 import com.practicum.playlistmaker.player.data.PlayerPrefs
-import com.practicum.playlistmaker.player.data.db.AppDatabase
+import com.practicum.playlistmaker.sharing.data.db.AppDatabase
 import com.practicum.playlistmaker.player.domain.PlayerInteractor
 import com.practicum.playlistmaker.player.domain.PlayerInteractorImpl
 import com.practicum.playlistmaker.player.ui.view_model.PlayerViewModel
@@ -97,8 +101,14 @@ class MyApplication : Application() {
                 },
 
                 module {
+                    single<PlaylistInteractor> { PlaylistInteractorImpl(get()) }
+                    single<PlaylistRepository> {
+                        PlaylistRepositoryImlp(
+                            get<AppDatabase>().playlistDao()
+                        )
+                    }
                     viewModelOf(::CreatePlaylistViewModel)
-                }
+                },
 
             )
 

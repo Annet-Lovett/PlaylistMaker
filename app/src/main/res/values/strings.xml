@@ -35,4 +35,9 @@
     <string name="name_hint">Название*</string>
     <string name="description_hint">Описание</string>
     <string name="create">Создать</string>
+    <string name="name_of_the_playlist">Имя плейлиста</string>
+    <string name="number_of_the_tracks">Количество треков</string>
+    <string name="track">трек</string>
+    <string name="many_tracks">трека</string>
+    <string name="very_very_many_tracks">треков</string>
 </resources>

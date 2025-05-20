@@ -7,16 +7,17 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.GridLayoutManager
 import com.practicum.playlistmaker.R
 import com.practicum.playlistmaker.databinding.FragmentPlaylistBinding
 import com.practicum.playlistmaker.media.ui.view_model.PlaylistViewModel
 
 
-class PlaylistFragment : Fragment() {
+class PlaylistsFragment : Fragment() {
 
     companion object {
 
-        fun newInstance() = PlaylistFragment()
+        fun newInstance() = PlaylistsFragment()
     }
 
     private lateinit var binding: FragmentPlaylistBinding
@@ -37,6 +38,11 @@ class PlaylistFragment : Fragment() {
         binding.newPlaylistButton.setOnClickListener {
             findNavController().navigate(R.id.playlist_create)
         }
+
+        val recyclerView = binding.playlistsRecyclerView
+
+        recyclerView.layoutManager = GridLayoutManager(requireContext(), 2)
+        recyclerView.adapter = PlaylistAdapter()
 
     }
 
