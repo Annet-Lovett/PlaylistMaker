@@ -7,9 +7,10 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
+import com.practicum.playlistmaker.R
 import com.practicum.playlistmaker.databinding.FragmentTracksBinding
 import com.practicum.playlistmaker.media.ui.view_model.TracksViewModel
-import com.practicum.playlistmaker.player.ui.view.PlayerActivity
 import com.practicum.playlistmaker.search.ui.view.SearchFragment.Companion.CLICK_DEBOUNCE_DELAY
 import com.practicum.playlistmaker.search.ui.view.SearchTrackListAdapter
 import kotlinx.coroutines.delay
@@ -73,8 +74,7 @@ class TracksFragment : Fragment() {
 
     private fun startPlayerActivity() {
         if (clickDebounce()) {
-            val playerActivityIntent = Intent(requireActivity(), PlayerActivity::class.java)
-            startActivity(playerActivityIntent)
+            findNavController().navigate(R.id.player)
         }
     }
 

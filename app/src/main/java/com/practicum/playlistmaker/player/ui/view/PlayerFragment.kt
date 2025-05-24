@@ -2,13 +2,16 @@ package com.practicum.playlistmaker.player.ui.view
 
 import android.os.Bundle
 import android.util.TypedValue
+import android.view.LayoutInflater
 import android.view.View
-import androidx.appcompat.app.AppCompatActivity
+import android.view.ViewGroup
 import androidx.core.view.isVisible
+import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.practicum.playlistmaker.R
-import com.practicum.playlistmaker.databinding.ActivityPlayerBinding
+import com.practicum.playlistmaker.databinding.FragmentPlayerBinding
 import com.practicum.playlistmaker.databinding.ScreenPlayerBinding
 import com.practicum.playlistmaker.player.ui.view_model.PlayerViewModel
 import com.practicum.playlistmaker.player.ui.view_states.PlayerState
@@ -16,13 +19,14 @@ import com.practicum.playlistmaker.player.ui.view_states.TrackState
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import java.text.SimpleDateFormat
 import java.util.Locale
+import kotlin.getValue
 
-class PlayerActivity : AppCompatActivity() {
+class PlayerFragment: Fragment() {
 
     private val playerViewModel by viewModel<PlayerViewModel>()
 
-    private var _binding_wrap: ActivityPlayerBinding? = null
-    private val binding_wrap: ActivityPlayerBinding
+    private var _binding_wrap: FragmentPlayerBinding? = null
+    private val binding_wrap: FragmentPlayerBinding
         get() = _binding_wrap!!
 
     private var _binding: ScreenPlayerBinding? = null
@@ -31,15 +35,20 @@ class PlayerActivity : AppCompatActivity() {
 
     private val playlistsAdapter = PlayerPlaylistsAdapter()
 
-    override fun onCreate(savedInstanceState: Bundle?) {
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
 
-        super.onCreate(savedInstanceState)
-
-        _binding_wrap = ActivityPlayerBinding.inflate(layoutInflater)
-
+        _binding_wrap = FragmentPlayerBinding.inflate(layoutInflater)
         _binding = binding_wrap.player
+        return binding_wrap.root
 
-        setContentView(binding_wrap.root)
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
 
         binding_wrap.playlists.adapter = playlistsAdapter
 
@@ -48,22 +57,29 @@ class PlayerActivity : AppCompatActivity() {
         }
 
         binding.playerBackButton.setNavigationOnClickListener {
-            finish()
+            findNavController().popBackStack()
         }
 
         binding.playerButtonLike.setOnClickListener{
             playerViewModel.onFavoriteClicked()
         }
 
-        playerViewModel.playerLiveData.observe(this) {
+        playerViewModel.playerLiveData.observe(viewLifecycleOwner) {
             render(it)
         }
 
-        playerViewModel.playlistsLiveData.observe(this) {
+        playerViewModel.playlistsLiveData.observe(viewLifecycleOwner) {
 
             playlistsAdapter.subList(it)
 
         }
+
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
+        _binding_wrap = null
     }
 
     override fun onPause() {
@@ -71,9 +87,10 @@ class PlayerActivity : AppCompatActivity() {
         playerViewModel.pausePlayer()
     }
 
-    override fun onDestroy() {
-        super.onDestroy()
-        _binding = null
+    companion object {
+        const val KEY_FOR_CURRENT_TRACK = "key_for_current_track"
+        const val DURATION_FORMAT = "mm:ss"
+        const val START_TIME = "00:00"
     }
 
     private fun dpToPx(dp: Float, context: View): Int {
@@ -82,12 +99,6 @@ class PlayerActivity : AppCompatActivity() {
             dp,
             context.resources.displayMetrics
         ).toInt()
-    }
-
-    companion object {
-        const val KEY_FOR_CURRENT_TRACK = "key_for_current_track"
-        const val DURATION_FORMAT = "mm:ss"
-        const val START_TIME = "00:00"
     }
 
 
@@ -153,5 +164,5 @@ class PlayerActivity : AppCompatActivity() {
 
         }
     }
-}
 
+}
