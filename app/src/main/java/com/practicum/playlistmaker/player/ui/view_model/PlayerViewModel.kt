@@ -30,7 +30,7 @@ class PlayerViewModel(
 
     val playlistsLiveData = playlistInteractor.getAllPlaylists().asLiveData()
 
-    val eventChannel = Channel<String>()
+    val eventChannel = Channel<Pair<Playlist, Boolean>>()
 
     private var progressJob: Job? = null
 
@@ -192,13 +192,13 @@ class PlayerViewModel(
 
             val track = playerInteractor.getTrack()
             if (playlist.tracksIdList.contains(track)) {
-                eventChannel.send("Трек уже добавлен ${playlist.playlistName}")
+                eventChannel.send(playlist to false)
             }
 
             else {
                 playlistInteractor.update(playlist
                     .copy(tracksIdList = playlist.tracksIdList.toMutableList().apply { add(track) }))
-                eventChannel.send("Добавлен в плейлист ${playlist.playlistName}")
+                    eventChannel.send(playlist to true)
             }
 
         }

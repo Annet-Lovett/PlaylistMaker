@@ -14,6 +14,7 @@ import androidx.navigation.fragment.findNavController
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.google.android.material.bottomsheet.BottomSheetBehavior
+import com.google.android.material.bottomsheet.BottomSheetBehavior.STATE_HIDDEN
 import com.practicum.playlistmaker.R
 import com.practicum.playlistmaker.databinding.FragmentPlayerBinding
 import com.practicum.playlistmaker.databinding.ScreenPlayerBinding
@@ -39,11 +40,7 @@ class PlayerFragment: Fragment() {
     private val binding: ScreenPlayerBinding
         get() = _binding!!
 
-    private val playlistsAdapter = PlayerPlaylistsAdapter({playerViewModel.addTrackToPlaylist(it)
-        bottomSheetBehavior.apply {
-            state = BottomSheetBehavior.STATE_HIDDEN
-        }
-    })
+    private val playlistsAdapter = PlayerPlaylistsAdapter({playerViewModel.addTrackToPlaylist(it)})
 
     val bottomSheetBehavior by lazy { BottomSheetBehavior.from(binding_wrap.playlistsBottomSheet) }
 
@@ -107,9 +104,20 @@ class PlayerFragment: Fragment() {
                 .receiveAsFlow()
                 .flowWithLifecycle(viewLifecycleOwner.lifecycle)
                 .collect {
-                    Toast.makeText(requireContext(), it, Toast.LENGTH_SHORT).show()
-                }
 
+                    val messageSucsess = "Добавлен в плейлист ${it.first.playlistName}"
+                    val messageFail = "Трек уже добавлен ${it.first.playlistName}"
+
+                    if (it.second) {
+                        Toast.makeText(requireContext(), messageSucsess, Toast.LENGTH_SHORT).show()
+                        bottomSheetBehavior.state = STATE_HIDDEN
+                    }
+
+                    else {
+                        Toast.makeText(requireContext(), messageFail, Toast.LENGTH_SHORT).show()
+                    }
+
+                }
         }
 
     }
