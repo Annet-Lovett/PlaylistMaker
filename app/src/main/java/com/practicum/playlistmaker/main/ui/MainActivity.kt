@@ -1,6 +1,7 @@
 package com.practicum.playlistmaker.main.ui
 
 import android.os.Bundle
+import android.view.View
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.material3.NavigationRail
@@ -33,6 +34,19 @@ class MainActivity : AppCompatActivity() {
 
         val navController = Navigation.findNavController(this, R.id.content)
         binding.bottomNav.setupWithNavController(navController)
+
+        navController.addOnDestinationChangedListener { controller, dest, args ->
+            val withoutNavigation = listOf(R.id.playlist_create, R.id.player)
+            if(dest.id in withoutNavigation) {
+                binding.bottomNav.visibility = View.GONE
+            }
+
+            else {
+                binding.bottomNav.visibility = View.VISIBLE
+            }
+
+            true
+        }
     }
 
 

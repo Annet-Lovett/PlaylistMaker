@@ -27,7 +27,6 @@ class SearchFragment : Fragment() {
     private val binding: FragmentSearchBinding
         get() = _binding!!
 
-    private var isClickAllowed = true
     private val inputValue: String get() = binding.searchInput.text.toString()
 
     private val searchViewModel by activityViewModel<SearchViewModel>()
@@ -184,29 +183,11 @@ class SearchFragment : Fragment() {
     }
 
     private fun startPlayerActivity() {
-        if (clickDebounce()) {
             findNavController().navigate(R.id.player)
-        }
     }
-
-    private fun clickDebounce(): Boolean {
-        val current = isClickAllowed
-        if (isClickAllowed) {
-            isClickAllowed = false
-
-            viewLifecycleOwner.lifecycleScope.launch {
-                delay(CLICK_DEBOUNCE_DELAY)
-                isClickAllowed = true
-            }
-
-        }
-        return current
-    }
-
 
     companion object {
         const val KEY_FOR_HISTORY_LIST_TRACK = "key_for_history_list_preferences"
-        const val CLICK_DEBOUNCE_DELAY = 1000L
     }
 
 }

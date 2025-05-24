@@ -1,34 +1,27 @@
 package com.practicum.playlistmaker.media.ui.view
 
-import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.practicum.playlistmaker.R
 import com.practicum.playlistmaker.databinding.FragmentTracksBinding
 import com.practicum.playlistmaker.media.ui.view_model.TracksViewModel
-import com.practicum.playlistmaker.search.ui.view.SearchFragment.Companion.CLICK_DEBOUNCE_DELAY
 import com.practicum.playlistmaker.search.ui.view.SearchTrackListAdapter
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
-class TracksFragment : Fragment() {
+class FavouriteFragment : Fragment() {
 
     companion object {
 
-        fun newInstance() = TracksFragment()
+        fun newInstance() = FavouriteFragment()
     }
 
     private var _binding: FragmentTracksBinding? = null
     private val binding: FragmentTracksBinding
         get() = _binding!!
-
-    private var isClickAllowed = true
 
     private val favouriteTrackAdapter = SearchTrackListAdapter()
     private val tracksViewModel: TracksViewModel by viewModel()
@@ -66,29 +59,11 @@ class TracksFragment : Fragment() {
                 binding.nothingFoundImg.visibility = View.VISIBLE
                 binding.mediaText.visibility = View.VISIBLE
             }
-
         }
-
     }
 
     private fun startPlayerActivity() {
-        if (clickDebounce()) {
             findNavController().navigate(R.id.player)
-        }
-    }
-
-    private fun clickDebounce(): Boolean {
-        val current = isClickAllowed
-        if (isClickAllowed) {
-            isClickAllowed = false
-
-            viewLifecycleOwner.lifecycleScope.launch {
-                delay(CLICK_DEBOUNCE_DELAY)
-                isClickAllowed = true
-            }
-
-        }
-        return current
     }
 
     override fun onDestroyView() {
