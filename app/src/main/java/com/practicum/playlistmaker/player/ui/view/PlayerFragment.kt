@@ -5,8 +5,11 @@ import android.util.TypedValue
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.flowWithLifecycle
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
@@ -17,6 +20,8 @@ import com.practicum.playlistmaker.databinding.ScreenPlayerBinding
 import com.practicum.playlistmaker.player.ui.view_model.PlayerViewModel
 import com.practicum.playlistmaker.player.ui.view_states.PlayerState
 import com.practicum.playlistmaker.player.ui.view_states.TrackState
+import kotlinx.coroutines.flow.receiveAsFlow
+import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import java.text.SimpleDateFormat
 import java.util.Locale
@@ -34,7 +39,13 @@ class PlayerFragment: Fragment() {
     private val binding: ScreenPlayerBinding
         get() = _binding!!
 
-    private val playlistsAdapter = PlayerPlaylistsAdapter()
+    private val playlistsAdapter = PlayerPlaylistsAdapter({playerViewModel.addTrackToPlaylist(it)
+        bottomSheetBehavior.apply {
+            state = BottomSheetBehavior.STATE_HIDDEN
+        }
+    })
+
+    val bottomSheetBehavior by lazy { BottomSheetBehavior.from(binding_wrap.playlistsBottomSheet) }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -69,6 +80,9 @@ class PlayerFragment: Fragment() {
             render(it)
         }
 
+        binding_wrap.newPlaylistButton.setOnClickListener {
+            findNavController().navigate(R.id.playlist_create)
+        }
 
 
         playerViewModel.playlistsLiveData.observe(viewLifecycleOwner) {
@@ -79,7 +93,7 @@ class PlayerFragment: Fragment() {
 
         binding.playerButtonPlus.setOnClickListener {
 
-            val bottomSheetBehavior = BottomSheetBehavior.from(binding_wrap.playlistsBottomSheet).apply {
+            bottomSheetBehavior.apply {
                 state = BottomSheetBehavior.STATE_HALF_EXPANDED
             }
 
@@ -87,11 +101,22 @@ class PlayerFragment: Fragment() {
 
         configBottomSheet()
 
+        viewLifecycleOwner.lifecycleScope.launch {
+
+            playerViewModel.eventChannel
+                .receiveAsFlow()
+                .flowWithLifecycle(viewLifecycleOwner.lifecycle)
+                .collect {
+                    Toast.makeText(requireContext(), it, Toast.LENGTH_SHORT).show()
+                }
+
+        }
+
     }
 
     private fun configBottomSheet() {
 
-        val bottomSheetBehavior = BottomSheetBehavior.from(binding_wrap.playlistsBottomSheet).apply {
+        bottomSheetBehavior.apply {
             state = BottomSheetBehavior.STATE_HIDDEN
         }
 

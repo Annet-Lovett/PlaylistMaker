@@ -12,6 +12,7 @@ import com.practicum.playlistmaker.player.ui.view_states.PlayerState
 import com.practicum.playlistmaker.player.ui.view_states.TrackState
 import com.practicum.playlistmaker.sharing.domain.api.FavouritesInteractor
 import kotlinx.coroutines.Job
+import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
@@ -27,8 +28,9 @@ class PlayerViewModel(
 
     val playerLiveData = MutableLiveData<PlayerState>(PlayerState.Initial(false))
 
-//    val playlistsLiveData = MutableLiveData<List<Playlist>>(emptyList<Playlist>())
     val playlistsLiveData = playlistInteractor.getAllPlaylists().asLiveData()
+
+    val eventChannel = Channel<String>()
 
     private var progressJob: Job? = null
 
@@ -88,6 +90,10 @@ class PlayerViewModel(
         }
 
         mediaPlayer.setOnCompletionListener {
+
+            if (playerLiveData.value !is TrackState) {
+                return@setOnCompletionListener
+            }
 
             playerLiveData.value = playerLiveData.value.let {
                 (it as TrackState).copy(
@@ -178,6 +184,25 @@ class PlayerViewModel(
                 favouritesInteractor.addFavouriteTrack(playerInteractor.getTrack())
             }
         }
+    }
+
+    fun addTrackToPlaylist (playlist: Playlist) {
+
+        viewModelScope.launch {
+
+            val track = playerInteractor.getTrack()
+            if (playlist.tracksIdList.contains(track)) {
+                eventChannel.send("Трек уже добавлен ${playlist.playlistName}")
+            }
+
+            else {
+                playlistInteractor.update(playlist
+                    .copy(tracksIdList = playlist.tracksIdList.toMutableList().apply { add(track) }))
+                eventChannel.send("Добавлен в плейлист ${playlist.playlistName}")
+            }
+
+        }
+
     }
 
     companion object {

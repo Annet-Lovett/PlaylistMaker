@@ -10,7 +10,7 @@ import com.practicum.playlistmaker.databinding.PlaylistLineBinding
 
 class PlayerPlaylistsHolder(
     private val binding: PlaylistLineBinding,
-    onItemClick: ((plalist: Playlist) -> Unit)?
+//    onItemClick: ((plalist: Playlist) -> Unit)?
 ) : RecyclerView.ViewHolder(binding.root) {
 
     private val cover: ImageView = binding.playlistCover

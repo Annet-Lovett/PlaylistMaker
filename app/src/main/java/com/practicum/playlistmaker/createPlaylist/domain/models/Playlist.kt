@@ -2,7 +2,7 @@ package com.practicum.playlistmaker.createPlaylist.domain.models
 
 import com.practicum.playlistmaker.sharing.domain.models.Track
 
-class Playlist(
+data class Playlist(
     val playlistName: String,
     val playlistId: Int,
     val playlistDescription: String,
