@@ -116,5 +116,9 @@
         <item name="android:textAllCaps">false</item>
     </style>
 
+    <style name="bottom_sheet">
+        <item name="android:backgroundTint">@color/dark</item>
+    </style>
+
 
 </resources>
