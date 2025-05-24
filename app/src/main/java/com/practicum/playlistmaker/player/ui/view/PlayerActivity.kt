@@ -29,6 +29,8 @@ class PlayerActivity : AppCompatActivity() {
     private val binding: ScreenPlayerBinding
         get() = _binding!!
 
+    private val playlistsAdapter = PlayerPlaylistsAdapter()
+
     override fun onCreate(savedInstanceState: Bundle?) {
 
         super.onCreate(savedInstanceState)
@@ -38,6 +40,8 @@ class PlayerActivity : AppCompatActivity() {
         _binding = binding_wrap.player
 
         setContentView(binding_wrap.root)
+
+        binding_wrap.playlists.adapter = playlistsAdapter
 
         binding.playerButtonPlay.setOnClickListener {
             playerViewModel.toggle()
@@ -51,9 +55,14 @@ class PlayerActivity : AppCompatActivity() {
             playerViewModel.onFavoriteClicked()
         }
 
-
-        playerViewModel.liveData.observe(this) {
+        playerViewModel.playerLiveData.observe(this) {
             render(it)
+        }
+
+        playerViewModel.playlistsLiveData.observe(this) {
+
+            playlistsAdapter.subList(it)
+
         }
     }
 

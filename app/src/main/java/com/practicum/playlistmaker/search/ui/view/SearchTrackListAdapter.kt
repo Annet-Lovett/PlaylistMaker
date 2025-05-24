@@ -29,7 +29,7 @@ class SearchTrackListAdapter: RecyclerView.Adapter<SearchTrackHolder>() {
 
     override fun onBindViewHolder(holder: SearchTrackHolder, position: Int) {
         val track = listOfTheTracks[position]
-        holder.bind(listOfTheTracks[position])
+        holder.bind(track)
         holder.itemView.setOnClickListener{
             onItemClick?.let { it(track) }
         }
