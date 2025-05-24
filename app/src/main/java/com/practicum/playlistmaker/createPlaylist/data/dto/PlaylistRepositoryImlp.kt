@@ -6,8 +6,6 @@ import com.practicum.playlistmaker.createPlaylist.data.db.PlaylistEntity
 import com.practicum.playlistmaker.createPlaylist.data.db.dao.PlaylistDao
 import com.practicum.playlistmaker.createPlaylist.domain.api.PlaylistRepository
 import com.practicum.playlistmaker.createPlaylist.domain.models.Playlist
-import com.practicum.playlistmaker.player.data.db.TrackEntity
-import com.practicum.playlistmaker.sharing.domain.models.Track
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import java.lang.reflect.Type
@@ -16,7 +14,7 @@ class PlaylistRepositoryImlp (private val dao: PlaylistDao) : PlaylistRepository
 
 
     private val gson = Gson()
-    private val type: Type = TypeToken.getParameterized(List::class.java, Track::class.java).type
+    private val type: Type = TypeToken.getParameterized(List::class.java, Integer::class.java).type
 
     override suspend fun addPlaylist(playlist: Playlist) {
         dao.insertPlaylist(toEntity(playlist))

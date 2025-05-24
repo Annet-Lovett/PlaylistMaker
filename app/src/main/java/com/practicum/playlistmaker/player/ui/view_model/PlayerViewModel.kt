@@ -191,13 +191,12 @@ class PlayerViewModel(
         viewModelScope.launch {
 
             val track = playerInteractor.getTrack()
-            if (playlist.tracksIdList.contains(track)) {
+            if (playlist.tracksIdList.contains(track.trackId)) {
                 eventChannel.send(playlist to false)
             }
 
             else {
-                playlistInteractor.update(playlist
-                    .copy(tracksIdList = playlist.tracksIdList.toMutableList().apply { add(track) }))
+                playlistInteractor.addTrackToPlaylist(track, playlist)
                     eventChannel.send(playlist to true)
             }
 

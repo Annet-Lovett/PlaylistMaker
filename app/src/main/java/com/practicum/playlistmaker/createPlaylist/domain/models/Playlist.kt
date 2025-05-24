@@ -7,6 +7,6 @@ data class Playlist(
     val playlistId: Int,
     val playlistDescription: String,
     val cover: String? = null,
-    val tracksIdList: List<Track> = emptyList(),
+    val tracksIdList: List<Int> = emptyList(),
     val numberTracks: Int = 0,
 )

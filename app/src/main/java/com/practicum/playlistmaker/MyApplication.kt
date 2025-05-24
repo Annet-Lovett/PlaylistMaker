@@ -7,8 +7,10 @@ import androidx.appcompat.app.AppCompatDelegate
 import androidx.room.Room
 import com.google.gson.Gson
 import com.practicum.playlistmaker.createPlaylist.data.dto.PlaylistRepositoryImlp
+import com.practicum.playlistmaker.createPlaylist.data.dto.PlaylistTracksRepositoryImpl
 import com.practicum.playlistmaker.createPlaylist.domain.api.PlaylistInteractor
 import com.practicum.playlistmaker.createPlaylist.domain.api.PlaylistRepository
+import com.practicum.playlistmaker.createPlaylist.domain.api.PlaylistTracksRepository
 import com.practicum.playlistmaker.createPlaylist.domain.impl.PlaylistInteractorImpl
 import com.practicum.playlistmaker.createPlaylist.ui.view_model.CreatePlaylistViewModel
 import com.practicum.playlistmaker.media.ui.view_model.PlaylistViewModel
@@ -102,12 +104,17 @@ class MyApplication : Application() {
                 },
 
                 module {
-                    single<PlaylistInteractor> { PlaylistInteractorImpl(get()) }
+                    single<PlaylistTracksRepository> { PlaylistTracksRepositoryImpl(get<AppDatabase>()
+                        .playlistTracksDao()) }
+
+                    single<PlaylistInteractor> { PlaylistInteractorImpl(get(), get()) }
+
                     single<PlaylistRepository> {
                         PlaylistRepositoryImlp(
                             get<AppDatabase>().playlistDao()
                         )
                     }
+
                     viewModelOf(::CreatePlaylistViewModel)
                     viewModelOf(::PlaylistViewModel)
                 },

@@ -1,6 +1,7 @@
 package com.practicum.playlistmaker.createPlaylist.domain.api
 
 import com.practicum.playlistmaker.createPlaylist.domain.models.Playlist
+import com.practicum.playlistmaker.sharing.domain.models.Track
 import kotlinx.coroutines.flow.Flow
 
 interface PlaylistInteractor {
@@ -12,6 +13,8 @@ interface PlaylistInteractor {
     suspend fun addPlaylist (playlist: Playlist)
 
     suspend fun deletePlaylist (playlist: Playlist)
+
+    suspend fun addTrackToPlaylist (track: Track, playlist: Playlist)
 
 
 }
