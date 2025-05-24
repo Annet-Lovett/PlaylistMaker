@@ -5,6 +5,7 @@ import android.util.TypedValue
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.LinearLayout
 import android.widget.Toast
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
@@ -42,7 +43,10 @@ class PlayerFragment: Fragment() {
 
     private val playlistsAdapter = PlayerPlaylistsAdapter({playerViewModel.addTrackToPlaylist(it)})
 
-    val bottomSheetBehavior by lazy { BottomSheetBehavior.from(binding_wrap.playlistsBottomSheet) }
+    private var _bottomSheetBehavior: BottomSheetBehavior<LinearLayout>? = null
+    private val bottomSheetBehavior: BottomSheetBehavior<LinearLayout>
+        get() = _bottomSheetBehavior!!
+
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -52,6 +56,7 @@ class PlayerFragment: Fragment() {
 
         _binding_wrap = FragmentPlayerBinding.inflate(layoutInflater)
         _binding = binding_wrap.player
+        _bottomSheetBehavior = BottomSheetBehavior.from(binding_wrap.playlistsBottomSheet)
         return binding_wrap.root
 
     }
@@ -154,6 +159,7 @@ class PlayerFragment: Fragment() {
         super.onDestroyView()
         _binding = null
         _binding_wrap = null
+        _bottomSheetBehavior = null
     }
 
     override fun onPause() {
