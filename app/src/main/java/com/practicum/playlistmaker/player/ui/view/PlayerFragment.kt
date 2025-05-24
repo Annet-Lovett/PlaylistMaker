@@ -10,6 +10,7 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
+import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.practicum.playlistmaker.R
 import com.practicum.playlistmaker.databinding.FragmentPlayerBinding
 import com.practicum.playlistmaker.databinding.ScreenPlayerBinding
@@ -68,11 +69,51 @@ class PlayerFragment: Fragment() {
             render(it)
         }
 
+
+
         playerViewModel.playlistsLiveData.observe(viewLifecycleOwner) {
 
             playlistsAdapter.subList(it)
 
         }
+
+        binding.playerButtonPlus.setOnClickListener {
+
+            val bottomSheetBehavior = BottomSheetBehavior.from(binding_wrap.playlistsBottomSheet).apply {
+                state = BottomSheetBehavior.STATE_HALF_EXPANDED
+            }
+
+        }
+
+        configBottomSheet()
+
+    }
+
+    private fun configBottomSheet() {
+
+        val bottomSheetBehavior = BottomSheetBehavior.from(binding_wrap.playlistsBottomSheet).apply {
+            state = BottomSheetBehavior.STATE_HIDDEN
+        }
+
+        bottomSheetBehavior.addBottomSheetCallback(object : BottomSheetBehavior.BottomSheetCallback() {
+
+            override fun onStateChanged(bottomSheet: View, newState: Int) {
+
+                when (newState) {
+                    BottomSheetBehavior.STATE_HIDDEN -> {
+                        binding_wrap.overlay.visibility = View.GONE
+                    }
+                    else -> {
+                        binding_wrap.overlay.visibility = View.VISIBLE
+                    }
+                }
+            }
+
+            override fun onSlide(bottomSheet: View, slideOffset: Float) {
+
+                binding_wrap.overlay.alpha = (slideOffset + 1)/2
+            }
+        })
 
     }
 

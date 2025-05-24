@@ -48,7 +48,6 @@ class TracksFragment : Fragment() {
         binding.favouriteListRecycler.adapter = favouriteTrackAdapter
 
         favouriteTrackAdapter.onItemClick = { track ->
-//            get<TrackInteractor>().recordTrack(track)
             tracksViewModel.selectTrack(track)
             startPlayerActivity()
         }
