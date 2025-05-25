@@ -175,4 +175,55 @@
     </style>
 
 
+<!--    <style name="NewPlaylistET" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox">-->
+<!--        <item name="android:layout_gravity">center_vertical</item>-->
+<!--        <item name="android:fontFamily">@font/ys_display_regular</item>-->
+<!--        <item name="android:textFontWeight">400</item>-->
+<!--        <item name="android:textColor">#1A1B22</item>-->
+<!--        <item name="android:inputType">text</item>-->
+<!--        <item name="android:maxLines">1</item>-->
+<!--        <item name="boxBackgroundColor">@android:color/transparent</item>-->
+<!--        <item name="boxStrokeColor">@color/blue_grey_focused</item>-->
+<!--        <item name="boxStrokeWidth">1dp</item>-->
+<!--        <item name="hintTextColor">@color/blue_grey_focused</item>-->
+<!--        <item name="hintAnimationEnabled">true</item>-->
+<!--        <item name="hintEnabled">true</item>-->
+<!--        <item name="boxCornerRadiusBottomEnd">3.5dp</item>-->
+<!--        <item name="boxCornerRadiusBottomStart">3.5dp</item>-->
+<!--        <item name="boxCornerRadiusTopEnd">3.5dp</item>-->
+<!--        <item name="boxCornerRadiusTopStart">3.5dp</item>-->
+<!--    </style>-->
+
+<!--    <style name="OutlinedTextInputLayout" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox">-->
+<!--        <item name="boxBackgroundMode">outline</item>-->
+<!--        <item name="boxStrokeWidth">1dp</item>-->
+<!--        <item name="boxStrokeWidthFocused">1dp</item>-->
+<!--        <item name="boxCornerRadiusTopStart">8dp</item>-->
+<!--        <item name="boxCornerRadiusTopEnd">8dp</item>-->
+<!--        <item name="boxCornerRadiusBottomStart">8dp</item>-->
+<!--        <item name="boxCornerRadiusBottomEnd">8dp</item>-->
+<!--        <item name="boxStrokeColor">@color/blue_grey_focused</item>-->
+<!--        <item name="hintTextColor">@color/blue_grey_focused</item>-->
+<!--        <item name="hintTextAppearance">@style/CustomHintTextAppearance</item>-->
+<!--        <item name="android:textColorHint">@color/blue_grey_focused</item>-->
+<!--    </style>-->
+
+<!--    <style name="CustomHintTextAppearance" parent="TextAppearance.Design.Hint">-->
+<!--        <item name="android:textSize">12dp</item>-->
+<!--        <item name="android:textStyle">italic</item>-->
+<!--        <item name="android:textFontWeight">400</item>-->
+<!--        <item name="fontFamily">@font/ys_display_regular</item>-->
+<!--    </style>-->
+
+<!--    <style name="CustomTextInputEditTextStyle" parent="Widget.MaterialComponents.TextInputEditText.OutlinedBox">-->
+<!--        <item name="android:textColor">@color/blue_grey_focused</item>-->
+<!--        <item name="android:textSize">16dp</item>-->
+<!--        <item name="android:textFontWeight">400</item>-->
+<!--        <item name="android:fontFamily">@font/ys_display_regular</item>-->
+<!--        <item name="android:textCursorDrawable">@drawable/cursor</item>-->
+<!--        <item name="android:inputType">textCapSentences</item>-->
+<!--        <item name="android:imeOptions">actionDone</item>-->
+<!--        <item name="android:maxLines">1</item>-->
+<!--    </style>-->
+
 </resources>

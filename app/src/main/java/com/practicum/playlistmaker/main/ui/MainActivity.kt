@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.view.View
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
-import androidx.compose.material3.NavigationRail
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.navigation.Navigation
@@ -36,13 +35,17 @@ class MainActivity : AppCompatActivity() {
         binding.bottomNav.setupWithNavController(navController)
 
         navController.addOnDestinationChangedListener { controller, dest, args ->
+
             val withoutNavigation = listOf(R.id.playlist_create, R.id.player)
+
             if(dest.id in withoutNavigation) {
                 binding.bottomNav.visibility = View.GONE
+                binding.navBottomLine.visibility = View.GONE
             }
 
             else {
                 binding.bottomNav.visibility = View.VISIBLE
+                binding.navBottomLine.visibility = View.VISIBLE
             }
 
             true
