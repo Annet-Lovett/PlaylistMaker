@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:theme="@style/other_screens">
+    style="@style/other_screens">
 
     <com.google.android.material.appbar.MaterialToolbar
         android:id="@+id/buttonBack"
