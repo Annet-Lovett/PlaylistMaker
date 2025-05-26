@@ -54,7 +54,7 @@
       app:navigationIcon="@drawable/arrow" />
 
   <ImageView
-      android:id="@+id/playerTrackImg"
+      android:id="@+id/playlistCover"
       android:layout_width="0dp"
       android:layout_height="0dp"
       android:layout_marginTop="12dp"
@@ -68,7 +68,7 @@
       app:layout_constraintTop_toBottomOf="@+id/playerBackButton" />
 
   <TextView
-      android:id="@+id/playerNameOfTheTrack"
+      android:id="@+id/playerNameOfThePlaylist"
       android:layout_width="0dp"
       android:layout_height="wrap_content"
       android:layout_marginTop="24dp"
@@ -76,12 +76,12 @@
       android:text="@string/name_of_the_track"
       android:textFontWeight="400"
       android:textSize="22sp"
-      app:layout_constraintTop_toBottomOf="@+id/playerTrackImg"
+      app:layout_constraintTop_toBottomOf="@+id/playlistCover"
       app:layout_constraintEnd_toEndOf="@id/rightBorder24"
       app:layout_constraintStart_toStartOf="@id/leftBorder24"/>
 
   <TextView
-      android:id="@+id/playerNameOfTheArtist"
+      android:id="@+id/playlistYear"
       android:layout_width="0dp"
       android:layout_height="wrap_content"
       android:layout_marginTop="12dp"
@@ -91,16 +91,16 @@
       android:textSize="14sp"
       app:layout_constraintEnd_toEndOf="@id/rightBorder24"
       app:layout_constraintStart_toStartOf="@id/leftBorder24"
-      app:layout_constraintTop_toBottomOf="@+id/playerNameOfTheTrack" />
+      app:layout_constraintTop_toBottomOf="@+id/playerNameOfThePlaylist" />
 
 
   <ImageButton
       style="@style/buttonLikeAdd"
-      android:id="@+id/playerButtonPlus"
+      android:id="@+id/playlistButtonDetails"
       app:srcCompat="@drawable/ic_player_add_plist_button"
       app:layout_constraintHorizontal_chainStyle="spread_inside"
       app:layout_constraintStart_toStartOf="@id/leftBorder24"
-      app:layout_constraintTop_toBottomOf="@+id/playerNameOfTheArtist"
+      app:layout_constraintTop_toBottomOf="@+id/playlistYear"
       app:layout_constraintEnd_toStartOf="@id/playerButtonPlay" />
 
   <com.google.android.material.button.MaterialButton
@@ -110,15 +110,15 @@
       android:layout_width="84dp"
       android:layout_height="84dp"
       android:background="@drawable/button_play"
-      app:layout_constraintTop_toBottomOf="@+id/playerNameOfTheArtist"
+      app:layout_constraintTop_toBottomOf="@+id/playlistYear"
       app:layout_constraintEnd_toStartOf="@id/playerButtonLike"
-      app:layout_constraintStart_toEndOf="@+id/playerButtonPlus" />
+      app:layout_constraintStart_toEndOf="@+id/playlistButtonDetails" />
 
   <ImageButton
       style="@style/buttonLikeAdd"
       android:id="@+id/playerButtonLike"
       app:srcCompat="@drawable/ic_player_add_favs_button"
-      app:layout_constraintTop_toBottomOf="@+id/playerNameOfTheArtist"
+      app:layout_constraintTop_toBottomOf="@+id/playlistYear"
       app:layout_constraintStart_toEndOf="@+id/playerButtonPlay"
       app:layout_constraintEnd_toEndOf="@id/rightBorder24" />
 

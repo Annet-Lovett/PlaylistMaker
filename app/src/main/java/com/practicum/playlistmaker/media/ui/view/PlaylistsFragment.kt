@@ -11,13 +11,14 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import com.practicum.playlistmaker.R
-import com.practicum.playlistmaker.createPlaylist.domain.api.PlaylistInteractor
-import com.practicum.playlistmaker.createPlaylist.domain.models.Playlist
+import com.practicum.playlistmaker.playlist.domain.api.PlaylistInteractor
+import com.practicum.playlistmaker.playlist.domain.models.Playlist
 import com.practicum.playlistmaker.databinding.FragmentPlaylistBinding
+import com.practicum.playlistmaker.databinding.FragmentPlaylistsMediaBinding
 import com.practicum.playlistmaker.media.ui.view_model.PlaylistViewModel
+import com.practicum.playlistmaker.playlist.ui.view.PlaylistFragment
 import kotlinx.coroutines.launch
 import org.koin.android.ext.android.get
-import org.koin.core.context.GlobalContext.get
 
 
 class PlaylistsFragment : Fragment() {
@@ -27,7 +28,7 @@ class PlaylistsFragment : Fragment() {
         fun newInstance() = PlaylistsFragment()
     }
 
-    private lateinit var binding: FragmentPlaylistBinding
+    private lateinit var binding: FragmentPlaylistsMediaBinding
 
     private val playlistViewModel: PlaylistViewModel by viewModels()
 
@@ -37,7 +38,7 @@ class PlaylistsFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?,
     ): View? {
-        binding = FragmentPlaylistBinding.inflate(inflater, container, false)
+        binding = FragmentPlaylistsMediaBinding.inflate(inflater, container, false)
         return binding.root
     }
 

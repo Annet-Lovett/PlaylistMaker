@@ -8,8 +8,8 @@ import android.os.Environment
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.practicum.playlistmaker.createPlaylist.domain.api.PlaylistInteractor
-import com.practicum.playlistmaker.createPlaylist.domain.models.Playlist
+import com.practicum.playlistmaker.playlist.domain.api.PlaylistInteractor
+import com.practicum.playlistmaker.playlist.domain.models.Playlist
 import com.practicum.playlistmaker.createPlaylist.ui.view_state.CreatePlaylistViewState
 import kotlinx.coroutines.launch
 import java.io.File
