@@ -45,7 +45,7 @@
             style="@style/trackName"
             android:textFontWeight="500"
             android:layout_marginTop="30dp"
-            android:textSize="19dp"/>
+            android:textSize="19sp"/>
 
         <Button
             android:id="@+id/new_playlist_button"

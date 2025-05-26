@@ -4,18 +4,17 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools">
 
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
         android:id="@+id/main"
         style="@style/playlistActivity"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:theme="@style/Base.Settings.Theme.PlaylistMaker"
-        xmlns:tools="http://schemas.android.com/tools">
+        >
 
         <androidx.constraintlayout.widget.Guideline
             android:id="@+id/leftBorder16"
@@ -151,46 +150,45 @@
             app:layout_constraintStart_toStartOf="@+id/leftBorder24"
             app:layout_constraintTop_toBottomOf="@+id/durationNumberBlock" />
 
-        <View android:id="@+id/overlay"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="#99000000"
-            android:visibility="gone"/>
-
-
-        <LinearLayout
-            android:id="@+id/playlists_bottom_sheet"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@drawable/rectan_r16_top"
-            style="@style/bottom_sheet"
-            android:orientation="vertical"
-            app:behavior_hideable="true"
-            app:behavior_peekHeight="240dp"
-            android:gravity="center_horizontal"
-            app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior">
-
-            <View
-                android:layout_height="4dp"
-                android:layout_width="50dp"
-                android:background="@drawable/rect_stadium"
-                android:backgroundTint="@color/lightGrey"
-                android:layout_marginTop="8dp"
-                />
-
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/playlists"
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_marginTop="24dp"
-                android:layout_weight="1"
-                android:orientation="vertical"
-                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                tools:listitem="@layout/track_item" />
-
-        </LinearLayout>
-
-
     </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <View android:id="@+id/overlay"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#99000000"
+        android:visibility="gone"/>
+
+
+    <LinearLayout
+        android:id="@+id/playlists_bottom_sheet"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/rectan_r16_top"
+        style="@style/bottom_sheet"
+        android:orientation="vertical"
+        app:behavior_hideable="true"
+        app:behavior_peekHeight="240dp"
+        android:gravity="center_horizontal"
+        app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior">
+
+        <View
+            android:layout_height="4dp"
+            android:layout_width="50dp"
+            android:background="@drawable/rect_stadium"
+            android:backgroundTint="@color/lightGrey"
+            android:layout_marginTop="8dp"
+            />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/playlists"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_marginTop="24dp"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            tools:listitem="@layout/track_item" />
+
+    </LinearLayout>
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

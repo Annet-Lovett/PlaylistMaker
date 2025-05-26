@@ -1,4 +1,6 @@
 package com.practicum.playlistmaker.playlist.ui.view
 
-class PlaylistFragment {
+import androidx.fragment.app.Fragment
+
+class PlaylistFragment : Fragment() {
 }

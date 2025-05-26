@@ -13,19 +13,17 @@ import androidx.recyclerview.widget.GridLayoutManager
 import com.practicum.playlistmaker.R
 import com.practicum.playlistmaker.playlist.domain.api.PlaylistInteractor
 import com.practicum.playlistmaker.playlist.domain.models.Playlist
-import com.practicum.playlistmaker.databinding.FragmentPlaylistBinding
 import com.practicum.playlistmaker.databinding.FragmentPlaylistsMediaBinding
 import com.practicum.playlistmaker.media.ui.view_model.PlaylistViewModel
-import com.practicum.playlistmaker.playlist.ui.view.PlaylistFragment
 import kotlinx.coroutines.launch
 import org.koin.android.ext.android.get
 
 
-class PlaylistsFragment : Fragment() {
+class PlaylistsMediaFragment : Fragment() {
 
     companion object {
 
-        fun newInstance() = PlaylistsFragment()
+        fun newInstance() = PlaylistsMediaFragment()
     }
 
     private lateinit var binding: FragmentPlaylistsMediaBinding
@@ -51,7 +49,7 @@ class PlaylistsFragment : Fragment() {
 
         viewLifecycleOwner.lifecycleScope.launch{
 //            playlistViewModel.flow
-            val interactor: PlaylistInteractor= this@PlaylistsFragment.get()
+            val interactor: PlaylistInteractor= this@PlaylistsMediaFragment.get()
             interactor.getAllPlaylists()
                 .flowWithLifecycle(viewLifecycleOwner.lifecycle)
                 .collect { render(it) }

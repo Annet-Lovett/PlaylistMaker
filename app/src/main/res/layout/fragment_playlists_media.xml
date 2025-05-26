@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".media.ui.view.PlaylistsFragment"
+    tools:context=".media.ui.view.PlaylistsMediaFragment"
     android:theme="@style/Base.Settings.Theme.PlaylistMaker"
     android:orientation="vertical">
 

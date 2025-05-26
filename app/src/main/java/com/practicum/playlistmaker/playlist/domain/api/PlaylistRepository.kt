@@ -13,6 +13,8 @@ interface PlaylistRepository {
 
     fun getAllPlaylists (): Flow<List<Playlist>>
 
+    fun getCurrentPlaylist(plailistId: Int): Playlist
+
 
 
 }

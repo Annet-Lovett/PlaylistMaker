@@ -1,7 +1,5 @@
 package com.practicum.playlistmaker.playlist.domain.models
 
-import com.practicum.playlistmaker.sharing.domain.models.Track
-
 data class Playlist(
     val playlistName: String,
     val playlistId: Int,

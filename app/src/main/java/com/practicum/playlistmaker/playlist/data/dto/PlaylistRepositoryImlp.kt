@@ -35,6 +35,10 @@ class PlaylistRepositoryImlp (private val dao: PlaylistDao) : PlaylistRepository
 
     }
 
+    override fun getCurrentPlaylist(plailistId: Int): Playlist {
+        return fromEntity(dao.getCurrentPlaylist(plailistId))
+    }
+
     private fun fromEntity(entity: PlaylistEntity): Playlist {
 
         return Playlist(

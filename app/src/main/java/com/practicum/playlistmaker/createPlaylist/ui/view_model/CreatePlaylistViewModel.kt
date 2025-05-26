@@ -48,7 +48,7 @@ class CreatePlaylistViewModel(val application: Application, val playlistInteract
 
     private fun saveImageToPrivateStorage(uri: Uri): Uri {
 
-        val filePath: File = File(application.getExternalFilesDir(Environment.DIRECTORY_PICTURES), "playlistCovers")
+        val filePath = File(application.getExternalFilesDir(Environment.DIRECTORY_PICTURES), "playlistCovers")
 
         if (!filePath.exists()) {
             filePath.mkdirs()
