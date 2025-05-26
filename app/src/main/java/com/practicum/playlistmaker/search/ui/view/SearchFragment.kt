@@ -10,8 +10,9 @@ import androidx.core.view.isVisible
 import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
+import com.practicum.playlistmaker.R
 import com.practicum.playlistmaker.databinding.FragmentSearchBinding
-import com.practicum.playlistmaker.player.ui.view.PlayerActivity
 import com.practicum.playlistmaker.search.ui.view_model.SearchViewModel
 import com.practicum.playlistmaker.search.ui.view_states.HistoryState
 import com.practicum.playlistmaker.search.ui.view_states.ScreenState
@@ -26,7 +27,6 @@ class SearchFragment : Fragment() {
     private val binding: FragmentSearchBinding
         get() = _binding!!
 
-    private var isClickAllowed = true
     private val inputValue: String get() = binding.searchInput.text.toString()
 
     private val searchViewModel by activityViewModel<SearchViewModel>()
@@ -183,30 +183,11 @@ class SearchFragment : Fragment() {
     }
 
     private fun startPlayerActivity() {
-        if (clickDebounce()) {
-            val playerActivityIntent = Intent(requireActivity(), PlayerActivity::class.java)
-            startActivity(playerActivityIntent)
-        }
+            findNavController().navigate(R.id.player)
     }
-
-    private fun clickDebounce(): Boolean {
-        val current = isClickAllowed
-        if (isClickAllowed) {
-            isClickAllowed = false
-
-            viewLifecycleOwner.lifecycleScope.launch {
-                delay(CLICK_DEBOUNCE_DELAY)
-                isClickAllowed = true
-            }
-
-        }
-        return current
-    }
-
 
     companion object {
         const val KEY_FOR_HISTORY_LIST_TRACK = "key_for_history_list_preferences"
-        const val CLICK_DEBOUNCE_DELAY = 1000L
     }
 
 }
