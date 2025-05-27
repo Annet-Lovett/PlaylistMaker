@@ -63,7 +63,7 @@ class PlaylistFragment : Fragment(R.layout.fragment_playlist) {
             .into(binding.playlistCover)
 
         binding.playerNameOfThePlaylist.text = playlistViewState.nameOfThePlaylist
-        binding.playlistYear.text = playlistViewState.year
+        binding.playlistDescription.text = playlistViewState.description
         binding.duration.text = playlistViewState.duration
         binding.numberOfTheTracks.text = playlistViewState.numberOfTheTracks
 

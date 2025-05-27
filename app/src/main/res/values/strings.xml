@@ -41,4 +41,8 @@
     <string name="many_tracks">трека</string>
     <string name="very_very_many_tracks">треков</string>
     <string name="add_to_playlist">Добавить в плейлист</string>
+
+    <string name="minute">минута</string>
+    <string name="a_few_minutes">минуты</string>
+    <string name="much_minutes">минут</string>
 </resources>

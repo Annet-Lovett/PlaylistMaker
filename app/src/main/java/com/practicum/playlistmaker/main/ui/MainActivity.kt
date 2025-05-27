@@ -36,7 +36,7 @@ class MainActivity : AppCompatActivity() {
 
         navController.addOnDestinationChangedListener { controller, dest, args ->
 
-            val withoutNavigation = listOf(R.id.playlist_create, R.id.player)
+            val withoutNavigation = listOf(R.id.playlist_create, R.id.player, R.id.playlist)
 
             if(dest.id in withoutNavigation) {
                 binding.bottomNav.visibility = View.GONE
