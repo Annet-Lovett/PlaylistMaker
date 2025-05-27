@@ -2,7 +2,6 @@ package com.practicum.playlistmaker.playlist.ui.view
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -16,7 +15,6 @@ import com.practicum.playlistmaker.R
 import com.practicum.playlistmaker.databinding.FragmentPlaylistBinding
 import com.practicum.playlistmaker.playlist.ui.view_states.PlaylistViewState
 import com.practicum.playlistmaker.playlist.ui.viewmodel.PlaylistViewModel
-import com.practicum.playlistmaker.search.ui.view.SearchTrackListAdapter
 import com.practicum.playlistmaker.sharing.domain.models.Track
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.koin.core.parameter.parametersOf
@@ -152,9 +150,18 @@ class PlaylistFragment : Fragment() {
     }
 
     private fun getPlaylistAsText(viewState: PlaylistViewState): String {
+
+        lateinit var nameNumber : String
+
+        when (viewState.numberOfTheTracks.toInt()%10) {
+            0, 5, 6, 7, 8, 9 -> nameNumber = getString(R.string.very_very_many_tracks)
+            1 -> nameNumber = getString(R.string.track)
+            2, 3, 4 -> nameNumber = getString(R.string.many_tracks)
+        }
+
         var playlistText = viewState.nameOfThePlaylist + "\n"
         playlistText += viewState.description + "\n"
-        playlistText +=  viewState.numberOfTheTracks.padStart(2, '0') + " треков" + "\n"
+        playlistText +=  viewState.numberOfTheTracks.padStart(2, '0') + " $nameNumber" + "\n"
 
         viewState.listOfTheTracks.forEachIndexed { index, track ->
             playlistText += "${index+1}. " + getTrackAsText(track)  + "\n"

@@ -1,4 +1,4 @@
-<resources xmlns:tools="http://schemas.android.com/tools">
+<resources>
     <string name="App_name" translatable="false">Playlist maker</string>
     <string name="Search">Поиск</string>
     <string name="Mediateka">Медиатека</string>
@@ -44,5 +44,10 @@
 
     <string name="minute">минута</string>
     <string name="a_few_minutes">минуты</string>
-    <string name="much_minutes">минут</string>
+    <string name="many_minutes">минут</string>
+
+    <string name="share">Поделиться</string>
+    <string name="edit_information">Редактировать информацию</string>
+    <string name="delete">Удалить плейлист</string>
+
 </resources>

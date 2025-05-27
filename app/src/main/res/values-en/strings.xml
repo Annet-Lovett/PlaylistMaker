@@ -43,6 +43,10 @@
 
     <string name="minute">minute</string>
     <string name="a_few_minutes">minutes</string>
-    <string name="much_minutes">minutes</string>
+    <string name="many_minutes">minutes</string>
+
+    <string name="share">Share</string>
+    <string name="edit_information">Edit information</string>
+    <string name="delete">Delete playlist</string>
 
 </resources>

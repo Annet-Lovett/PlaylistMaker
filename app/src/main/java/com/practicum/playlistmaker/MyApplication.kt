@@ -119,7 +119,7 @@ class MyApplication : Application() {
 
                     viewModelOf(::CreatePlaylistViewModel)
                     viewModelOf(::PlaylistMediaViewModel)
-                    viewModel<PlaylistViewModel>{params -> PlaylistViewModel(params.get(), get())}
+                    viewModel<PlaylistViewModel>{params -> PlaylistViewModel(params.get(), get(), get())}
                 },
             )
 
