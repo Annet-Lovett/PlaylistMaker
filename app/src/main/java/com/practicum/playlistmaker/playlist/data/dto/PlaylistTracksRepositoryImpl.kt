@@ -12,6 +12,10 @@ class PlaylistTracksRepositoryImpl (private val dao: PlaylistTracksDao) : Playli
         dao.insertTrack(toEntity(track))
     }
 
+    override suspend fun getAllTracks(): List<Track> {
+        return dao.getAllTracks().map { fromEntity(it) }
+    }
+
     private fun fromEntity(entity: PlaylistTracksEntity): Track {
 
         return Track(

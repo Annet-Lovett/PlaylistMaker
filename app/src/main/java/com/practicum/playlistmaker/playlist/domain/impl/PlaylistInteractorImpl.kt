@@ -15,8 +15,13 @@ class PlaylistInteractorImpl (private val repository: PlaylistRepository,
         return repository.getAllPlaylists()
     }
 
-    override fun getCurrentPlaylist(playlistId: Int): Playlist {
+    override suspend fun getCurrentPlaylist(playlistId: Int): Playlist {
         return repository.getCurrentPlaylist(playlistId)
+    }
+
+    override suspend fun getPlaylistsTracks(playlist: Playlist): List<Track> {
+        val allTracks = tracksRepository.getAllTracks()
+        return allTracks.filter { playlist.tracksIdList.contains(it.trackId) }
     }
 
     override suspend fun update(playlist: Playlist) {

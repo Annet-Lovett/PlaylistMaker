@@ -4,7 +4,7 @@ import androidx.lifecycle.ViewModel
 import com.practicum.playlistmaker.playlist.domain.models.Playlist
 import kotlinx.coroutines.flow.MutableStateFlow
 
-class PlaylistViewModel(): ViewModel() {
+class PlaylistMediaViewModel(): ViewModel() {
 
     val flow = MutableStateFlow(listOf<Playlist>())
 

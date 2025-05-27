@@ -8,7 +8,9 @@ interface PlaylistInteractor {
 
     fun getAllPlaylists(): Flow<List<Playlist>>
 
-    fun getCurrentPlaylist(playlistId: Int): Playlist
+    suspend fun getCurrentPlaylist(playlistId: Int): Playlist
+
+    suspend fun getPlaylistsTracks(playlist: Playlist): List<Track>
 
     suspend fun update (playlist: Playlist)
 

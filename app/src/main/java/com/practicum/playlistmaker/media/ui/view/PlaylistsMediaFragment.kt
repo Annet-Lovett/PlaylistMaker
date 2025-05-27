@@ -15,7 +15,7 @@ import com.practicum.playlistmaker.R
 import com.practicum.playlistmaker.playlist.domain.api.PlaylistInteractor
 import com.practicum.playlistmaker.playlist.domain.models.Playlist
 import com.practicum.playlistmaker.databinding.FragmentPlaylistsMediaBinding
-import com.practicum.playlistmaker.media.ui.view_model.PlaylistViewModel
+import com.practicum.playlistmaker.media.ui.view_model.PlaylistMediaViewModel
 import kotlinx.coroutines.launch
 import org.koin.android.ext.android.get
 
@@ -29,7 +29,7 @@ class PlaylistsMediaFragment : Fragment() {
 
     private lateinit var binding: FragmentPlaylistsMediaBinding
 
-    private val playlistViewModel: PlaylistViewModel by viewModels()
+    private val playlistMediaViewModel: PlaylistMediaViewModel by viewModels()
 
     private val playlistAdapter = PlaylistAdapter(
 

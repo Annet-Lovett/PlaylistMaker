@@ -13,7 +13,7 @@ import com.practicum.playlistmaker.playlist.domain.api.PlaylistRepository
 import com.practicum.playlistmaker.playlist.domain.api.PlaylistTracksRepository
 import com.practicum.playlistmaker.playlist.domain.impl.PlaylistInteractorImpl
 import com.practicum.playlistmaker.createPlaylist.ui.view_model.CreatePlaylistViewModel
-import com.practicum.playlistmaker.media.ui.view_model.PlaylistViewModel
+import com.practicum.playlistmaker.media.ui.view_model.PlaylistMediaViewModel
 import com.practicum.playlistmaker.player.data.PlayerPrefs
 import com.practicum.playlistmaker.sharing.data.db.AppDatabase
 import com.practicum.playlistmaker.player.domain.PlayerInteractor
@@ -43,6 +43,8 @@ import com.practicum.playlistmaker.sharing.domain.impl.FavouritesInteractorImpl
 import org.koin.core.module.dsl.bind
 import org.koin.core.module.dsl.singleOf
 import com.practicum.playlistmaker.media.ui.view_model.TracksViewModel
+import com.practicum.playlistmaker.playlist.ui.viewmodel.PlaylistViewModel
+import org.koin.androidx.viewmodel.dsl.viewModel
 
 class MyApplication : Application() {
 
@@ -116,9 +118,9 @@ class MyApplication : Application() {
                     }
 
                     viewModelOf(::CreatePlaylistViewModel)
-                    viewModelOf(::PlaylistViewModel)
+                    viewModelOf(::PlaylistMediaViewModel)
+                    viewModel<PlaylistViewModel>{params -> PlaylistViewModel(params.get(), get())}
                 },
-
             )
 
         }
