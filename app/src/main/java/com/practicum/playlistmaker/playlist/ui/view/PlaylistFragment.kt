@@ -6,26 +6,31 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import com.bumptech.glide.Glide
 import com.practicum.playlistmaker.R
 import com.practicum.playlistmaker.databinding.FragmentPlaylistBinding
 import com.practicum.playlistmaker.playlist.ui.view_states.PlaylistViewState
 import com.practicum.playlistmaker.playlist.ui.viewmodel.PlaylistViewModel
+import com.practicum.playlistmaker.search.ui.view.SearchTrackListAdapter
+import com.practicum.playlistmaker.sharing.domain.models.Track
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.koin.core.parameter.parametersOf
 import kotlin.getValue
 
-class PlaylistFragment : Fragment(R.layout.fragment_playlist) {
+class PlaylistFragment : Fragment() {
 
     private var _binding: FragmentPlaylistBinding? = null
     private val binding: FragmentPlaylistBinding
         get() = _binding!!
 
-    private val playlistMediaViewModel: PlaylistViewModel by viewModel{
+    private val playlistViewModel: PlaylistViewModel by viewModel{
         val playlistId = requireArguments().getInt("id")
         parametersOf(playlistId)
 
     }
+
+    private val tracksAdapter = SearchTrackListAdapter()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -40,11 +45,16 @@ class PlaylistFragment : Fragment(R.layout.fragment_playlist) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        playlistMediaViewModel.playlistLiveData.observe(viewLifecycleOwner) {
+        playlistViewModel.playlistLiveData.observe(viewLifecycleOwner) {
             render(it)
         }
 
-        Log.d("args", arguments.toString())
+        tracksAdapter.onItemClick = { track ->
+            playlistViewModel.selectTrack(track)
+            findNavController().navigate(R.id.player)
+        }
+
+        binding.playlists.adapter = tracksAdapter
 
     }
 
@@ -66,6 +76,9 @@ class PlaylistFragment : Fragment(R.layout.fragment_playlist) {
         binding.playlistDescription.text = playlistViewState.description
         binding.duration.text = playlistViewState.duration
         binding.numberOfTheTracks.text = playlistViewState.numberOfTheTracks
+
+        tracksAdapter.subList(playlistViewState.listOfTheTracks)
+
 
 
     }

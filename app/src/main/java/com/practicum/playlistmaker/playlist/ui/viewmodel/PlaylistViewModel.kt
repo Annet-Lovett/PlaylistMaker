@@ -64,4 +64,8 @@ class PlaylistViewModel(playlistId: Int,
 
     }
 
+    fun selectTrack(track: Track) {
+        playlistInteractor.selectTrack(track)
+    }
+
 }

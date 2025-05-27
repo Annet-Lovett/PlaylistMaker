@@ -107,7 +107,7 @@ class MyApplication : Application() {
 
                 module {
                     single<PlaylistTracksRepository> { PlaylistTracksRepositoryImpl(get<AppDatabase>()
-                        .playlistTracksDao()) }
+                        .playlistTracksDao(), get()) }
 
                     single<PlaylistInteractor> { PlaylistInteractorImpl(get(), get()) }
 

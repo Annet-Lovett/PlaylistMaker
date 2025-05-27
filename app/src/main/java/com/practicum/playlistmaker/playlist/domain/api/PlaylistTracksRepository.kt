@@ -8,4 +8,6 @@ interface PlaylistTracksRepository {
 
     suspend fun getAllTracks (): List<Track>
 
+    fun selectTrack (track: Track)
+
 }

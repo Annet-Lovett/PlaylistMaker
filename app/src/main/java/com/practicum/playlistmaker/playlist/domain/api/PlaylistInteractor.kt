@@ -20,5 +20,7 @@ interface PlaylistInteractor {
 
     suspend fun addTrackToPlaylist (track: Track, playlist: Playlist)
 
+    fun selectTrack(track: Track)
+
 
 }
