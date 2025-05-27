@@ -50,4 +50,11 @@ class PlaylistInteractorImpl (private val repository: PlaylistRepository,
     override fun selectTrack(track: Track) {
 
     }
+
+    override suspend fun removeTrack(track: Track, playlist: Playlist) {
+        repository.update(playlist.copy(
+            tracksIdList = playlist.tracksIdList.toMutableList().apply { remove(track.trackId) },
+            numberTracks = playlist.numberTracks - 1
+        ))
+    }
 }

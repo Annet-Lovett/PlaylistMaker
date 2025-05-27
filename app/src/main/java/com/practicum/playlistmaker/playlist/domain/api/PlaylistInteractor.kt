@@ -22,5 +22,7 @@ interface PlaylistInteractor {
 
     fun selectTrack(track: Track)
 
+    suspend fun removeTrack(track: Track, playlist: Playlist)
+
 
 }

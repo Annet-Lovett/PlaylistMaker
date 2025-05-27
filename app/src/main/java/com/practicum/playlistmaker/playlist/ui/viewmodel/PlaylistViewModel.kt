@@ -14,18 +14,14 @@ import kotlinx.coroutines.withContext
 import java.text.SimpleDateFormat
 import java.util.Locale
 
-class PlaylistViewModel(playlistId: Int,
+class PlaylistViewModel(val playlistId: Int,
     val playlistInteractor: PlaylistInteractor): ViewModel() {
 
         val playlistLiveData = MutableLiveData<PlaylistViewState>(PlaylistViewState())
 
         init {
 
-            viewModelScope.launch(Dispatchers.IO) {
-                val playlist = playlistInteractor.getCurrentPlaylist(playlistId)
-                val playlistTracks = playlistInteractor.getPlaylistsTracks(playlist)
-                withContext(Dispatchers.Main) { playlistLiveData.value = createViewState(playlist, playlistTracks) }
-            }
+            updateState()
 
         }
 
@@ -66,6 +62,22 @@ class PlaylistViewModel(playlistId: Int,
 
     fun selectTrack(track: Track) {
         playlistInteractor.selectTrack(track)
+    }
+
+    fun deleteTrack (track: Track) {
+        viewModelScope.launch(Dispatchers.IO) {
+            val playlist = playlistInteractor.getCurrentPlaylist(playlistId)
+            playlistInteractor.removeTrack(track, playlist)
+            updateState()
+        }
+    }
+
+    private fun updateState () {
+        viewModelScope.launch(Dispatchers.IO) {
+            val playlist = playlistInteractor.getCurrentPlaylist(playlistId)
+            val playlistTracks = playlistInteractor.getPlaylistsTracks(playlist)
+            withContext(Dispatchers.Main) { playlistLiveData.value = createViewState(playlist, playlistTracks) }
+        }
     }
 
 }

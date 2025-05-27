@@ -9,6 +9,7 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.bumptech.glide.Glide
 import com.google.android.material.bottomsheet.BottomSheetBehavior
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.practicum.playlistmaker.R
 import com.practicum.playlistmaker.databinding.FragmentPlaylistBinding
 import com.practicum.playlistmaker.playlist.ui.view_states.PlaylistViewState
@@ -30,7 +31,7 @@ class PlaylistFragment : Fragment() {
         parametersOf(playlistId)
     }
 
-    private val tracksAdapter = SearchTrackListAdapter()
+    private val tracksAdapter = PlaylistTracksAdapter()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -52,6 +53,10 @@ class PlaylistFragment : Fragment() {
         tracksAdapter.onItemClick = { track ->
             playlistViewModel.selectTrack(track)
             findNavController().navigate(R.id.player)
+        }
+
+        tracksAdapter.onItemHold = { track ->
+            confirmDelete(track)
         }
 
         binding.playlists.adapter = tracksAdapter
@@ -100,4 +105,18 @@ class PlaylistFragment : Fragment() {
     }
 
 
+    private fun confirmDelete(track: Track) {
+
+        MaterialAlertDialogBuilder(requireContext())
+            .setMessage("Вы уверены, что хотите удалить трек из плейлиста?") // Описание диалога
+
+            .setNegativeButton("Отмена") { dialog, which -> // Добавляет кнопку «Нет»
+            }
+            .setPositiveButton("Удалить") { dialog, which -> // Добавляет кнопку «Да»
+                playlistViewModel.deleteTrack(track)
+            }
+            .show()
+    }
+
 }
+
