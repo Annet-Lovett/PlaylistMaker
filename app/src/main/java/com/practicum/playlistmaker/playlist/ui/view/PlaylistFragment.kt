@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.bumptech.glide.Glide
+import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.practicum.playlistmaker.R
 import com.practicum.playlistmaker.databinding.FragmentPlaylistBinding
 import com.practicum.playlistmaker.playlist.ui.view_states.PlaylistViewState
@@ -27,7 +28,6 @@ class PlaylistFragment : Fragment() {
     private val playlistViewModel: PlaylistViewModel by viewModel{
         val playlistId = requireArguments().getInt("id")
         parametersOf(playlistId)
-
     }
 
     private val tracksAdapter = SearchTrackListAdapter()
@@ -56,12 +56,18 @@ class PlaylistFragment : Fragment() {
 
         binding.playlists.adapter = tracksAdapter
 
+        binding.playerBackButton.setNavigationOnClickListener {
+            findNavController().popBackStack()
+        }
+
     }
 
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
     }
+
+
 
     private fun render (playlistViewState: PlaylistViewState) {
         Glide.with(binding.playlistCover)
@@ -78,6 +84,16 @@ class PlaylistFragment : Fragment() {
         binding.numberOfTheTracks.text = playlistViewState.numberOfTheTracks
 
         tracksAdapter.subList(playlistViewState.listOfTheTracks)
+
+        val _bottomSheetBehavior = BottomSheetBehavior.from(binding.playlistsBottomSheet)
+
+        if (playlistViewState.listOfTheTracks.isEmpty()) {
+            _bottomSheetBehavior.isHideable = true
+        }
+
+        else {
+            _bottomSheetBehavior.isHideable = false
+        }
 
 
 
