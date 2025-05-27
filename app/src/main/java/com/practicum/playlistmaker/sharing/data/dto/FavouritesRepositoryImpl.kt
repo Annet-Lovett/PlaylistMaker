@@ -1,13 +1,13 @@
 package com.practicum.playlistmaker.sharing.data.dto
 
-import com.practicum.playlistmaker.player.data.db.TrackEntity
-import com.practicum.playlistmaker.player.data.db.dao.TrackDao
+import com.practicum.playlistmaker.player.data.db.TrackFavouriteEntity
+import com.practicum.playlistmaker.player.data.db.dao.TrackFavouriteDao
 import com.practicum.playlistmaker.sharing.domain.api.FavouritesRepository
 import com.practicum.playlistmaker.sharing.domain.models.Track
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 
-class FavouritesRepositoryImpl(private val dao: TrackDao): FavouritesRepository {
+class FavouritesRepositoryImpl(private val dao: TrackFavouriteDao): FavouritesRepository {
 
     override suspend fun addFavouriteTrack(track: Track) {
 
@@ -26,7 +26,7 @@ class FavouritesRepositoryImpl(private val dao: TrackDao): FavouritesRepository 
 
     }
 
-    private fun fromEntity(entity: TrackEntity): Track {
+    private fun fromEntity(entity: TrackFavouriteEntity): Track {
         return Track(
             trackName = entity.trackName,
             artistName = entity.artistName,
@@ -43,8 +43,8 @@ class FavouritesRepositoryImpl(private val dao: TrackDao): FavouritesRepository 
         )
     }
 
-    private fun toEntity(track: Track): TrackEntity {
-        return TrackEntity(
+    private fun toEntity(track: Track): TrackFavouriteEntity {
+        return TrackFavouriteEntity(
             trackName = track.trackName,
             artistName = track.artistName,
             trackTimeMillis = track.trackTimeMillis.toString(),

@@ -10,8 +10,6 @@ class PlayerPlaylistsAdapter(private val callback:(Playlist) -> Unit): RecyclerV
 
     private var playlists: List<Playlist> = listOf()
 
-//    var onItemClick:((playlist: Playlist) -> Unit)? = null
-
     fun subList(list: List<Playlist>) {
         playlists = list
         notifyDataSetChanged()

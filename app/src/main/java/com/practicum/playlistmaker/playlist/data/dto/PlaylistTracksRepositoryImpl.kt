@@ -1,6 +1,6 @@
 package com.practicum.playlistmaker.playlist.data.dto
 
-import com.practicum.playlistmaker.playlist.data.db.PlaylistTrackEntity
+import com.practicum.playlistmaker.playlist.data.db.PlaylistTracksEntity
 import com.practicum.playlistmaker.playlist.data.db.dao.PlaylistTracksDao
 import com.practicum.playlistmaker.playlist.domain.api.PlaylistTracksRepository
 import com.practicum.playlistmaker.sharing.domain.models.Track
@@ -12,7 +12,7 @@ class PlaylistTracksRepositoryImpl (private val dao: PlaylistTracksDao) : Playli
         dao.insertTrack(toEntity(track))
     }
 
-    private fun fromEntity(entity: PlaylistTrackEntity): Track {
+    private fun fromEntity(entity: PlaylistTracksEntity): Track {
 
         return Track(
             trackName = entity.trackName,
@@ -29,8 +29,8 @@ class PlaylistTracksRepositoryImpl (private val dao: PlaylistTracksDao) : Playli
         )
     }
 
-    private fun toEntity(track: Track): PlaylistTrackEntity {
-        return PlaylistTrackEntity(
+    private fun toEntity(track: Track): PlaylistTracksEntity {
+        return PlaylistTracksEntity(
             trackName = track.trackName,
             artistName = track.artistName,
             trackTimeMillis = track.trackTimeMillis,

@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.flowWithLifecycle
@@ -30,7 +31,14 @@ class PlaylistsMediaFragment : Fragment() {
 
     private val playlistViewModel: PlaylistViewModel by viewModels()
 
-    private val playlistAdapter = PlaylistAdapter()
+    private val playlistAdapter = PlaylistAdapter(
+
+        {
+            val args = bundleOf("id" to it.playlistId)
+
+            findNavController().navigate(R.id.playlist, args)
+        }
+    )
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -47,9 +55,9 @@ class PlaylistsMediaFragment : Fragment() {
             findNavController().navigate(R.id.playlist_create)
         }
 
-        viewLifecycleOwner.lifecycleScope.launch{
+        viewLifecycleOwner.lifecycleScope.launch {
 //            playlistViewModel.flow
-            val interactor: PlaylistInteractor= this@PlaylistsMediaFragment.get()
+            val interactor: PlaylistInteractor = this@PlaylistsMediaFragment.get()
             interactor.getAllPlaylists()
                 .flowWithLifecycle(viewLifecycleOwner.lifecycle)
                 .collect { render(it) }
@@ -69,9 +77,7 @@ class PlaylistsMediaFragment : Fragment() {
         if (playlists.isEmpty()) {
             binding.nothingFoundFragment.visibility = View.VISIBLE
             binding.playlistsRecyclerView.visibility = View.GONE
-        }
-
-        else {
+        } else {
             binding.nothingFoundFragment.visibility = View.GONE
             binding.playlistsRecyclerView.visibility = View.VISIBLE
         }

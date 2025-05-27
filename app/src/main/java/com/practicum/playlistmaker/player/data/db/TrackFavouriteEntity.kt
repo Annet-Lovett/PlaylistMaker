@@ -4,7 +4,7 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 
 @Entity(tableName = "track_table")
-data class TrackEntity(
+data class TrackFavouriteEntity(
     @PrimaryKey (autoGenerate = true)
     val trackId: Int,
     val artworkUrl100: String,
