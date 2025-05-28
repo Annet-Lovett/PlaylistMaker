@@ -5,8 +5,8 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
-import com.practicum.playlistmaker.createPlaylist.domain.api.PlaylistInteractor
-import com.practicum.playlistmaker.createPlaylist.domain.models.Playlist
+import com.practicum.playlistmaker.playlist.domain.api.PlaylistInteractor
+import com.practicum.playlistmaker.playlist.domain.models.Playlist
 import com.practicum.playlistmaker.player.domain.PlayerInteractor
 import com.practicum.playlistmaker.player.ui.view_states.PlayerState
 import com.practicum.playlistmaker.player.ui.view_states.TrackState

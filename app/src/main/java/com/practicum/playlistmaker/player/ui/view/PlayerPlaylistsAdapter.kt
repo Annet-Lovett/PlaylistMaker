@@ -3,15 +3,12 @@ package com.practicum.playlistmaker.player.ui.view
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.practicum.playlistmaker.createPlaylist.domain.models.Playlist
+import com.practicum.playlistmaker.playlist.domain.models.Playlist
 import com.practicum.playlistmaker.databinding.PlaylistLineBinding
-import okhttp3.Callback
 
 class PlayerPlaylistsAdapter(private val callback:(Playlist) -> Unit): RecyclerView.Adapter<PlayerPlaylistsHolder>() {
 
     private var playlists: List<Playlist> = listOf()
-
-//    var onItemClick:((playlist: Playlist) -> Unit)? = null
 
     fun subList(list: List<Playlist>) {
         playlists = list
