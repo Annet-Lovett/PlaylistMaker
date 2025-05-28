@@ -169,7 +169,7 @@
         style="@style/bottom_sheet"
         android:orientation="vertical"
         app:behavior_hideable="true"
-        app:behavior_peekHeight="240dp"
+        app:behavior_peekHeight="150dp"
         android:gravity="center_horizontal"
         app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior">
 

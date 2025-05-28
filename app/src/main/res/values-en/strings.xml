@@ -47,7 +47,13 @@
 
     <string name="share">Share</string>
     <string name="edit_information">Edit information</string>
-    <string name="delete">Delete playlist</string>
+    <string name="delete_playlist">Delete playlist</string>
     <string name="save">Save</string>
+
+    <string name="sure_to_delete_track">Are you sure to delete track?</string>
+    <string name="cancel">Cancel</string>
+    <string name="delete">Delete</string>
+    <string name="no_tracks_in_playlist">No tracks in playlist to share</string>
+    <string name="are_you_sure_to_delete_playlist">Are you sure to delete playlist?</string>
 
 </resources>

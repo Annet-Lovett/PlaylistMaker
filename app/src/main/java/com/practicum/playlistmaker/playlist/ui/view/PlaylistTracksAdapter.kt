@@ -14,7 +14,7 @@ class PlaylistTracksAdapter: RecyclerView.Adapter<SearchTrackHolder>() {
 
     var onItemHold:((track: Track) -> Unit)? = null
 
-    fun subList(list: List<Track>) {
+    fun updateList(list: List<Track>) {
         listOfTheTracks = list
         notifyDataSetChanged()
 

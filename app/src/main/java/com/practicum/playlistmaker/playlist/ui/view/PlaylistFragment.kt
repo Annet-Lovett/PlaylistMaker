@@ -122,7 +122,7 @@ class PlaylistFragment : Fragment() {
         binding.duration.text = playlistViewState.duration
         binding.numberOfTheTracks.text = playlistViewState.numberOfTheTracks
 
-        tracksAdapter.subList(playlistViewState.listOfTheTracks)
+        tracksAdapter.updateList(playlistViewState.listOfTheTracks)
 
         val _bottomSheetBehavior = BottomSheetBehavior.from(binding.playlistsBottomSheet)
 
@@ -142,11 +142,11 @@ class PlaylistFragment : Fragment() {
     private fun confirmDelete(track: Track) {
 
         MaterialAlertDialogBuilder(requireContext())
-            .setMessage("Вы уверены, что хотите удалить трек из плейлиста?") // Описание диалога
+            .setMessage(getString(R.string.sure_to_delete_track)) // Описание диалога
 
-            .setNegativeButton("Отмена") { dialog, which -> // Добавляет кнопку «Нет»
+            .setNegativeButton(getString(R.string.cancel)) { dialog, which -> // Добавляет кнопку «Нет»
             }
-            .setPositiveButton("Удалить") { dialog, which -> // Добавляет кнопку «Да»
+            .setPositiveButton(getString(R.string.delete)) { dialog, which -> // Добавляет кнопку «Да»
                 playlistViewModel.deleteTrack(track)
             }
             .show()
@@ -155,7 +155,7 @@ class PlaylistFragment : Fragment() {
     private fun emptyTracksError() {
 
         Toast.makeText(requireContext(),
-            "В этом плейлисте нет списка треков, которым можно поделиться",
+            getString(R.string.no_tracks_in_playlist),
             Toast.LENGTH_SHORT).show()
     }
 
@@ -212,7 +212,13 @@ class PlaylistFragment : Fragment() {
         optionsBinding.number.text = playlistViewState.numberOfTheTracks
 
         optionsBinding.share.setOnClickListener {
-            sharePlaylist(playlistViewState)
+
+            if (playlistViewState.listOfTheTracks.isEmpty()){
+                emptyTracksError()
+            }
+            else {
+                sharePlaylist(playlistViewState)
+            }
         }
 
         optionsBinding.editInformation.setOnClickListener {
@@ -254,11 +260,11 @@ class PlaylistFragment : Fragment() {
     fun confirmDelete() {
 
         MaterialAlertDialogBuilder(requireContext())
-            .setMessage("Вы уверены, что хотите удалить трек из плейлиста?") // Описание диалога
+            .setMessage(getString(R.string.are_you_sure_to_delete_playlist)) // Описание диалога
 
-            .setNegativeButton("Отмена") { dialog, which -> // Добавляет кнопку «Нет»
+            .setNegativeButton(getString(R.string.cancel)) { dialog, which -> // Добавляет кнопку «Нет»
             }
-            .setPositiveButton("Удалить") { dialog, which -> // Добавляет кнопку «Да»
+            .setPositiveButton(getString(R.string.delete)) { dialog, which -> // Добавляет кнопку «Да»
                 playlistViewModel.deletePlaylist()
                 findNavController().popBackStack()
             }
