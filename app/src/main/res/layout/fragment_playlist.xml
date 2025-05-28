@@ -154,7 +154,7 @@
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-    <View android:id="@+id/overlay"
+    <View android:id="@+id/menu_overlay"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="#99000000"
@@ -193,5 +193,15 @@
             tools:listitem="@layout/track_item" />
 
     </LinearLayout>
+
+    <View android:id="@+id/overlay_menu"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#99000000"
+        android:visibility="gone"/>
+
+    <include
+        android:id="@+id/playlist_menu"
+        layout="@layout/menu_playlist"/>
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

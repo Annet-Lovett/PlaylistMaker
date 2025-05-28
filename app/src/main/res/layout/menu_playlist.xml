@@ -1,118 +1,102 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<androidx.coordinatorlayout.widget.CoordinatorLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="match_parent"
+<LinearLayout
+    style="@style/bottom_sheet"
+    android:background="@drawable/rectan_r16_top"
+    android:id="@+id/menu_playlist_bottom_sheet"
     android:layout_height="match_parent"
+    android:layout_width="match_parent"
+    android:orientation="vertical"
+    app:behavior_hideable="true"
+    app:behavior_peekHeight="400dp"
+    app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior"
     xmlns:tools="http://schemas.android.com/tools"
-    style="@style/other_screens">
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
+    <View
+        android:background="@drawable/rect_stadium"
+        android:backgroundTint="@color/lightGrey"
+        android:layout_gravity="center"
+        android:layout_height="4dp"
+        android:layout_marginTop="8dp"
+        android:layout_width="50dp" />
 
-    <View android:id="@+id/overlay"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="#99000000"
-        android:visibility="gone"/>
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        android:layout_width="match_parent">
 
-
-    <LinearLayout
-        android:id="@+id/menu_playlist_bottom_sheet"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@drawable/rectan_r16_top"
-        style="@style/bottom_sheet"
-        android:orientation="vertical"
-        app:behavior_hideable="true"
-        app:behavior_peekHeight="240dp"
-
-        app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior">
-
-        <View
-            android:layout_height="4dp"
-            android:layout_width="50dp"
-            android:background="@drawable/rect_stadium"
-            android:backgroundTint="@color/lightGrey"
-            android:layout_marginTop="8dp"
-            android:layout_gravity="center"
-            />
-
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="12dp">
-
-            <ImageView
-                android:id="@+id/playlist_cover"
-                android:layout_width="45dp"
-                android:layout_height="45dp"
-                android:layout_marginVertical="8dp"
-                android:layout_marginLeft="16dp"
-                android:layout_marginRight="8dp"
-                android:src="@drawable/trackplaceholder"
-                android:background="@drawable/rect_rad_2"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <TextView
-                android:id="@+id/title"
-                style="@style/trackName"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="8dp"
-                app:layout_constraintBottom_toTopOf="@+id/number"
-                app:layout_constraintStart_toEndOf="@+id/playlist_cover"
-                app:layout_constraintTop_toTopOf="@+id/playlist_cover"
-                app:layout_constraintVertical_chainStyle="packed"
-                tools:text="@string/name_of_the_playlist" />
-
-            <TextView
-                android:id="@+id/number"
-                style="@style/trackName"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="8dp"
-                android:layout_marginTop="1dp"
-                android:textColor="@color/grey"
-                android:textSize="11sp"
-                app:layout_constraintBottom_toBottomOf="@+id/playlist_cover"
-                app:layout_constraintStart_toEndOf="@+id/playlist_cover"
-                app:layout_constraintTop_toBottomOf="@+id/title"
-                tools:text="@string/number_of_the_tracks" />
-
-
-        </androidx.constraintlayout.widget.ConstraintLayout>
+        <ImageView
+            android:background="@drawable/rect_rad_2"
+            android:id="@+id/playlist_cover"
+            android:layout_height="45dp"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="8dp"
+            android:layout_marginVertical="8dp"
+            android:layout_width="45dp"
+            android:src="@drawable/trackplaceholder"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
-            android:id="@+id/share"
             style="@style/trackName"
-            android:layout_width="wrap_content"
+            android:id="@+id/title"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="16dp"
-            android:layout_marginTop="29dp"
-            android:textSize="16sp"
-            tools:text="@string/share" />
+            android:layout_marginLeft="8dp"
+            android:layout_width="0dp"
+            app:layout_constraintBottom_toTopOf="@+id/number"
+            app:layout_constraintStart_toEndOf="@+id/playlist_cover"
+            app:layout_constraintTop_toTopOf="@+id/playlist_cover"
+            app:layout_constraintVertical_chainStyle="packed"
+            tools:text="@string/name_of_the_playlist" />
 
         <TextView
-            android:id="@+id/edit_information"
             style="@style/trackName"
-            android:layout_width="wrap_content"
+            android:id="@+id/number"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="16dp"
-            android:layout_marginTop="42dp"
-            android:textSize="16sp"
-            tools:text="@string/edit_information" />
+            android:layout_marginLeft="8dp"
+            android:layout_marginTop="1dp"
+            android:layout_width="0dp"
+            android:textColor="@color/grey"
+            android:textSize="11sp"
+            app:layout_constraintBottom_toBottomOf="@+id/playlist_cover"
+            app:layout_constraintStart_toEndOf="@+id/playlist_cover"
+            app:layout_constraintTop_toBottomOf="@+id/title"
+            tools:text="@string/number_of_the_tracks" />
 
-        <TextView
-            android:id="@+id/delete_playlist"
-            style="@style/trackName"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="16dp"
-            android:layout_marginTop="42dp"
-            android:textSize="16sp"
-            tools:text="@string/delete" />
 
-    </LinearLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
-</androidx.coordinatorlayout.widget.CoordinatorLayout>
+    <TextView
+        style="@style/trackName"
+        android:id="@+id/share"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="16dp"
+        android:layout_marginTop="29dp"
+        android:layout_width="wrap_content"
+        android:textSize="16sp"
+        android:text="@string/share" />
+
+    <TextView
+        style="@style/trackName"
+        android:id="@+id/edit_information"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="16dp"
+        android:layout_marginTop="42dp"
+        android:layout_width="wrap_content"
+        android:textSize="16sp"
+        android:text="@string/edit_information" />
+
+    <TextView
+        style="@style/trackName"
+        android:id="@+id/delete_playlist"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="16dp"
+        android:layout_marginTop="42dp"
+        android:layout_width="wrap_content"
+        android:textSize="16sp"
+        android:text="@string/delete" />
+
+</LinearLayout>
+

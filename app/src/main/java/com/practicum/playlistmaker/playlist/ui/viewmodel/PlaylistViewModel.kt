@@ -15,26 +15,30 @@ import kotlinx.coroutines.withContext
 import java.text.SimpleDateFormat
 import java.util.Locale
 
-class PlaylistViewModel(val playlistId: Int,
-                        val playlistInteractor: PlaylistInteractor, application: Application
-): AndroidViewModel(application) {
+class PlaylistViewModel(
+    val playlistId: Int,
+    val playlistInteractor: PlaylistInteractor, application: Application
+) : AndroidViewModel(application) {
 
-        val playlistLiveData = MutableLiveData<PlaylistViewState>(PlaylistViewState())
+    val playlistLiveData = MutableLiveData<PlaylistViewState>(PlaylistViewState())
 
-        init {
+    init {
 
-            updateState()
+        updateState()
 
-        }
+    }
 
     private fun createViewState(playlist: Playlist, listOfTracks: List<Track>): PlaylistViewState {
 
-        lateinit var nameNumber : String
+        lateinit var nameNumber: String
 
-        when (listOfTracks.size%10) {
-            0, 5, 6, 7, 8, 9 -> nameNumber = getApplication<Application>().resources.getString(R.string.very_very_many_tracks)
+        when (listOfTracks.size % 10) {
+            0, 5, 6, 7, 8, 9 -> nameNumber =
+                getApplication<Application>().resources.getString(R.string.very_very_many_tracks)
+
             1 -> nameNumber = getApplication<Application>().resources.getString(R.string.track)
-            2, 3, 4 -> nameNumber = getApplication<Application>().resources.getString(R.string.many_tracks)
+            2, 3, 4 -> nameNumber =
+                getApplication<Application>().resources.getString(R.string.many_tracks)
         }
 
         return PlaylistViewState(
@@ -48,22 +52,18 @@ class PlaylistViewModel(val playlistId: Int,
 
     }
 
-    private fun durationInMinutes (mills: Long): String {
+    private fun durationInMinutes(mills: Long): String {
         val minutes = SimpleDateFormat("mm", Locale.getDefault()).format(mills)
 
         val minutesPlural = minutes.toInt() % 10
 
-        val single = arrayOf(0, 5, 6 ,7, 8, 9)
+        val single = arrayOf(0, 5, 6, 7, 8, 9)
 
         if (single.contains(minutesPlural)) {
-            return "$minutes ${ getApplication<Application>().resources.getString(R.string.many_minutes)}"
-        }
-
-        else if (minutesPlural == 1) {
+            return "$minutes ${getApplication<Application>().resources.getString(R.string.many_minutes)}"
+        } else if (minutesPlural == 1) {
             return "$minutes ${getApplication<Application>().resources.getString(R.string.minute)}"
-        }
-
-        else  {
+        } else {
             return "$minutes ${getApplication<Application>().resources.getString(R.string.a_few_minutes)}"
         }
 
@@ -73,7 +73,7 @@ class PlaylistViewModel(val playlistId: Int,
         playlistInteractor.selectTrack(track)
     }
 
-    fun deleteTrack (track: Track) {
+    fun deleteTrack(track: Track) {
         viewModelScope.launch(Dispatchers.IO) {
             val playlist = playlistInteractor.getCurrentPlaylist(playlistId)
             playlistInteractor.removeTrack(track, playlist)
@@ -81,12 +81,23 @@ class PlaylistViewModel(val playlistId: Int,
         }
     }
 
-    private fun updateState () {
+    private fun updateState() {
         viewModelScope.launch(Dispatchers.IO) {
             val playlist = playlistInteractor.getCurrentPlaylist(playlistId)
             val playlistTracks = playlistInteractor.getPlaylistsTracks(playlist)
-            withContext(Dispatchers.Main) { playlistLiveData.value = createViewState(playlist, playlistTracks) }
+            withContext(Dispatchers.Main) {
+                playlistLiveData.value = createViewState(playlist, playlistTracks)
+            }
         }
+    }
+
+    fun deletePlaylist() {
+
+        viewModelScope.launch(Dispatchers.IO) {
+            val playlist = playlistInteractor.getCurrentPlaylist(playlistId)
+            playlistInteractor.deletePlaylist(playlist)
+        }
+
     }
 
 }

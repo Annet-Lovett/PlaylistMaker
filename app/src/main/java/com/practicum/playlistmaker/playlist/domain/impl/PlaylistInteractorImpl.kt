@@ -49,6 +49,8 @@ class PlaylistInteractorImpl (private val repository: PlaylistRepository,
 
     override fun selectTrack(track: Track) {
 
+        tracksRepository.selectTrack(track)
+
     }
 
     override suspend fun removeTrack(track: Track, playlist: Playlist) {
