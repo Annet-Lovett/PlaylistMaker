@@ -26,6 +26,20 @@ class PlaylistViewModel(
 
         updateState()
 
+//        viewModelScope.launch(Dispatchers.IO) {
+//
+//            playlistInteractor.listenPlaylist(playlistId)
+//                .combine(playlistInteractor.listenPlaylistTracks(playlistId)) { playlist, tracks ->
+//
+//                    withContext(Dispatchers.Main) {
+//                        playlistLiveData.value = createViewState(playlist, tracks)
+//                    }
+//            }
+//
+//
+//        }
+
+
     }
 
     private fun createViewState(playlist: Playlist, listOfTracks: List<Track>): PlaylistViewState {
@@ -81,7 +95,7 @@ class PlaylistViewModel(
         }
     }
 
-    private fun updateState() {
+    fun updateState() {
         viewModelScope.launch(Dispatchers.IO) {
             val playlist = playlistInteractor.getCurrentPlaylist(playlistId)
             val playlistTracks = playlistInteractor.getPlaylistsTracks(playlist)

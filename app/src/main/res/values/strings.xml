@@ -49,5 +49,6 @@
     <string name="share">Поделиться</string>
     <string name="edit_information">Редактировать информацию</string>
     <string name="delete">Удалить плейлист</string>
+    <string name="save">Сохранить</string>
 
 </resources>

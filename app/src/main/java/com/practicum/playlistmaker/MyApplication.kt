@@ -117,7 +117,7 @@ class MyApplication : Application() {
                         )
                     }
 
-                    viewModelOf(::CreatePlaylistViewModel)
+                    viewModel<CreatePlaylistViewModel>{params -> CreatePlaylistViewModel(params.get(), get(), get())}
                     viewModelOf(::PlaylistMediaViewModel)
                     viewModel<PlaylistViewModel>{params -> PlaylistViewModel(params.get(), get(), get())}
                 },

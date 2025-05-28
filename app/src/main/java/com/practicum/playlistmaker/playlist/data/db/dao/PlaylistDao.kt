@@ -27,4 +27,7 @@ interface PlaylistDao {
     @Update
     suspend fun updatePlaylists(playlist: PlaylistEntity)
 
+    @Query("SELECT * FROM playlist_table WHERE playlistId = :playlistId")
+    fun listenPlaylist(playlistId: Int): Flow<PlaylistEntity>
+
 }

@@ -13,8 +13,9 @@ interface PlaylistRepository {
 
     fun getAllPlaylists (): Flow<List<Playlist>>
 
-    suspend fun getCurrentPlaylist(plailistId: Int): Playlist
+    suspend fun getCurrentPlaylist(playlistId: Int): Playlist
 
+    fun listenPlaylist(playlistId: Int) : Flow<Playlist>
 
 
 }

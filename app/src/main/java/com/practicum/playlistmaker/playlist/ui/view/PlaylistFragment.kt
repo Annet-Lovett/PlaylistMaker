@@ -2,19 +2,17 @@ package com.practicum.playlistmaker.playlist.ui.view
 
 import android.content.Intent
 import android.os.Bundle
-import android.renderscript.ScriptGroup
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.LinearLayout
 import android.widget.Toast
-import androidx.constraintlayout.motion.utils.ViewState
+import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.bumptech.glide.Glide
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetBehavior.STATE_COLLAPSED
-import com.google.android.material.bottomsheet.BottomSheetBehavior.STATE_EXPANDED
 import com.google.android.material.bottomsheet.BottomSheetBehavior.STATE_HIDDEN
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.practicum.playlistmaker.R
@@ -97,6 +95,8 @@ class PlaylistFragment : Fragment() {
             }
 
         }
+
+        playlistViewModel.updateState()
 
     }
 
@@ -216,7 +216,10 @@ class PlaylistFragment : Fragment() {
         }
 
         optionsBinding.editInformation.setOnClickListener {
-            //TODO
+
+            val args = bundleOf("id" to playlistViewModel.playlistId)
+
+            findNavController().navigate(R.id.playlist_create, args)
         }
 
         optionsBinding.deletePlaylist.setOnClickListener {

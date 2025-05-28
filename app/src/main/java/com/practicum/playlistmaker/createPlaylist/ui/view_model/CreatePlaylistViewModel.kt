@@ -11,15 +11,39 @@ import androidx.lifecycle.viewModelScope
 import com.practicum.playlistmaker.playlist.domain.api.PlaylistInteractor
 import com.practicum.playlistmaker.playlist.domain.models.Playlist
 import com.practicum.playlistmaker.createPlaylist.ui.view_state.CreatePlaylistViewState
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import java.io.File
 import java.io.FileOutputStream
 
-class CreatePlaylistViewModel(val application: Application, val playlistInteractor: PlaylistInteractor): ViewModel() {
+class CreatePlaylistViewModel(val playlistId: Int,
+                              val application: Application,
+                              val playlistInteractor: PlaylistInteractor): ViewModel() {
 
-    val createPlaylistLiveData = MutableLiveData<CreatePlaylistViewState>(CreatePlaylistViewState(false))
+    val createPlaylistLiveData: MutableLiveData<CreatePlaylistViewState>
 
     private val state: CreatePlaylistViewState get() = createPlaylistLiveData.value!!
+
+    init {
+
+        createPlaylistLiveData = MutableLiveData<CreatePlaylistViewState>(CreatePlaylistViewState(false))
+
+        if (playlistId > 0) {
+            viewModelScope.launch(Dispatchers.IO) {
+                val playlist = playlistInteractor.getCurrentPlaylist(playlistId)
+                withContext(Dispatchers.Main) {
+                    createPlaylistLiveData.value = CreatePlaylistViewState(
+                        ready = playlist.playlistName.isNotBlank(),
+                        uri = playlist.cover?.let { Uri.parse(it) },
+                        name = playlist.playlistName,
+                        description = playlist.playlistDescription
+                    )
+                }
+            }
+        }
+
+    }
 
     fun onNameChanged(playlistName: String) {
 
@@ -85,6 +109,26 @@ class CreatePlaylistViewModel(val application: Application, val playlistInteract
                     tracksIdList = emptyList(),
                     numberTracks = 0
                 )
+            )
+        }
+    }
+
+    fun updatePlaylist() {
+
+        var uri : Uri? = null
+
+        if(state.uri != null) {
+            uri = saveImageToPrivateStorage(state.uri!!)
+        }
+
+        viewModelScope.launch(Dispatchers.IO) {
+
+            val playlist = playlistInteractor.getCurrentPlaylist(playlistId)
+
+            playlistInteractor.update(
+                playlist.copy(playlistName = state.name,
+                    playlistDescription = state.description,
+                    cover = uri?.toString())
             )
         }
     }

@@ -24,5 +24,7 @@ interface PlaylistInteractor {
 
     suspend fun removeTrack(track: Track, playlist: Playlist)
 
+    fun listenPlaylist(playlistId: Int): Flow<Playlist>
+
 
 }

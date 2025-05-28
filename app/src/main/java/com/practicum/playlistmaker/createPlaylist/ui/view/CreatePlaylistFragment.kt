@@ -16,6 +16,7 @@ import com.practicum.playlistmaker.createPlaylist.ui.view_model.CreatePlaylistVi
 import com.practicum.playlistmaker.createPlaylist.ui.view_state.CreatePlaylistViewState
 import com.practicum.playlistmaker.databinding.FragmentPlaylistCreateBinding
 import org.koin.androidx.viewmodel.ext.android.viewModel
+import org.koin.core.parameter.parametersOf
 import kotlin.getValue
 
 class CreatePlaylistFragment: Fragment(R.layout.fragment_playlist_create) {
@@ -24,7 +25,10 @@ class CreatePlaylistFragment: Fragment(R.layout.fragment_playlist_create) {
     private val binding: FragmentPlaylistCreateBinding
         get() = _binding!!
 
-    private val createPlaylistViewModel: CreatePlaylistViewModel by viewModel()
+    private val createPlaylistViewModel: CreatePlaylistViewModel by viewModel {
+        val playlistId = arguments?.getInt("id", 0) ?: 0
+        parametersOf(playlistId)
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -65,6 +69,8 @@ class CreatePlaylistFragment: Fragment(R.layout.fragment_playlist_create) {
 
         }
 
+
+
         val pickMedia =
 
             registerForActivityResult(ActivityResultContracts.PickVisualMedia()) { uri ->
@@ -86,6 +92,17 @@ class CreatePlaylistFragment: Fragment(R.layout.fragment_playlist_create) {
 
         }
 
+
+        arguments?.getInt("id", 0)?.let {
+            if (it > 0){
+                binding.playlistCreate.text = getString(R.string.save)
+                binding.playlistCreate.setOnClickListener {
+                    createPlaylistViewModel.updatePlaylist()
+                    findNavController().popBackStack()
+                }
+            }
+        }
+
     }
 
     fun render (state: CreatePlaylistViewState) {
@@ -99,6 +116,14 @@ class CreatePlaylistFragment: Fragment(R.layout.fragment_playlist_create) {
         } else {
             binding.playlistCover.setImageURI(state.uri)
             binding.placeHolder.visibility = View.VISIBLE
+        }
+
+        if(binding.playlistNameField.text.toString() != state.name) {
+            binding.playlistNameField.setText(state.name)
+        }
+
+        if(binding.playlistDescriptionField.text.toString() != state.description) {
+            binding.playlistDescriptionField.setText(state.description)
         }
 
     }
